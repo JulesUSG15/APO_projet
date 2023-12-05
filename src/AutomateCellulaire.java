@@ -31,23 +31,5 @@ public class AutomateCellulaire {
         }
         System.out.println("------------------------");
     }
-
-    public static void main(String[] args) {
-        // Exemple d'utilisation
-        int dimension = 2;
-        String[] alphabet = {"0", "1"};
-        int[][] voisinage = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-        ReglesAutomate reglesAutomate = new Automate1D(); // Remplacez par le type d'automate approprié
-
-        AutomateCellulaire automate = new AutomateCellulaire(dimension, alphabet, voisinage, reglesAutomate);
-
-        int[][] configurationInitiale = {
-            {0, 1},
-            {1, 0}
-        };
-
-        int nombreEtapes = 5;
-        automate.evoluer(configurationInitiale, nombreEtapes);
-    }
 }
 
