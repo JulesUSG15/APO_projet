@@ -29,9 +29,34 @@ public class MenuManager {
 
     // Méthodes pour gérer les interactions spécifiques à chaque automate (à implémenter)
 
-    public void gererInteractionAutomate1D() {
-        // Implémentez les interactions spécifiques à l'automate 1D
+    public void gererInteractionAutomate1D(Automate1D automate1D) {
+        System.out.println("Simulation de l'automate 1D");
+    
+        // Demander à l'utilisateur le numéro de la règle
+        System.out.print("Veuillez entrer le numéro de la règle (ex. 30) : ");
+        int numeroRegle = scanner.nextInt();
+    
+        // Créer l'automate 1D avec la règle spécifiée
+        automate1D.initialiserAvecRegle(numeroRegle);
+    
+        // Demander à l'utilisateur la configuration initiale
+        System.out.print("Veuillez entrer la configuration initiale (ex. 1001010) : ");
+        String configurationInitiale = scanner.next();
+    
+        // Initialiser la configuration initiale
+        automate1D.initialiserConfiguration(configurationInitiale);
+    
+        // Demander à l'utilisateur le nombre d'étapes de simulation
+        System.out.print("Veuillez entrer le nombre d'étapes de simulation : ");
+        int nombreEtapes = scanner.nextInt();
+    
+        // Effectuer la simulation
+        for (int etape = 0; etape < nombreEtapes; etape++) {
+            System.out.println("Étape " + (etape + 1) + " : " + automate1D);
+            automate1D.appliquerRegle();
+        }
     }
+    
 
     public void gererInteractionAutomateMajorite() {
         // Implémentez les interactions spécifiques à l'automate de majorité
@@ -55,7 +80,8 @@ public class MenuManager {
 
             switch (choix) {
                 case 1:
-                    menuManager.gererInteractionAutomate1D();
+                    Automate1D automate1D = new Automate1D(); // Création de l'objet Automate1D
+                    menuManager.gererInteractionAutomate1D(automate1D); // Passage de l'objet en paramètre
                     break;
                 case 2:
                     menuManager.gererInteractionAutomateMajorite();
