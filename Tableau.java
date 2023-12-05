@@ -48,27 +48,30 @@ public class Tableau {
     }
     
     //Les premiers arguments sont les indices et le dernier est la valeur
-    void setVal (int... args) {
+    boolean setVal (int... args) {
         if (args.length==dim+1) {
             int arg0=args[0];
             if (0<=arg0 && arg0<taille) {
                 if (args.length==2) {
                     tab[arg0]=args[1];
+                    return true;
                 }
                 else {
                     int [] args2=new int [args.length-1];
                     for (int i=0;i<args.length-1;i++) {
                         args2[i]=args[i+1];
                     }
-                    ((Tableau)tab[arg0]).setVal(args2);
+                    return ((Tableau)tab[arg0]).setVal(args2);
                 }
             }
             else {
                 System.out.println("set impossible : Les indices doivent etre inferieur à "+taille);
+                return false;
             }
         }
         else {
             System.out.println("set impossible : "+(dim+1)+" parametres attendus");
+            return false;
         }
     }
 }
