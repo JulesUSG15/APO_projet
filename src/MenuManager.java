@@ -27,7 +27,7 @@ public class MenuManager {
         scanner.close();
     }
 
-    // Méthodes pour gérer les interactions spécifiques à chaque automate (à implémenter)
+    // Méthodes pour gérer les interactions spécifiques à chaque automate
 
     public void gererInteractionAutomate1D(Automate1D automate1D) {
         System.out.println("Simulation de l'automate 1D");
@@ -59,9 +59,35 @@ public class MenuManager {
     
 
     public void gererInteractionAutomateMajorite() {
-        // Implémentez les interactions spécifiques à l'automate de majorité
+        System.out.println("Simulation de l'automate de majorité");
+    
+        // Demander à l'utilisateur la taille de la configuration initiale
+        System.out.print("Veuillez entrer la taille de la configuration initiale (ex. 7) : ");
+        int tailleConfiguration = scanner.nextInt();
+    
+        // Créer l'automate de majorité avec la taille spécifiée
+        AutomateMajorite automateMajorite = new AutomateMajorite();
+        automateMajorite.initialiserAvecTaille(tailleConfiguration);
+    
+        // Demander à l'utilisateur la configuration initiale
+        System.out.print("Veuillez entrer la configuration initiale (ex. 010101) : ");
+        String configurationInitiale = scanner.next();
+    
+        // Initialiser la configuration initiale
+        automateMajorite.initialiserConfiguration(configurationInitiale);
+    
+        // Demander à l'utilisateur le nombre d'étapes de simulation
+        System.out.print("Veuillez entrer le nombre d'étapes de simulation : ");
+        int nombreEtapes = scanner.nextInt();
+    
+        // Effectuer la simulation
+        for (int etape = 0; etape < nombreEtapes; etape++) {
+            System.out.println("Étape " + (etape + 1) + " : " + automateMajorite);
+            // Utilisez la méthode appliquerRegles avec les bons arguments
+            automateMajorite.appliquerRegles(automateMajorite.getConfiguration(), automateMajorite.getVoisinage());
+        }
     }
-
+    
     public void gererInteractionJeuDeLaVie() {
         // Implémentez les interactions spécifiques au Jeu de la Vie
     }

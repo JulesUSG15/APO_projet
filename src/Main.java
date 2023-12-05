@@ -1,5 +1,6 @@
 package src;
-import src.Automate1D;
+
+
 
 public class Main {
 
