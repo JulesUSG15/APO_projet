@@ -56,7 +56,6 @@ public class MenuManager {
             automate1D.appliquerRegle();
         }
     }
-    
 
     public void gererInteractionAutomateMajorite() {
         System.out.println("Simulation de l'automate de majorité");
@@ -88,9 +87,26 @@ public class MenuManager {
         }
     }
     
+
     public void gererInteractionJeuDeLaVie() {
-        // Implémentez les interactions spécifiques au Jeu de la Vie
+        System.out.println("Simulation du Jeu de la Vie");
+
+        JeuDeLaVie jeuDeLaVie = new JeuDeLaVie();
+        jeuDeLaVie.initialiserAvecTailleEtConfigurationInitiale(scanner);
+
+        System.out.print("Veuillez entrer le nombre d'étapes de simulation : ");
+        int nombreEtapes = scanner.nextInt();
+
+        // Effectuer la simulation
+        for (int etape = 0; etape < nombreEtapes; etape++) {
+            System.out.println("Étape " + (etape + 1) + ":");
+            System.out.println(jeuDeLaVie);
+            jeuDeLaVie.appliquerRegles(jeuDeLaVie.getConfiguration(), jeuDeLaVie.getVoisinage());
+        }
     }
+    
+    
+    
 
     public void gererInteractionFeuDeForet() {
         // Implémentez les interactions spécifiques au feu de forêt
