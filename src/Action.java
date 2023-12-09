@@ -93,7 +93,7 @@ public class Action {
         return res;
     }
     
-    public int getNbActions () {
+    private int getNbActions () {
         if (proba==null) {
             return 0;
         }

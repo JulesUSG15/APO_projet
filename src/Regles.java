@@ -90,20 +90,6 @@ public class Regles {
         return true;
     }
     
-    public boolean set (String exp) {
-        String [] exps=exp.split("@");
-        valide=!(exps==null || exps.length!=2);
-        if (!valide) {
-            return false;
-        }
-        valide=setVoisins(exps[0]);
-        if (!valide) {
-            return false;
-        }
-        valide=setCondActions(exps[1]);
-        return valide;
-    }
-    
     private int get (Tableau tab, int [] indices) {
         int [][] vois=new int [voisins.length][dim];
         for (int j=0;j<vois.length;j++) {
@@ -117,6 +103,20 @@ public class Regles {
             }
         }
         return tab.getVal(indices);
+    }
+
+    public boolean set (String exp) {
+        String [] exps=exp.split("@");
+        valide=!(exps==null || exps.length!=2);
+        if (!valide) {
+            return false;
+        }
+        valide=setVoisins(exps[0]);
+        if (!valide) {
+            return false;
+        }
+        valide=setCondActions(exps[1]);
+        return valide;
     }
     
     public Tableau appliquer (Tableau tab) {
