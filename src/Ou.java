@@ -1,4 +1,4 @@
-
+package src;
 
 public class Ou extends Condition{
     private Condition cond1=null;

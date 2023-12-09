@@ -1,3 +1,4 @@
+package src;
 
 public class Non extends Condition{
     private Condition cond=null;

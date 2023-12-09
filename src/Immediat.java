@@ -1,3 +1,4 @@
+package src;
 
 public class Immediat extends Valeur {
     private int val=0;

@@ -1,3 +1,5 @@
+package src;
+
 import java.nio.file.*;
 import java.io.*;
 
@@ -163,6 +165,11 @@ public class Regles {
     public boolean charger (String fichier) {
         try {
             String exp=new String(Files.readAllBytes(Paths.get(fichier)));
+            String [] exps=exp.split("\r?\n|\r");
+            exp="";
+            for (int i=0;i<exps.length;i++) {
+                exp+=exps[i];
+            }
             return set(exp);
         }
         catch (IOException e) {
@@ -171,12 +178,27 @@ public class Regles {
     }
     
     public boolean sauvegarder (String fichier) {
-        try {
-            Files.write(Paths.get(fichier), getExp().getBytes());
-            return true;
-        } catch (IOException e) {
-            return false;
+        if (valide) {
+            String exp="";
+            for (int j=0;j<voisins.length;j++) {
+                exp+=voisins[j][0];
+                for (int i=1;i<dim;i++) {
+                    exp+=","+voisins[j][i];
+                }
+                exp+=";\r\n";
+            }
+            exp+="@\r\n\r";
+            for (int i=0;i<conditions.length;i++) {
+                exp+=conditions[i].getExp()+"/\r\n    "+actions[i].getExp()+"\r\n";
+            }
+            try {
+                Files.write(Paths.get(fichier), exp.getBytes());
+                return true;
+            } catch (IOException e) {
+                return false;
+            }
         }
+        return false;
     }
     
 }

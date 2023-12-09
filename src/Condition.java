@@ -1,3 +1,4 @@
+package src;
 
 public abstract class Condition {
     
@@ -11,7 +12,6 @@ public abstract class Condition {
         if (exp.length()==0) {
             return -1;
         }
-        boolean test=true;
         int par=0;
         for (int i=0;i<exp.length();i++) {
             switch (exp.charAt(i)) {
@@ -28,13 +28,8 @@ public abstract class Condition {
                     }
                 }break;
             }
-            if (par==0) {
-                test=true;
-            }
-            else {
-                if (par<0) {
-                    return -1;
-                }
+            if (par<0) {
+                return -1;
             }
         }
         if (exp.charAt(0)=='!') {

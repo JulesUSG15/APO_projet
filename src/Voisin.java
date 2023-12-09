@@ -1,9 +1,9 @@
+package src;
 
 public class Voisin extends Valeur {
     private int vois=0;
     
     public boolean set (String exp, int nbVoisins) {
-        int i=0;
         if (exp.length()<=1 || exp.charAt(0)!='$') {
             return false;
         }

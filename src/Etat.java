@@ -1,9 +1,9 @@
+package src;
 
 public class Etat extends Valeur{
     private int type;
     
     public boolean set (String exp, int nbVoisins) {
-        int i=0;
         if (exp.length()<=1 || exp.charAt(0)!='#') {
             return false;
         }

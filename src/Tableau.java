@@ -1,3 +1,4 @@
+package src;
 
 public class Tableau {
     private int dim;

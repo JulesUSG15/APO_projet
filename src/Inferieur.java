@@ -1,3 +1,4 @@
+package src;
 
 public class Inferieur extends Condition {
     Valeur val1=null;
