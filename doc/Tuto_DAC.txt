@@ -1,5 +1,5 @@
 Comment définir un automate en DAC (Définition d'Automate Cellulaire) ?
-Le DAC permet de définir les règles appliquées sur chaque cellule d'un tableau de dimension n.
+Le DAC permet de définir les règles appliquées sur chaque cellules d'un tableau de dimension n.
 Voici un exemple de code écrit en DAC :
 
 0, -1;
@@ -24,7 +24,7 @@ Définition des voisins :
 
     Les coordonnées sont des entiers et sont séparés par ','.
     Tous les voisins doivent avoir le même nombre de coordonnées.
-    Ce nombre de coordonnées définit la dimension des tableaux sur lesquels peut s'appliquer le code DAC.
+    Ce nombre de coordonnées définit la dimension des tableaux sur lesquels peuvent s'appliquer ces règles.
     Il est donc indispensable de définir au moins 1 voisin même si on ne l'utilise pas.
 
     La définition d'un voisin se finit par ';'.
