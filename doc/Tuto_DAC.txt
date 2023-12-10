@@ -40,7 +40,7 @@ Les Types de valeurs :
 
     La partie suivante du code DAC utilise 2 types spéciaux de valeurs.
 
-    Le type voisin:
+    Le type voisin :
 
         Le type voisin est défini par '$' et permet de récupérer la valeur contenue dans la cellule d'un voisin.
         $i renvoi la valeur contenue dans la cellule du i eme voisin défini.
@@ -53,7 +53,7 @@ Les Types de valeurs :
             - $3 renvoi la valeur contenue dans la cellule de coordonnées -1, 0 relativement à la cellule sur laquelle la règle est appliquée
             - $4 renvoi la valeur contenue dans la cellule de coordonnées 1, 0 relativement à la cellule sur laquelle la règle est appliquée
     
-    Le type état:
+    Le type état :
 
         Le type état est défini par '#' et renvoie le nombre de voisins qui possèdent une certaine valeur.
         #i renvoi le nombre de voisins dont leur valeur est égale à i.
@@ -63,17 +63,17 @@ Les Types de valeurs :
             - #1 renvoi le nombre de voisins dont leur valeur vaut 1
             - #0 renvoi le nombre de voisins dont leur valeur vaut 0
 
-Définition des règles:
+Définition des règles :
 
     Après avoir défini les voisins, on peut désormais définir les règles.
     Ces règles sont une succession de conditions et d'actions.
     Lorsqu'une condition est validée, les suivantes ne sont pas testées.
 
-    Les conditions:
+    Les conditions :
 
         La définition d'une condition se finit toujours par '/' et est toujours suivie d'au moins une action.
         La condition est testée de gauche à droite et prend en compte le parenthésage.
-        Une condition peut être composée de plusieurs opérateurs conditionnels:
+        Une condition peut être composée de plusieurs opérateurs conditionnels :
 
             - Et défini par '&'. Prends une condition à sa gauche et à sa droite.
             - Ou défini par '|'. Prends une condition à sa gauche et à sa droite.
@@ -82,12 +82,12 @@ Définition des règles:
             - Inférieur défini par '<'. Prend une valeur à sa gauche et à sa droite.
             - Supérieur défini par '>'. Prend une valeur à sa gauche et à sa droite.
         
-        Exemple ci-dessus:
+        Exemple ci-dessus :
             - #1>0 & $0=1 est valide si au moins un voisin vaut 1 et si la cellule sur laquelle la règle est appliquée vaut 0
             - !($4<1 | $3=0) & #0=2 est valide si la cellule sur laquelle la règle est appliquée vaut 2 et que l'on n'a pas
                                     le quatrième voisin qui vaut une valeur inférieur à 1 ou le troisième voisin qui vaut 0
     
-    Les actions:
+    Les actions :
 
         Une action est toujours précédée d'une condition.
         Si la condition du dessus est valide alors on exécute l'action.
@@ -96,7 +96,7 @@ Définition des règles:
 
         Une action peut être composée de plusieurs instructions séparées par ','.
 
-        Les instructions:
+        Les instructions :
 
             Une instruction commence par un coefficient qui représente le poids de l'instruction au sein de l'action.
             Ce coefficient est un réel strictement positif.
@@ -108,13 +108,13 @@ Définition des règles:
         Lors de l'exécution d'une action, on exécute une seule instruction prise au hasard en fonction de son coefficient.
         Plus son coefficient est élevé, plus l'instruction a de chances d'être exécutée.
 
-        Exemple ci-dessus:
-            - Si #1>0 & $0=1 est valide:
+        Exemple ci-dessus :
+            - Si #1>0 & $0=1 est valide :
                 - La première instruction a une probabilité de 0.5/(0.5+0.9) = 36% de chances d'être exécutée.
                     On assignerait alors la valeur du deuxième voisin à la cellule sur laquelle la règle est appliquée.
                 - La deuxième instruction a une probabilité de 0.9/(0.5+0.9) = 64% de chances d'être exécutée.
                     On assignerait alors la valeur 2 à la cellule sur laquelle la règle est appliquée.
-            - Si !($4<1 | $3=0) & #0=2 est valide:
+            - Si !($4<1 | $3=0) & #0=2 est valide :
                 - L'instruction a une probabilité de 2/2 = 100% de chances d'être exécutée.
                     On assignerait alors le nombre de voisins valant 1 à la cellule sur laquelle la règle est appliquée.
 
