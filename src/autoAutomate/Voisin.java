@@ -1,9 +1,9 @@
-package src;
+package src.autoAutomate;
 
 public class Voisin extends Valeur {
     private int vois=0;
     
-    public boolean set (String exp, int nbVoisins) {
+    public boolean set (String exp, int position, int nbVoisins) {
         if (exp.length()<=1 || exp.charAt(0)!='$') {
             return false;
         }
@@ -18,7 +18,7 @@ public class Voisin extends Valeur {
         return true;
     }
     
-    public int get (Tableau tab, int [][] voisins, int [] indices) {
+    public double get (Tableau tab, int [][] voisins, int [] indices) {
         if (vois==0) {
             return tab.getVal(indices);
         }
@@ -27,5 +27,12 @@ public class Voisin extends Valeur {
     
     public String getExp () {
         return "$"+vois;
+    }
+
+    public int getOp (String exp) {
+        if (exp.length()>0 && exp.charAt(0)=='$') {
+            return 0;
+        }
+        return -1;
     }
 }

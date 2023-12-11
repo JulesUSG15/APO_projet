@@ -1,4 +1,4 @@
-package src;
+package src.autoAutomate;
 
 public class Tableau {
     private int dim;
@@ -18,7 +18,7 @@ public class Tableau {
             }
             else {
                 for (int i=0;i<t;i++) {
-                    tab[i]=0;
+                    tab[i]=0.0;
                 }
             }
         }
@@ -36,7 +36,7 @@ public class Tableau {
     }
     
     //Les arguments sont des indices
-    public int getVal (int... args) {
+    public double getVal (int... args) {
         if (args.length==dim) {
             int arg0=args[0];
             while (arg0<0) {
@@ -50,13 +50,13 @@ public class Tableau {
                 }
                 return ((Tableau)tab[arg0]).getVal(args2);
             }
-            return (int)tab[arg0];
+            return (double)tab[arg0];
         }
         System.out.println("get impossible : "+dim+" parametres attendus");
         return -1;
     }
     
-    public boolean setVal (int [] args,int val) {
+    public boolean setVal (int [] args, double val) {
         if (args.length==dim) {
             int arg0=args[0];
             while (arg0<0) {
@@ -80,12 +80,12 @@ public class Tableau {
     }
     
     //Les premiers arguments sont les indices et le dernier est la valeur
-    public boolean setVal (int... args) {
+    public boolean setVal (double... args) {
         if (args!=null && args.length==dim+1) {
-            int val=args[dim];
+            double val=args[dim];
             int [] indices=new int [dim];
             for (int i=0;i<dim;i++) {
-                indices[i]=args[i];
+                indices[i]=(int)args[i];
             }
             return setVal(indices,val);
         }

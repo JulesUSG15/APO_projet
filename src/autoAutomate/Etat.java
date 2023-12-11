@@ -1,22 +1,22 @@
-package src;
+package src.autoAutomate;
 
 public class Etat extends Valeur{
-    private int type;
+    private double type;
     
-    public boolean set (String exp, int nbVoisins) {
+    public boolean set (String exp, int position, int nbVoisins) {
         if (exp.length()<=1 || exp.charAt(0)!='#') {
             return false;
         }
-        int [] val=new int [1];
-        if (!getInt(exp.substring(1,exp.length()),val)) {
+        double [] val=new double [1];
+        if (!getDouble(exp.substring(1,exp.length()),val)) {
             return false;
         }
         type=val[0];
         return true;
     }
     
-    public int get (Tableau tab, int [][] voisins, int [] indices) {
-        int res=0;
+    public double get (Tableau tab, int [][] voisins, int [] indices) {
+        double res=0;
         if (voisins!=null) {
             for (int i=0;i<voisins.length;i++) {
                 if (tab.getVal(voisins[i])==type) {
@@ -29,5 +29,12 @@ public class Etat extends Valeur{
     
     public String getExp () {
         return "#"+type;
+    }
+
+    public int getOp (String exp) {
+        if (exp.length()>0 && exp.charAt(0)=='#') {
+            return 0;
+        }
+        return -1;
     }
 }

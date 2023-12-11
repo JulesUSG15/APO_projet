@@ -1,4 +1,4 @@
-package src;
+package src.autoAutomate;
 
 import java.nio.file.*;
 import java.io.*;
@@ -14,16 +14,12 @@ public class Regles {
         if (num<0 || conditions.length-1<num) {
             return false;
         }
-        exp=(new Non ()).simplification(exp);
-        int n=(new Non ()).getOp(exp);
-        if (n==-1) {
-            return false;
-        }
-        conditions[num]=(new Non ()).getCond(exp.charAt(n));
+        exp=(new Immediat ()).simplification(exp);
+        conditions[num]=(new OpLogBin ()).getCond(exp,voisins.length);
         if (conditions[num]==null) {
             return false;
         }
-        return conditions[num].set(exp,voisins.length);
+        return true;
     }
     
     private boolean setAction (String exp, int num) {
@@ -90,7 +86,7 @@ public class Regles {
         return true;
     }
     
-    private int get (Tableau tab, int [] indices) {
+    private double get (Tableau tab, int [] indices) {
         int [][] vois=new int [voisins.length][dim];
         for (int j=0;j<vois.length;j++) {
             for (int i=0;i<dim;i++) {
