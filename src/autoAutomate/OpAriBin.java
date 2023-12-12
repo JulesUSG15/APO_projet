@@ -9,7 +9,7 @@ public class OpAriBin extends Valeur {
     private char [][] opList={{'+','-'},{'*','/'},{'^'}};
     
     public boolean set (String exp, int position, int nbVoisins) {
-        if (exp.length()+1<position || !Arrays.toString(opList).contains(""+exp.charAt(position))) {
+        if (exp.length()<=position) {
             return false;
         }
         boolean b=false;
@@ -20,8 +20,8 @@ public class OpAriBin extends Valeur {
             return false;
         }
         op=exp.charAt(position);
-        String exp1=(new Immediat ()).simplification(exp.substring(0,position));
-        String exp2=(new Immediat ()).simplification(exp.substring(position+1,exp.length()));
+        String exp1=(new Immediat ()).deParenthesage(exp.substring(0,position));
+        String exp2=(new Immediat ()).deParenthesage(exp.substring(position+1,exp.length()));
         val1=(new Immediat ()).getVal(exp1,nbVoisins);
         if (val1==null) {
             return false;

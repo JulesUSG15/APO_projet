@@ -12,7 +12,15 @@ public abstract class Valeur {
     
     public Valeur getVal (String exp, int nbVoisins) {
         Valeur val;
-        int n=(new OpAriBin ()).getOp(exp);
+        int n=(new OpAriUni ()).getOp(exp);
+        if (n!=-1) {
+            val=new OpAriUni ();
+            if (val.set(exp,n,nbVoisins)) {
+                return val;
+            }
+            return null;
+        }
+        n=(new OpAriBin ()).getOp(exp);
         if (n!=-1) {
             val=new OpAriBin ();
             if (val.set(exp,n,nbVoisins)) {
@@ -23,14 +31,6 @@ public abstract class Valeur {
         n=(new Voisin ()).getOp(exp);
         if (n!=-1) {
             val=new Voisin ();
-            if (val.set(exp,n,nbVoisins)) {
-                return val;
-            }
-            return null;
-        }
-        n=(new Etat ()).getOp(exp);
-        if (n!=-1) {
-            val=new Etat ();
             if (val.set(exp,n,nbVoisins)) {
                 return val;
             }
@@ -113,27 +113,20 @@ public abstract class Valeur {
         return true;
     }
 
-    public String simplification (String exp) {
-        String res=exp;
-        while (res.length()>0 && res.charAt(0)==' ') {
-            res=res.substring(1,res.length());
-        }
-        while (res.length()>0 && res.charAt(res.length()-1)==' ') {
-            res=res.substring(0,res.length()-1);
-        }
+    public String deParenthesage (String exp) {
         int par=0;
-        for (int i=0;i<res.length();i++) {
-            switch (res.charAt(i)) {
+        for (int i=0;i<exp.length();i++) {
+            switch (exp.charAt(i)) {
                 case '(':par++;break;
                 case ')':par--;break;
             }
-            if (par==0 && i<res.length()-1) {
-                return res;
+            if (par==0 && i<exp.length()-1) {
+                return exp;
             }
         }
-        if (res.length()>=2 && res.charAt(0)=='(' && res.charAt(res.length()-1)==')') {
-            return simplification(res.substring(1,res.length()-1));
+        if (exp.length()>=2 && exp.charAt(0)=='(' && exp.charAt(exp.length()-1)==')') {
+            return deParenthesage(exp.substring(1,exp.length()-1));
         }
-        return res;
+        return exp;
     }
 }

@@ -12,17 +12,17 @@ public abstract class Condition {
     
     public Condition getCond (String exp,int nbVoisins) {
         Condition cond;
-        int n=(new OpLogBin ()).getOp(exp);
+        int n=(new OpLogUni ()).getOp(exp);
         if (n!=-1) {
-            cond=new OpLogBin ();
+            cond=new OpLogUni ();
             if (cond.set(exp,n,nbVoisins)) {
                 return cond;
             }
             return null;
         }
-        n=(new OpLogUni ()).getOp(exp);
+        n=(new OpLogBin ()).getOp(exp);
         if (n!=-1) {
-            cond=new OpLogUni ();
+            cond=new OpLogBin ();
             if (cond.set(exp,n,nbVoisins)) {
                 return cond;
             }

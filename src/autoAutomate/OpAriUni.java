@@ -2,10 +2,10 @@ package src.autoAutomate;
 
 import java.util.Arrays;
 
-public class OpLogUni extends Condition{
-    private Condition cond=null;
+public class OpAriUni extends Valeur{
+    private Valeur type;
     private char op=' ';
-    private char [] opList={'!'};
+    private char [] opList={'#'};
     
     public boolean set (String exp, int position, int nbVoisins) {
         if (exp.length()+1<position || !Arrays.toString(opList).contains(""+exp.charAt(position))) {
@@ -13,22 +13,33 @@ public class OpLogUni extends Condition{
         }
         op=exp.charAt(position);
         String exp1=(new Immediat ()).deParenthesage(exp.substring(1,exp.length()));
-        cond=getCond(exp1,nbVoisins);
-        if (cond!=null) {
+        type=getVal(exp1,nbVoisins);
+        if (type!=null) {
             return true;
         }
         return false;
     }
     
-    public boolean get (Tableau tab, int [][] voisins, int [] indices) {
+    public double get (Tableau tab, int [][] voisins, int [] indices) {
         switch (op) {
-            case '!': return !cond.get(tab,voisins,indices);
+            case '#': {
+                double res=0;
+                if (voisins!=null) {
+                    double val=type.get(tab, voisins, indices);
+                    for (int i=0;i<voisins.length;i++) {
+                        if (tab.getVal(voisins[i])==val) {
+                            res++;
+                        }
+                    }
+                }
+                return res;
+            }
         }
-        return false;
+        return 0;
     }
     
     public String getExp () {
-        return op+"("+cond.getExp()+")";
+        return op+"("+type.getExp()+")";
     }
 
     public int getOp (String exp) {

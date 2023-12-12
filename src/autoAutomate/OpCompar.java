@@ -13,8 +13,8 @@ public class OpCompar extends Condition{
             return false;
         }
         op=exp.charAt(position);
-        String exp1=(new Immediat ()).simplification(exp.substring(0,position));
-        String exp2=(new Immediat ()).simplification(exp.substring(position+1,exp.length()));
+        String exp1=(new Immediat ()).deParenthesage(exp.substring(0,position));
+        String exp2=(new Immediat ()).deParenthesage(exp.substring(position+1,exp.length()));
         val1=(new Immediat ()).getVal(exp1,nbVoisins);
         if (val1==null) {
             return false;

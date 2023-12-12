@@ -14,7 +14,7 @@ public class Regles {
         if (num<0 || conditions.length-1<num) {
             return false;
         }
-        exp=(new Immediat ()).simplification(exp);
+        exp=(new Immediat ()).deParenthesage(exp);
         conditions[num]=(new OpLogBin ()).getCond(exp,voisins.length);
         if (conditions[num]==null) {
             return false;
@@ -42,7 +42,7 @@ public class Regles {
         actions=new Action [exps.length];
         String [] acts=null;
         for (int i=0;i<exps.length;i++) {
-            acts=exps[i].split("/");
+            acts=exps[i].split("\\?");
             if (acts==null || acts.length!=2) {
                 return false;
             }
@@ -102,6 +102,7 @@ public class Regles {
     }
 
     public boolean set (String exp) {
+        exp=simplification(exp);
         String [] exps=exp.split("@");
         valide=!(exps==null || exps.length!=2);
         if (!valide) {
@@ -151,7 +152,7 @@ public class Regles {
             }
             exp+="@ ";
             for (int i=0;i<conditions.length;i++) {
-                exp+=conditions[i].getExp()+" / "+actions[i].getExp();
+                exp+=conditions[i].getExp()+" ? "+actions[i].getExp();
             }
             return exp;
         }
@@ -161,11 +162,6 @@ public class Regles {
     public boolean charger (String fichier) {
         try {
             String exp=new String(Files.readAllBytes(Paths.get(fichier)));
-            String [] exps=exp.split("\r?\n|\r");
-            exp="";
-            for (int i=0;i<exps.length;i++) {
-                exp+=exps[i];
-            }
             return set(exp);
         }
         catch (IOException e) {
@@ -185,7 +181,7 @@ public class Regles {
             }
             exp+="@\r\n\r";
             for (int i=0;i<conditions.length;i++) {
-                exp+=conditions[i].getExp()+"/\r\n    "+actions[i].getExp()+"\r\n";
+                exp+=conditions[i].getExp()+"?\r\n    "+actions[i].getExp()+"\r\n";
             }
             try {
                 Files.write(Paths.get(fichier), exp.getBytes());
@@ -195,6 +191,20 @@ public class Regles {
             }
         }
         return false;
+    }
+
+    private String simplification (String exp) {
+        String [] exps=exp.split("\r?\n|\r");
+        String res="";
+        for (int i=0;i<exps.length;i++) {
+            res+=exps[i];
+        }
+        exps=res.split(" ");
+        res="";
+        for (int i=0;i<exps.length;i++) {
+            res+=exps[i];
+        }
+        return res;
     }
     
 }

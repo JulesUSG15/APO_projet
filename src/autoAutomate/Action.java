@@ -21,12 +21,12 @@ public class Action {
             if (act[0].length()<1 || act[1].length()<1) {
                 return false;
             }
-            act[0]=(new Immediat ()).simplification(act[0]);
+            act[0]=(new Immediat ()).deParenthesage(act[0]);
             proba[i]=(new Immediat ()).getVal(act[0],nbVoisins);
             if (proba[i]==null) {
                 return false;
             }
-            act[1]=(new Immediat ()).simplification(act[1]);
+            act[1]=(new Immediat ()).deParenthesage(act[1]);
             valeurs[i]=(new Immediat ()).getVal(act[1],nbVoisins);
             if (valeurs[i]==null) {
                 return false;
