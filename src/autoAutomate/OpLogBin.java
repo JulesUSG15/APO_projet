@@ -9,7 +9,7 @@ public class OpLogBin extends Condition{
     private char [] opList={'&','|'};
     
     public boolean set (String exp, int position, int nbVoisins) {
-        if (exp.length()+1<position) {
+        if (exp.length()+1<position || !Arrays.toString(opList).contains(""+exp.charAt(position))) {
             return false;
         }
         op=exp.charAt(position);
@@ -39,7 +39,7 @@ public class OpLogBin extends Condition{
     }
 
     public int getOp (String exp) {
-        if (exp.length()==0) {
+        if (exp.length()<3) {
             return -1;
         }
         int par=0;

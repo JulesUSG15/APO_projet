@@ -8,7 +8,7 @@ public class OpLogUni extends Condition{
     private char [] opList={'!'};
     
     public boolean set (String exp, int position, int nbVoisins) {
-        if (exp.length()+1<position) {
+        if (exp.length()+1<position || !Arrays.toString(opList).contains(""+exp.charAt(position))) {
             return false;
         }
         op=exp.charAt(position);

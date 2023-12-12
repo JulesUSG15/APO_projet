@@ -1,25 +1,25 @@
 package src.autoAutomate;
 
 public class Etat extends Valeur{
-    private double type;
+    private Valeur type;
     
     public boolean set (String exp, int position, int nbVoisins) {
         if (exp.length()<=1 || exp.charAt(0)!='#') {
             return false;
         }
-        double [] val=new double [1];
-        if (!getDouble(exp.substring(1,exp.length()),val)) {
+        type=getVal(exp,nbVoisins);
+        if (type==null) {
             return false;
         }
-        type=val[0];
         return true;
     }
     
     public double get (Tableau tab, int [][] voisins, int [] indices) {
         double res=0;
         if (voisins!=null) {
+            double val=type.get(tab, voisins, indices);
             for (int i=0;i<voisins.length;i++) {
-                if (tab.getVal(voisins[i])==type) {
+                if (tab.getVal(voisins[i])==val) {
                     res++;
                 }
             }
@@ -28,7 +28,7 @@ public class Etat extends Valeur{
     }
     
     public String getExp () {
-        return "#"+type;
+        return "#"+type.getExp();
     }
 
     public int getOp (String exp) {

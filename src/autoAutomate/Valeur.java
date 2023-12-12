@@ -12,7 +12,15 @@ public abstract class Valeur {
     
     public Valeur getVal (String exp, int nbVoisins) {
         Valeur val;
-        int n=(new Voisin ()).getOp(exp);
+        int n=(new OpAriBin ()).getOp(exp);
+        if (n!=-1) {
+            val=new OpAriBin ();
+            if (val.set(exp,n,nbVoisins)) {
+                return val;
+            }
+            return null;
+        }
+        n=(new Voisin ()).getOp(exp);
         if (n!=-1) {
             val=new Voisin ();
             if (val.set(exp,n,nbVoisins)) {
