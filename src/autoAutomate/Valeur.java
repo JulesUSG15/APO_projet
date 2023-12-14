@@ -53,7 +53,6 @@ public abstract class Valeur {
                     }
                 }
             }
-            System.out.println(((Variable)var[0]).getNom());
             return null;
         }
         return null;

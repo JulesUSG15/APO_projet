@@ -45,7 +45,7 @@ public class OpAriBin extends Valeur {
     }
     
     public String getExp () {
-        return "("+val1.getExp()+")"+op+"("+val2.getExp()+")";
+        return "("+val1.getExp()+op+val2.getExp()+")";
     }
 
     public int getOp (String exp) {
@@ -54,9 +54,19 @@ public class OpAriBin extends Valeur {
         }
         for (int j=0;j<opList.length;j++) {
             int par=0;
-            for (int i=exp.length()-2;i>=1;i--) {
-                if (Arrays.toString(opList[j]).contains(""+exp.charAt(i)) && par==0) {
-                    return i;
+            for (int i=exp.length()-1;i>=1;i--) {
+                if (exp.charAt(i)=='(') {
+                    par--;
+                }
+                else {
+                    if (exp.charAt(i)==')') {
+                        par++;
+                    }
+                    else {
+                        if (Arrays.toString(opList[j]).contains(""+exp.charAt(i)) && par==0) {
+                            return i;
+                        }
+                    }
                 }
                 if (par<0) {
                     return -1;
