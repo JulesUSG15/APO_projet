@@ -8,18 +8,18 @@ public class OpLogBin extends Condition{
     private char op=' ';
     private char [] opList={'&','|'};
     
-    public boolean set (String exp, int position, int nbVoisins) {
+    public boolean set (String exp, int position, int nbVoisins, Valeur [] var) {
         if (exp.length()<=position || !Arrays.toString(opList).contains(""+exp.charAt(position))) {
             return false;
         }
         op=exp.charAt(position);
         String exp1=(new Immediat ()).deParenthesage(exp.substring(0,position));
         String exp2=(new Immediat ()).deParenthesage(exp.substring(position+1,exp.length()));
-        cond1=getCond(exp1,nbVoisins);
+        cond1=getCond(exp1,nbVoisins,var);
         if (cond1==null) {
             return false;
         }
-        cond2=getCond(exp2,nbVoisins);
+        cond2=getCond(exp2,nbVoisins,var);
         if (cond2==null) {
             return false;
         }

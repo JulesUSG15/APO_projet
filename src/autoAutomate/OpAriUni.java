@@ -7,13 +7,13 @@ public class OpAriUni extends Valeur{
     private char op=' ';
     private char [] opList={'#'};
     
-    public boolean set (String exp, int position, int nbVoisins) {
+    public boolean set (String exp, int position, int nbVoisins, Valeur [] var) {
         if (exp.length()+1<position || !Arrays.toString(opList).contains(""+exp.charAt(position))) {
             return false;
         }
         op=exp.charAt(position);
         String exp1=(new Immediat ()).deParenthesage(exp.substring(1,exp.length()));
-        type=getVal(exp1,nbVoisins);
+        type=getVal(exp1,nbVoisins,var);
         if (type!=null) {
             return true;
         }

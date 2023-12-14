@@ -9,13 +9,14 @@ public class Regles {
     private int [][] voisins=null;
     private Condition [] conditions=null;
     private Action [] actions=null;
+    private Valeur [] variables=null;
     
     private boolean setCondition (String exp, int num) {
         if (num<0 || conditions.length-1<num) {
             return false;
         }
         exp=(new Immediat ()).deParenthesage(exp);
-        conditions[num]=(new OpLogBin ()).getCond(exp,voisins.length);
+        conditions[num]=(new OpLogBin ()).getCond(exp,voisins.length,variables);
         if (conditions[num]==null) {
             return false;
         }
@@ -27,13 +28,11 @@ public class Regles {
             return false;
         }
         actions[num]=new Action ();
-        return actions[num].set(exp,voisins.length);
+        return actions[num].set(exp,voisins.length,variables);
     }
     
     private boolean setCondActions (String exp) {
-        while (exp.length()>0 && exp.charAt(exp.length()-1)==' ') {
-            exp=exp.substring(0,exp.length()-1);
-        }
+        setVariables(exp);
         String [] exps=exp.split(";");
         if (exps.length==0) {
             return false;
@@ -57,9 +56,6 @@ public class Regles {
     }
     
     private boolean setVoisins (String exp) {
-        while (exp.length()>0 && exp.charAt(exp.length()-1)==' ') {
-            exp=exp.substring(0,exp.length()-1);
-        }
         String [] vois=exp.split(";");
         if (vois==null || vois.length<1) {
             return false;
@@ -76,14 +72,45 @@ public class Regles {
                 return false;
             }
             int [] nb=new int [1];
+            Valeur fonction=new Immediat ();
             for (int i=0;i<dim;i++) {
-                if (!(new Immediat ()).getInt(indices[i],nb)) {
+                if (!fonction.getInt(indices[i],nb)) {
                     return false;
                 }
                 voisins[j][i]=nb[0];
             }
         }
         return true;
+    }
+
+    private boolean addVariable (char v) {
+        if (!isVariable(v)) {
+            if (variables==null) {
+                variables=new Valeur[1];
+                variables[0]=new Variable ();
+                variables[0].set(v+"",0,0,null);
+            }
+            else {
+                Valeur [] nouv=new Valeur[variables.length+1];
+                for (int i=0;i<variables.length;i++) {
+                    nouv[i]=variables[i];
+                }
+                nouv[variables.length]=new Variable ();
+                nouv[variables.length].set(v+"",0,0,null);
+                variables=nouv;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private void setVariables (String exp) {
+        Valeur fonction=new Variable ();
+        for (int i=0;i<exp.length();i++) {
+            if (fonction.getOp(exp.charAt(i)+"")==0) {
+                addVariable(exp.charAt(i));
+            }
+        }
     }
     
     private double get (Tableau tab, int [] indices) {
@@ -191,6 +218,58 @@ public class Regles {
             }
         }
         return false;
+    }
+
+    public boolean isVariable (char v) {
+        if (variables!=null) {
+            for (int i=0;i<variables.length;i++) {
+                if (((Variable)variables[i]).getNom()==v) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean setVar (char nom, double val) {
+        if (variables!=null) {
+            for (int i=0;i<variables.length;i++) {
+                if (nom==((Variable)variables[i]).getNom()) {
+                    ((Variable)variables[i]).setVal(val);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public double getVar (char nom) {
+        if (variables!=null) {
+            for (int i=0;i<variables.length;i++) {
+                if (nom==((Variable)variables[i]).getNom()) {
+                    return ((Variable)variables[i]).get(null,null,null);
+                }
+            }
+        }
+        return 0;
+    }
+
+    public char [] getVarList () {
+        if (variables!=null) {
+            char [] list=new char [variables.length];
+            for (int i=0;i<variables.length;i++) {
+                list[i]=((Variable)variables[i]).getNom();
+            }
+            return list;
+        }
+        return null;
+    }
+
+    public int getNbVars () {
+        if (variables==null) {
+            return 0;
+        }
+        return variables.length;
     }
 
     private String simplification (String exp) {

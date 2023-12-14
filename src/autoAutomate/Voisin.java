@@ -3,7 +3,7 @@ package src.autoAutomate;
 public class Voisin extends Valeur {
     private int vois=0;
     
-    public boolean set (String exp, int position, int nbVoisins) {
+    public boolean set (String exp, int position, int nbVoisins, Valeur [] var) {
         if (exp.length()<=1 || exp.charAt(0)!='$') {
             return false;
         }

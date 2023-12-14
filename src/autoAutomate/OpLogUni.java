@@ -7,13 +7,13 @@ public class OpLogUni extends Condition{
     private char op=' ';
     private char [] opList={'!'};
     
-    public boolean set (String exp, int position, int nbVoisins) {
+    public boolean set (String exp, int position, int nbVoisins, Valeur [] var) {
         if (exp.length()+1<position || !Arrays.toString(opList).contains(""+exp.charAt(position))) {
             return false;
         }
         op=exp.charAt(position);
         String exp1=(new Immediat ()).deParenthesage(exp.substring(1,exp.length()));
-        cond=getCond(exp1,nbVoisins);
+        cond=getCond(exp1,nbVoisins,var);
         if (cond!=null) {
             return true;
         }
