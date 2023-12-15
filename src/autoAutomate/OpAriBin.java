@@ -8,7 +8,7 @@ public class OpAriBin extends Valeur {
     private char op=' ';
     private char [][] opList={{'+','-'},{'*','/'},{'^'}};
     
-    public boolean set (String exp, int position, int nbVoisins, Valeur [] var) {
+    public boolean set (String exp, int position, int nbVoisins, Variable [] var) {
         if (exp.length()<=position) {
             return false;
         }

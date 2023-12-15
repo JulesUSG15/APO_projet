@@ -5,7 +5,7 @@ public class Action {
     private Valeur [] valeurs=null;
 
     
-    public boolean set (String exp, int nbVoisins, Valeur [] var) {
+    public boolean set (String exp, int nbVoisins, Variable [] var) {
         String [] exps=exp.split(",");
         if (exps==null || exps.length==0) {
             return false;

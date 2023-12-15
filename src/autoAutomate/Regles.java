@@ -9,7 +9,7 @@ public class Regles {
     private int [][] voisins=null;
     private Condition [] conditions=null;
     private Action [] actions=null;
-    private Valeur [] variables=null;
+    private Variable [] variables=null;
     
     private boolean setCondition (String exp, int num) {
         if (num<0 || conditions.length-1<num) {
@@ -86,12 +86,12 @@ public class Regles {
     private boolean addVariable (char v) {
         if (!isVariable(v)) {
             if (variables==null) {
-                variables=new Valeur[1];
+                variables=new Variable[1];
                 variables[0]=new Variable ();
                 variables[0].set(v+"",0,0,null);
             }
             else {
-                Valeur [] nouv=new Valeur[variables.length+1];
+                Variable [] nouv=new Variable[variables.length+1];
                 for (int i=0;i<variables.length;i++) {
                     nouv[i]=variables[i];
                 }
@@ -223,7 +223,7 @@ public class Regles {
     public boolean isVariable (char v) {
         if (variables!=null) {
             for (int i=0;i<variables.length;i++) {
-                if (((Variable)variables[i]).getNom()==v) {
+                if (variables[i].getNom()==v) {
                     return true;
                 }
             }
@@ -234,8 +234,8 @@ public class Regles {
     public boolean setVar (char nom, double val) {
         if (variables!=null) {
             for (int i=0;i<variables.length;i++) {
-                if (nom==((Variable)variables[i]).getNom()) {
-                    ((Variable)variables[i]).setVal(val);
+                if (nom==variables[i].getNom()) {
+                    variables[i].setVal(val);
                     return true;
                 }
             }
@@ -246,8 +246,8 @@ public class Regles {
     public double getVar (char nom) {
         if (variables!=null) {
             for (int i=0;i<variables.length;i++) {
-                if (nom==((Variable)variables[i]).getNom()) {
-                    return ((Variable)variables[i]).get(null,null,null);
+                if (nom==variables[i].getNom()) {
+                    return variables[i].get(null,null,null);
                 }
             }
         }
@@ -258,7 +258,7 @@ public class Regles {
         if (variables!=null) {
             char [] list=new char [variables.length];
             for (int i=0;i<variables.length;i++) {
-                list[i]=((Variable)variables[i]).getNom();
+                list[i]=variables[i].getNom();
             }
             return list;
         }

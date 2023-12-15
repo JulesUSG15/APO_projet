@@ -4,7 +4,7 @@ public class Variable extends Valeur {
     private char nom=' ';
     private double val=0;
     
-    public boolean set (String exp, int position, int nbVoisins, Valeur [] var) {
+    public boolean set (String exp, int position, int nbVoisins, Variable [] var) {
         if (exp.length()!=1 || !(('a'<=exp.charAt(0) && exp.charAt(0)<='z') || ('A'<=exp.charAt(0) && exp.charAt(0)<='Z'))) {
             return false;
         }

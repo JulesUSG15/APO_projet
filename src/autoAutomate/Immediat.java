@@ -3,7 +3,7 @@ package src.autoAutomate;
 public class Immediat extends Valeur {
     private double val=0;
     
-    public boolean set (String exp, int position, int nbVoisins, Valeur [] var) {
+    public boolean set (String exp, int position, int nbVoisins, Variable [] var) {
         double [] nouv=new double [1];
         if (!getDouble(exp,nouv)) {
             return false;

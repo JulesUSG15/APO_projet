@@ -2,7 +2,7 @@ package src.autoAutomate;
 
 public abstract class Valeur {
     
-    public abstract boolean set (String exp, int position, int nbVoisins, Valeur [] var);
+    public abstract boolean set (String exp, int position, int nbVoisins, Variable [] var);
     
     public abstract double get (Tableau tab, int [][] voisins, int [] indices);
     
@@ -10,7 +10,7 @@ public abstract class Valeur {
 
     public abstract int getOp (String exp);
     
-    public Valeur getVal (String exp, int nbVoisins, Valeur [] var) {
+    public Valeur getVal (String exp, int nbVoisins, Variable [] var) {
         Valeur val;
         int n=(new OpAriUni ()).getOp(exp);
         if (n!=-1) {
@@ -48,7 +48,7 @@ public abstract class Valeur {
         if (n!=-1) {
             if (var!=null) {
                 for (int i=0;i<var.length;i++) {
-                    if (((Variable)var[i]).getNom()==exp.charAt(0)) {
+                    if (var[i].getNom()==exp.charAt(0)) {
                         return var[i];
                     }
                 }
