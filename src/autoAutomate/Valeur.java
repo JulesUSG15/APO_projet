@@ -28,6 +28,14 @@ public abstract class Valeur {
             }
             return null;
         }
+        n=(new OpAriCondUni ()).getOp(exp);
+        if (n!=-1) {
+            val=new OpAriCondUni ();
+            if (val.set(exp,n,nbVoisins,var)) {
+                return val;
+            }
+            return null;
+        }
         n=(new Voisin ()).getOp(exp);
         if (n!=-1) {
             val=new Voisin ();

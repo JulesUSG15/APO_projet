@@ -9,7 +9,7 @@ Voici un exemple de code écrit en DAC :
 @
 
 #1>0 & $0=1?
-    z:$2, (0.9+#3):2;
+    z:$2, (0.9+#3+°$2=2):2;
 !($4<1 | $3=0) & #($1*#$2)=2?
     2:#1-1;
 
@@ -69,13 +69,22 @@ Les types de valeurs :
 
         Le type état est défini par '#' et renvoie le nombre de voisins qui possèdent une certaine valeur.
         #i renvoi le nombre de voisins dont leur valeur est égale à i.
-        La valeur suivi par '#' est une autre valeur.
+        Ce qui suit '#' est une autre valeur.
 
         Exemple ci-dessus :
             - #1 renvoi le nombre de voisins dont leur valeur vaut 1
             - #0 renvoi le nombre de voisins dont leur valeur vaut 0
             - #$2 renvoi le nombre de voisins dont leur valeur vaut celle du voisin 2
             - #($1*#$2) renvoie le nombre de voisins dont leur valeur vaut le résultat de $1*#$2
+    
+    Le type condition :
+
+        Le type condition est défini par '°' et renvoie 1 ou 0.
+        Ce qui suit '°' est une condition.
+        Ce type renvoi 1 si la condition est validé, 0 sinon.
+
+        Exemple ci-dessus :
+            - °$2=2 renvoi 1 si $2=2, 0 sinon
 
     Le type variable :
 
@@ -149,10 +158,10 @@ Définition des règles :
         Plus son coefficient est élevé, plus l'instruction a de chances d'être exécutée.
 
         Exemple ci-dessus :
-            - Si #1>0 & $0=1 est valide, on execute z:$2, (0.9+#3):2;
-                - La première instruction a une probabilité de z/(z+0.9+#3) d'être exécutée.
+            - Si #1>0 & $0=1 est valide, on execute z:$2, (0.9+#3+°$2=2):2;
+                - La première instruction a une probabilité de z/(z+0.9+#3+°$2=2) d'être exécutée.
                     On assignerait alors la valeur du deuxième voisin à la cellule sur laquelle la règle est appliquée.
-                - La deuxième instruction a une probabilité de (0.9+#3)/(z+0.9+#3) d'être exécutée.
+                - La deuxième instruction a une probabilité de (0.9+#3+°$2=2)/(z+0.9+#3+°$2=2) d'être exécutée.
                     On assignerait alors la valeur 2 à la cellule sur laquelle la règle est appliquée.
             - Si !($4<1 | $3=0) & #($1*#$2)=2 est valide, on execute 2:#1-1;
                 - L'instruction a une probabilité de 2/2 = 100% de chances d'être exécutée.
