@@ -1,10 +1,11 @@
+/* Feu de forêt à 4 voisins */
 1,0;
 -1,0;
 0,-1;
 0,1;
 @
 
-$0=2.0?
+$0=2.0?     /* La forêt en feu devient brulée */
     1.0:3.0; 
-$0=1.0?
+$0=1.0?     /* La forêt prend feu ou pas en fonction du nombre de forêts voisines en feu */
     (q+(p*#(2.0))):2.0, (1.0-(q+(p*#(2.0)))):1.0; 

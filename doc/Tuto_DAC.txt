@@ -10,12 +10,13 @@ Voici un exemple de code écrit en DAC :
 
 #1>0 & $0=1?
     z:$2, (0.9+#3+°$2=2):2;
-!($4<1 | $3=0) & #($1*#$2)=2?
+!($4<1 | $3=0) & #($1*#$2)=2?   /* Ceci est un commentaire */
     2:#1-1;
 
 
 Il est important de savoir que la mise en forme n'est pas importante en DAC.
 On peut tout écrire sur une ligne mais la mise en forme facilite la compréhension du fichier.
+Les caracteres '/*' et '*/' permettent d'écrire des commentaires qui sont ignorés lors la compilation du fichier DAC.
 
 
 Définition des voisins :

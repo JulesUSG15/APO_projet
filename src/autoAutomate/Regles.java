@@ -112,6 +112,36 @@ public class Regles {
             }
         }
     }
+
+    private String retireCom (String exp) {
+        if (!exp.contains("/*") || !exp.contains("*/")) {
+            return exp;
+        }
+        String res="";
+        boolean com=false;
+        for (int i=0;i<exp.length()-1;i++) {
+            if (exp.charAt(i)=='/' && exp.charAt(i+1)=='*') {
+                i+=2;
+                com=true;
+            }
+            else {
+                if (exp.charAt(i)=='*' && exp.charAt(i+1)=='/') {
+                    i+=2;
+                    if (!com) {
+                        return " ";
+                    }
+                    com=false;
+                }
+            }
+            if (!com) {
+                res+=exp.charAt(i);
+            }
+        }
+        if (com) {
+            return " ";
+        }
+        return res;
+    }
     
     private double get (Tableau tab, int [] indices) {
         int [][] vois=new int [voisins.length][dim];
@@ -129,6 +159,7 @@ public class Regles {
     }
 
     public boolean set (String exp) {
+        exp=retireCom(exp);
         exp=simplification(exp);
         String [] exps=exp.split("@");
         valide=!(exps==null || exps.length!=2);
