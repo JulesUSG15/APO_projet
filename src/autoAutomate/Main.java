@@ -16,7 +16,7 @@ public class Main {
                 JeuDeLaVie.main(args);
                 break;
             case 2:
-                // Vous devez ajouter une méthode main à votre classe Automate1D pour pouvoir l'exécuter ici
+                Automate1D.main(args);
                 break;
             default:
                 System.out.println("Option non reconnue");

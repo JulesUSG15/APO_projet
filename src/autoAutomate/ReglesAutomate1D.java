@@ -1,8 +1,8 @@
-package src;
+package src.autoAutomate;
 
 import java.util.Arrays;
 
-public class Automate1D implements ReglesAutomate {
+public class ReglesAutomate1D {
     private int[] regle;
     private int[] configuration;
 
@@ -34,13 +34,11 @@ public class Automate1D implements ReglesAutomate {
         configuration = Arrays.copyOf(nouvelleConfiguration, nouvelleConfiguration.length);
     }
 
-    @Override
     public int[][] appliquerRegles(int[][] configurationActuelle, int[][] voisinage) {
         // Cette méthode ne sera pas utilisée pour les automates 1D, vous pouvez laisser vide ou lever une exception
         throw new UnsupportedOperationException("Méthode non applicable pour les automates 1D");
     }
 
-    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int cell : configuration) {
