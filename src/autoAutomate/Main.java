@@ -1,34 +1,28 @@
 package src.autoAutomate;
+import java.util.Scanner;
 
 public class Main {
-    
     public static void main(String[] args) {
-        Regles reg=new Regles();
-        System.out.println(reg.charger("data/jeu_vie.dac"));
-        System.out.println(reg.getExp());
-        Tableau tab=new Tableau (2,11);
-        tab.setVal(4,4,1);
-        tab.setVal(4,5,1);
-        tab.setVal(4,6,1);
-        tab.setVal(5,3,1);
-        tab.setVal(5,7,1);
-        tab.setVal(6,4,1);
-        tab.setVal(6,5,1);
-        tab.setVal(6,6,1);
-        afficher(tab);
-        for (int i=0;i<8;i++) {
-            tab=reg.appliquer(tab);
-            afficher(tab);
-        }
-    }
+        Scanner scanner = new Scanner(System.in);
 
-    public static void afficher (Tableau tab) {
-        for (int j=0;j<tab.getTaille();j++) {
-            for (int i=0;i<tab.getTaille();i++) {
-                System.out.print((int)tab.getVal(j,i)+" ");
-            }
-            System.out.println("");
+        System.out.println("Veuillez choisir une option:");
+        System.out.println("1. JeuDeLaVie");
+        System.out.println("2. Automate1D");
+
+        int option = scanner.nextInt();
+
+        switch (option) {
+            case 1:
+                JeuDeLaVie.main(args);
+                break;
+            case 2:
+                // Vous devez ajouter une méthode main à votre classe Automate1D pour pouvoir l'exécuter ici
+                break;
+            default:
+                System.out.println("Option non reconnue");
+                break;
         }
-        System.out.println("");
+
+        scanner.close();
     }
 }
