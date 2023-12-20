@@ -1,0 +1,12 @@
+/* Règle de majorité avec 8 voisins */
+-1,-1;
+-1,0;
+-1,1;
+0,-1;
+0,1;
+1,-1;
+1,0;
+1,1;
+
+1=1?
+    1:majorite;     /* Retourne la valeur majoritaire dans le voisinage */

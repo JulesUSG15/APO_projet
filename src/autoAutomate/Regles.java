@@ -10,13 +10,17 @@ public class Regles {
     private Condition [] conditions=null;
     private Action [] actions=null;
     private Variable [] variables=null;
+    private String erreur="";
     
     private boolean setCondition (String exp, int num) {
         if (num<0 || conditions.length-1<num) {
             return false;
         }
         exp=(new Immediat ()).deParenthesage(exp);
-        conditions[num]=(new OpLogBin ()).getCond(exp,voisins.length,variables);
+        String [] er=new String [1];
+        er[0]=erreur;
+        conditions[num]=(new OpLogBin ()).getCond(exp,voisins.length,variables,er);
+        erreur=er[0];
         if (conditions[num]==null) {
             return false;
         }
@@ -28,13 +32,18 @@ public class Regles {
             return false;
         }
         actions[num]=new Action ();
-        return actions[num].set(exp,voisins.length,variables);
+        String [] er=new String [1];
+        er[0]=erreur;
+        boolean ret=actions[num].set(exp,voisins.length,variables,er);
+        erreur=er[0];
+        return ret;
     }
     
     private boolean setCondActions (String exp) {
         setVariables(exp);
         String [] exps=exp.split(";");
         if (exps.length==0) {
+            erreur="Aucune action trouvée";
             return false;
         }
         conditions=new Condition [exps.length];
@@ -43,6 +52,12 @@ public class Regles {
         for (int i=0;i<exps.length;i++) {
             acts=exps[i].split("\\?");
             if (acts==null || acts.length!=2) {
+                if (acts.length>2) {
+                    erreur="Action manquante";
+                }
+                else {
+                    erreur="Condition attendue à gauche et action attendue à droite de ?";
+                }
                 return false;
             }
             if (!setCondition(acts[0],i)) {
@@ -58,10 +73,12 @@ public class Regles {
     private boolean setVoisins (String exp) {
         String [] vois=exp.split(";");
         if (vois==null || vois.length<1) {
+            erreur="Aucun voisin defini";
             return false;
         }
         String [] indices=vois[0].split(",");
         if (indices==null || indices.length<1) {
+            erreur="Aucun voisin defini";
             return false;
         }
         dim=indices.length;
@@ -69,12 +86,14 @@ public class Regles {
         for (int j=0;j<vois.length;j++) {
             indices=vois[j].split(",");
             if (indices==null || indices.length!=dim) {
+                erreur="Les coordonnées du voisin "+(j+1)+" ne sont pas de la meme dimension";
                 return false;
             }
             int [] nb=new int [1];
             Valeur fonction=new Immediat ();
             for (int i=0;i<dim;i++) {
                 if (!fonction.getInt(indices[i],nb)) {
+                    erreur="Les coordonnées des voisins doivent etre des entiers";
                     return false;
                 }
                 voisins[j][i]=nb[0];
@@ -88,7 +107,10 @@ public class Regles {
             if (variables==null) {
                 variables=new Variable[1];
                 variables[0]=new Variable ();
-                variables[0].set("$"+nom,nom.length(),0,null);
+                String [] er=new String [1];
+                er[0]=erreur;
+                variables[0].set("$"+nom,nom.length(),0,null,er);
+                erreur=er[0];
             }
             else {
                 Variable [] nouv=new Variable[variables.length+1];
@@ -96,7 +118,10 @@ public class Regles {
                     nouv[i]=variables[i];
                 }
                 nouv[variables.length]=new Variable ();
-                nouv[variables.length].set("$"+nom,nom.length(),0,null);
+                String [] er=new String [1];
+                er[0]=erreur;
+                nouv[variables.length].set("$"+nom,nom.length(),0,null,er);
+                erreur=er[0];
                 variables=nouv;
             }
             return true;
@@ -137,7 +162,7 @@ public class Regles {
                     com=false;
                 }
             }
-            if (!com) {
+            if (!com && i<exp.length()) {
                 res+=exp.charAt(i);
             }
         }
@@ -163,11 +188,18 @@ public class Regles {
     }
 
     public boolean set (String exp) {
+        erreur="";
         exp=retireCom(exp);
         exp=simplification(exp);
         String [] exps=exp.split("@");
         valide=!(exps==null || exps.length!=2);
         if (!valide) {
+            if (exps.length>2) {
+                erreur="Plusieurs @ trouvés";
+            }
+            else {
+                erreur="Arguments à gauche et à droite de @ necessaires";
+            }
             return false;
         }
         valide=setVoisins(exps[0]);
@@ -227,6 +259,7 @@ public class Regles {
             return set(exp);
         }
         catch (IOException e) {
+            erreur="Fichier "+fichier+" introuvable";
             return false;
         }
     }
@@ -249,9 +282,11 @@ public class Regles {
                 Files.write(Paths.get(fichier), exp.getBytes());
                 return true;
             } catch (IOException e) {
+                erreur="Fichier "+fichier+" introuvable";
                 return false;
             }
         }
+        erreur="Regle non valide";
         return false;
     }
 
@@ -319,6 +354,10 @@ public class Regles {
             res+=exps[i];
         }
         return res;
+    }
+
+    public String getErreur () {
+        return erreur;
     }
     
 }
