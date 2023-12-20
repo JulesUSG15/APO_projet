@@ -1,14 +1,22 @@
 package src.autoAutomate;
-
 import java.util.Random;
 import java.util.Scanner;
+import java.util.ArrayList;
+
 
 public class JeuDeLaVie {
+
+    private ArrayList<Tableau> simulation = new ArrayList<Tableau>();
+    private Regles reg;
+
+    public JeuDeLaVie() {
+        this.reg = new Regles();
+        this.reg.charger("data/jeu_vie.dac");
+    }
     
-    public static void main(String[] args) {
-        Regles reg=new Regles();
-        System.out.println(reg.charger("data/jeu_vie.dac"));
-        System.out.println(reg.getExp());
+    public void main(String[] args) {
+
+        System.out.println(this.reg.getExp());
 
         Scanner scanner = new Scanner(System.in);
 
@@ -34,16 +42,13 @@ public class JeuDeLaVie {
             initialiserTableauAleatoire(tab);
         }
 
-        afficher(tab);
-        for (int i=0;i<8;i++) {
-            tab=reg.appliquer(tab);
-            afficher(tab);
-        }
-
         scanner.close();
+
+        this.simuler(tab, 10);
+        this.afficherConsole();
     }
 
-    public static void initialiserTableauAleatoire(Tableau tab) {
+    public void initialiserTableauAleatoire(Tableau tab) {
         Random random = new Random();
         for (int j = 0; j < tab.getTaille(); j++) {
             for (int i = 0; i < tab.getTaille(); i++) {
@@ -52,7 +57,20 @@ public class JeuDeLaVie {
         }
     }
 
-    public static void afficher (Tableau tab) {
+    public void simuler(Tableau tab, int n) {
+         for (int i=0; i < n; i++) {
+            tab = this.reg.appliquer(tab);
+            this.simulation.add(tab);
+        }
+    } 
+
+    public void afficherConsole() {
+        for (Tableau t : this.simulation) {
+            afficherTabConsole(t);
+        }
+    }
+
+    public void afficherTabConsole (Tableau tab) {
         for (int j=0;j<tab.getTaille();j++) {
             for (int i=0;i<tab.getTaille();i++) {
                 System.out.print((int)tab.getVal(j,i)+" ");

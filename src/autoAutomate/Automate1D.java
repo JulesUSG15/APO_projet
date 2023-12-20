@@ -1,6 +1,7 @@
 package src.autoAutomate;
-
 import java.util.Scanner;
+
+import src.autoAutomate.ReglesAutomate1D;
 
 public class Automate1D {
     public static void main(String[] args) {

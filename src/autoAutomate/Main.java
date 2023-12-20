@@ -22,7 +22,8 @@ public class Main {
                 //RegleMajorite.main(args);
                 break;
             case 3:
-                JeuDeLaVie.main(args);
+                JeuDeLaVie j = new JeuDeLaVie();
+                j.main(args);
                 break;
             case 4:
                 //FeuDeForet.main(args);
