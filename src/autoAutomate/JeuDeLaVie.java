@@ -3,11 +3,17 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.ArrayList;
 
+import java.awt.event.*;
+import javax.swing.*;
 
-public class JeuDeLaVie {
+
+public class JeuDeLaVie extends JFrame implements ActionListener  {
 
     private ArrayList<Tableau> simulation = new ArrayList<Tableau>();
     private Regles reg;
+     JTextField fieldEtapes, fieldTaille;
+     JComboBox<String> choixGeneration;
+     JButton btnSimulation;
 
     public JeuDeLaVie() {
         this.reg = new Regles();
@@ -16,36 +22,75 @@ public class JeuDeLaVie {
     
     public void main(String[] args) {
 
-        System.out.println(this.reg.getExp());
+        // System.out.println(this.reg.getExp());
 
-        Scanner scanner = new Scanner(System.in);
+        // Création de l'interface graphique
+        
+        JFrame f = new JFrame();
 
-        System.out.print("Veuillez entrer la taille du tableau : ");
-        int taille = scanner.nextInt();
+        JLabel titre = new JLabel("Jeu de la vie");
+        titre.setBounds(20,10,200,30);
 
-        Tableau tab=new Tableau (2, taille);
+        JLabel labelTaille = new JLabel("Taille du tableau :");
+        labelTaille.setBounds(20,40,120,30);
+        fieldTaille = new JTextField();
+        fieldTaille.setBounds(20,70,120,30);
 
-        System.out.println("Voulez-vous remplir le tableau manuellement ou de manière aléatoire ?");
-        System.out.println("1. Manuellement");
-        System.out.println("2. Aléatoirement");
-        int choix = scanner.nextInt();
+        JLabel labelEtapes = new JLabel("Nombre d'étapes :");
+        labelEtapes.setBounds(150,40,120,30);
+        fieldEtapes = new JTextField();
+        fieldEtapes.setBounds(150,70,120,30);
 
-        if (choix == 1) {
-            for (int j = 0; j < taille; j++) {
-                for (int i = 0; i < taille; i++) {
-                    System.out.print("Veuillez entrer la valeur pour la position (" + j + ", " + i + ") : ");
-                    int valeur = scanner.nextInt();
-                    tab.setVal(j, i, valeur);
-                }
-            }
-        } else {
-            initialiserTableauAleatoire(tab);
+        String[] choices = { "Initailisation aléatoire","Initailisation manuelle"};
+        choixGeneration = new JComboBox<String>(choices);
+        choixGeneration.setBounds(280,70,180,30);
+
+        btnSimulation = new JButton("Lancer la simulation");
+        btnSimulation.setBounds(20,120,150,30);
+        btnSimulation.addActionListener(this);
+
+        f.add(titre);
+        f.add(labelTaille);
+        f.add(fieldTaille);
+        f.add(labelEtapes);
+        f.add(fieldEtapes);
+        f.add(choixGeneration);
+        f.add(btnSimulation);
+        f.setSize(500,500);
+        f.setLayout(null);
+        f.setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        int taille = 0;
+        int etapes = 0;
+        try {
+            taille = Integer.parseInt(fieldTaille.getText());
+            etapes = Integer.parseInt(fieldEtapes.getText());
+        } catch (NumberFormatException ex) {
+            System.out.println("Veuillez entrer des valeurs correctes");
+            return;
         }
+        // On verifie que les champs ne sont pas vides et que les valeurs sont correctes
+        if (taille < 1 || etapes < 1) {
+            System.out.println("Veuillez entrer des valeurs correctes");
+            return;
+        }
+        
+        if(e.getSource() == btnSimulation){
+            Tableau tab = new Tableau (2, taille);
 
-        scanner.close();
+            if (choixGeneration.getSelectedItem() == "Initailisation manuelle") {
+                this.initialiserTableauManuelle(tab);
+            }
+            else {
+                this.initialiserTableauAleatoire(tab);
+            }
 
-        this.simuler(tab, 10);
-        this.afficherConsole();
+            this.simuler(tab, etapes);
+            this.afficherConsole();
+        }
     }
 
     public void initialiserTableauAleatoire(Tableau tab) {
@@ -55,6 +100,10 @@ public class JeuDeLaVie {
                 tab.setVal(j, i, random.nextInt(2));
             }
         }
+    }
+
+    public void initialiserTableauManuelle(Tableau tab) {
+        System.out.println("Initialisation manuelle");
     }
 
     public void simuler(Tableau tab, int n) {
