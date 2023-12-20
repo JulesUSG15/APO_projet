@@ -5,7 +5,7 @@
 0,1;
 @
 
-$0=2.0?     /* La forêt en feu devient brulée */
+#(0)=2.0?     /* La forêt en feu devient brulée */
     1.0:3.0; 
-$0=1.0?     /* La forêt prend feu ou pas en fonction du nombre de forêts voisines en feu */
-    (q+(p*#(2.0))):2.0, (1.0-(q+(p*#(2.0)))):1.0; 
+#(0)=1.0?     /* La forêt prend feu ou pas en fonction du nombre de forêts voisines en feu */
+    ($q+($p*count(2.0))):2.0, (1.0-($q+($p*count(2.0)))):1.0; 

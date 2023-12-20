@@ -1,14 +1,14 @@
 package src.autoAutomate;
 
 public class Variable extends Valeur {
-    private char nom=' ';
+    private String nom=" ";
     private double val=0;
     
     public boolean set (String exp, int position, int nbVoisins, Variable [] var) {
-        if (exp.length()!=1 || !(('a'<=exp.charAt(0) && exp.charAt(0)<='z') || ('A'<=exp.charAt(0) && exp.charAt(0)<='Z'))) {
+        if (exp.length()<=1 || exp.charAt(0)!='$' || position>=exp.length()) {
             return false;
         }
-        nom=exp.charAt(0);
+        nom=exp.substring(1,position+1);
         val=0;
         return true;
     }
@@ -18,17 +18,23 @@ public class Variable extends Valeur {
     }
     
     public String getExp () {
-        return nom+"";
+        return "$"+nom;
     }
 
     public int getOp (String exp) {
-        if (0<exp.length() && (('a'<=exp.charAt(0) && exp.charAt(0)<='z') || ('A'<=exp.charAt(0) && exp.charAt(0)<='Z'))) {
-            return 0;
+        if (exp.length()>1 && exp.charAt(0)=='$'){
+            int res=1;
+            while(res<exp.length() && (('a'<=exp.charAt(res) && exp.charAt(res)<='z') || ('A'<=exp.charAt(res) && exp.charAt(res)<='Z') || ('0'<=exp.charAt(res) && exp.charAt(res)<='9') || exp.charAt(res)=='_')) {
+                res++;
+            }
+            if (res>1) {
+                return res-1;
+            }
         }
         return -1;
     }
 
-    public char getNom () {
+    public String getNom () {
         return nom;
     }
 

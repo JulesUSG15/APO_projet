@@ -12,15 +12,7 @@ public abstract class Valeur {
     
     public Valeur getVal (String exp, int nbVoisins, Variable [] var) {
         Valeur val;
-        int n=(new OpAriUni ()).getOp(exp);
-        if (n!=-1) {
-            val=new OpAriUni ();
-            if (val.set(exp,n,nbVoisins,var)) {
-                return val;
-            }
-            return null;
-        }
-        n=(new OpAriBin ()).getOp(exp);
+        int n=(new OpAriBin ()).getOp(exp);
         if (n!=-1) {
             val=new OpAriBin ();
             if (val.set(exp,n,nbVoisins,var)) {
@@ -28,17 +20,9 @@ public abstract class Valeur {
             }
             return null;
         }
-        n=(new OpAriCondUni ()).getOp(exp);
+        n=(new OpAriUni ()).getOp(exp);
         if (n!=-1) {
-            val=new OpAriCondUni ();
-            if (val.set(exp,n,nbVoisins,var)) {
-                return val;
-            }
-            return null;
-        }
-        n=(new Voisin ()).getOp(exp);
-        if (n!=-1) {
-            val=new Voisin ();
+            val=new OpAriUni ();
             if (val.set(exp,n,nbVoisins,var)) {
                 return val;
             }
@@ -55,8 +39,9 @@ public abstract class Valeur {
         n=(new Variable ()).getOp(exp);
         if (n!=-1) {
             if (var!=null) {
+                String nomVar=exp.substring(1,n+1);
                 for (int i=0;i<var.length;i++) {
-                    if (var[i].getNom()==exp.charAt(0)) {
+                    if (var[i].getNom().equals(nomVar)) {
                         return var[i];
                     }
                 }

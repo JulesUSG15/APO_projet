@@ -5,15 +5,26 @@ import java.util.Arrays;
 public class OpLogBin extends Condition{
     private Condition cond1=null;
     private Condition cond2=null;
-    private char op=' ';
-    private char [] opList={'&','|'};
+    private String op="";
+    private String [] opList={"&","|"};
     
     public boolean set (String exp, int position, int nbVoisins, Variable [] var) {
         if (exp.length()<=position || !Arrays.toString(opList).contains(""+exp.charAt(position))) {
             return false;
         }
-        op=exp.charAt(position);
-        String exp1=(new Immediat ()).deParenthesage(exp.substring(0,position));
+        boolean b=false;
+        int debut=0;
+        for (int i=0;i<opList.length;i++) {
+            debut=position-opList[i].length()+1;
+            if (0<=debut && exp.substring(debut,position+1).equals(opList[i])) {
+                b=true;
+                op=opList[i];
+            }
+        }
+        if (!b) {
+            return false;
+        }
+        String exp1=(new Immediat ()).deParenthesage(exp.substring(0,debut));
         String exp2=(new Immediat ()).deParenthesage(exp.substring(position+1,exp.length()));
         cond1=getCond(exp1,nbVoisins,var);
         if (cond1==null) {
@@ -28,8 +39,8 @@ public class OpLogBin extends Condition{
     
     public boolean get (Tableau tab, int [][] voisins, int [] indices) {
         switch (op) {
-            case '&': return cond1.get(tab,voisins,indices) && cond2.get(tab,voisins,indices);
-            case '|': return cond1.get(tab,voisins,indices) || cond2.get(tab,voisins,indices);
+            case "&": return cond1.get(tab,voisins,indices) && cond2.get(tab,voisins,indices);
+            case "|": return cond1.get(tab,voisins,indices) || cond2.get(tab,voisins,indices);
         }
         return false;
     }
@@ -43,9 +54,25 @@ public class OpLogBin extends Condition{
             return -1;
         }
         int par=0;
-        for (int i=exp.length()-2;i>=1;i--) {
-            if (Arrays.toString(opList).contains(""+exp.charAt(i)) && par==0) {
-                return i;
+        int debut;
+        for (int i=exp.length()-1;i>=1;i--) {
+            if (exp.charAt(i)=='(') {
+                par--;
+            }
+            else {
+                if (exp.charAt(i)==')') {
+                    par++;
+                }
+                else {
+                    if (par==0) {
+                        for (int k=0;k<opList.length;k++) {
+                            debut=i-opList[k].length()+1;
+                            if (0<=debut && exp.substring(debut,i+1).equals(opList[k])) {
+                                return i;
+                            }
+                        }
+                    }
+                }
             }
             if (par<0) {
                 return -1;

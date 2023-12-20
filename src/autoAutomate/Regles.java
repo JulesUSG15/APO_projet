@@ -83,12 +83,12 @@ public class Regles {
         return true;
     }
 
-    private boolean addVariable (char v) {
-        if (!isVariable(v)) {
+    private boolean addVariable (String nom) {
+        if (!isVariable(nom)) {
             if (variables==null) {
                 variables=new Variable[1];
                 variables[0]=new Variable ();
-                variables[0].set(v+"",0,0,null);
+                variables[0].set("$"+nom,nom.length(),0,null);
             }
             else {
                 Variable [] nouv=new Variable[variables.length+1];
@@ -96,7 +96,7 @@ public class Regles {
                     nouv[i]=variables[i];
                 }
                 nouv[variables.length]=new Variable ();
-                nouv[variables.length].set(v+"",0,0,null);
+                nouv[variables.length].set("$"+nom,nom.length(),0,null);
                 variables=nouv;
             }
             return true;
@@ -106,9 +106,13 @@ public class Regles {
 
     private void setVariables (String exp) {
         Valeur fonction=new Variable ();
+        String sub;
+        int n;
         for (int i=0;i<exp.length();i++) {
-            if (fonction.getOp(exp.charAt(i)+"")==0) {
-                addVariable(exp.charAt(i));
+            sub=exp.substring(i,exp.length());
+            n=fonction.getOp(sub);
+            if (n!=-1) {
+                addVariable(sub.substring(1,n+1));
             }
         }
     }
@@ -251,10 +255,10 @@ public class Regles {
         return false;
     }
 
-    public boolean isVariable (char v) {
+    public boolean isVariable (String nom) {
         if (variables!=null) {
             for (int i=0;i<variables.length;i++) {
-                if (variables[i].getNom()==v) {
+                if (variables[i].getNom().equals(nom)) {
                     return true;
                 }
             }
@@ -262,10 +266,10 @@ public class Regles {
         return false;
     }
 
-    public boolean setVar (char nom, double val) {
+    public boolean setVar (String nom, double val) {
         if (variables!=null) {
             for (int i=0;i<variables.length;i++) {
-                if (nom==variables[i].getNom()) {
+                if (nom.equals(variables[i].getNom())) {
                     variables[i].setVal(val);
                     return true;
                 }
@@ -274,10 +278,10 @@ public class Regles {
         return false;
     }
 
-    public double getVar (char nom) {
+    public double getVar (String nom) {
         if (variables!=null) {
             for (int i=0;i<variables.length;i++) {
-                if (nom==variables[i].getNom()) {
+                if (nom.equals(variables[i].getNom())) {
                     return variables[i].get(null,null,null);
                 }
             }
@@ -285,9 +289,9 @@ public class Regles {
         return 0;
     }
 
-    public char [] getVarList () {
+    public String [] getVarList () {
         if (variables!=null) {
-            char [] list=new char [variables.length];
+            String [] list=new String [variables.length];
             for (int i=0;i<variables.length;i++) {
                 list[i]=variables[i].getNom();
             }
