@@ -79,7 +79,7 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
                 System.out.println("Veuillez entrer des valeurs correctes");
                 return;
             }
-            
+
             Tableau tab = new Tableau (2, taille);
 
             if (choixGeneration.getSelectedItem() == "Initailisation manuelle") {
@@ -108,6 +108,7 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
     }
 
     public void simuler(Tableau tab, int n) {
+        this.simulation.clear();
          for (int i=0; i < n; i++) {
             tab = this.reg.appliquer(tab);
             this.simulation.add(tab);
