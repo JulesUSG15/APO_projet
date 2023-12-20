@@ -63,22 +63,23 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        int taille = 0;
-        int etapes = 0;
-        try {
-            taille = Integer.parseInt(fieldTaille.getText());
-            etapes = Integer.parseInt(fieldEtapes.getText());
-        } catch (NumberFormatException ex) {
-            System.out.println("Veuillez entrer des valeurs correctes");
-            return;
-        }
-        // On verifie que les champs ne sont pas vides et que les valeurs sont correctes
-        if (taille < 1 || etapes < 1) {
-            System.out.println("Veuillez entrer des valeurs correctes");
-            return;
-        }
         
         if(e.getSource() == btnSimulation){
+            int taille = 0;
+            int etapes = 0;
+            try {
+                taille = Integer.parseInt(fieldTaille.getText());
+                etapes = Integer.parseInt(fieldEtapes.getText());
+            } catch (NumberFormatException ex) {
+                System.out.println("Veuillez entrer des valeurs correctes");
+                return;
+            }
+            // On verifie que les champs ne sont pas vides et que les valeurs sont correctes
+            if (taille < 1 || etapes < 1) {
+                System.out.println("Veuillez entrer des valeurs correctes");
+                return;
+            }
+            
             Tableau tab = new Tableau (2, taille);
 
             if (choixGeneration.getSelectedItem() == "Initailisation manuelle") {
