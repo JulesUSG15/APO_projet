@@ -5,9 +5,10 @@ public class Action {
     private Valeur [] valeurs=null;
 
     
-    public boolean set (String exp, int nbVoisins, Variable [] var) {
+    public boolean set (String exp, int nbVoisins, Variable [] var, String [] erreur) {
         String [] exps=exp.split(",");
         if (exps==null || exps.length==0) {
+            erreur[0]="Instruction manquante";
             return false;
         }
         int nbActions=exps.length;
@@ -16,18 +17,21 @@ public class Action {
         for (int i=0; i<nbActions; i++) {
             String [] act=exps[i].split(":");
             if (act.length!=2) {
-                return false;
-            }
-            if (act[0].length()<1 || act[1].length()<1) {
+                if (act.length>2) {
+                    erreur[0]="Plusieurs : trouvés dans la meme instruction";
+                }
+                else {
+                    erreur[0]="Valeurs attendues à gauche et à droite de :";
+                }
                 return false;
             }
             act[0]=(new Immediat ()).deParenthesage(act[0]);
-            proba[i]=(new Immediat ()).getVal(act[0],nbVoisins,var);
+            proba[i]=(new Immediat ()).getVal(act[0],nbVoisins,var,erreur);
             if (proba[i]==null) {
                 return false;
             }
             act[1]=(new Immediat ()).deParenthesage(act[1]);
-            valeurs[i]=(new Immediat ()).getVal(act[1],nbVoisins,var);
+            valeurs[i]=(new Immediat ()).getVal(act[1],nbVoisins,var,erreur);
             if (valeurs[i]==null) {
                 return false;
             }

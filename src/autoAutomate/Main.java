@@ -35,7 +35,7 @@ public class Main {
                 System.out.println("Option invalide. Veuillez réessayer.");
                 break;
         }
-
+        
         scanner.close();
     }
 }

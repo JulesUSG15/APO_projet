@@ -2,7 +2,7 @@ package src.autoAutomate;
 
 public abstract class Valeur {
     
-    public abstract boolean set (String exp, int position, int nbVoisins, Variable [] var);
+    public abstract boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur);
     
     public abstract double get (Tableau tab, int [][] voisins, int [] indices);
     
@@ -10,12 +10,12 @@ public abstract class Valeur {
 
     public abstract int getOp (String exp);
     
-    public Valeur getVal (String exp, int nbVoisins, Variable [] var) {
+    public Valeur getVal (String exp, int nbVoisins, Variable [] var, String [] erreur) {
         Valeur val;
         int n=(new OpAriBin ()).getOp(exp);
         if (n!=-1) {
             val=new OpAriBin ();
-            if (val.set(exp,n,nbVoisins,var)) {
+            if (val.set(exp,n,nbVoisins,var,erreur)) {
                 return val;
             }
             return null;
@@ -23,15 +23,7 @@ public abstract class Valeur {
         n=(new OpAriUni ()).getOp(exp);
         if (n!=-1) {
             val=new OpAriUni ();
-            if (val.set(exp,n,nbVoisins,var)) {
-                return val;
-            }
-            return null;
-        }
-        n=(new Immediat ()).getOp(exp);
-        if (n!=-1) {
-            val=new Immediat ();
-            if (val.set(exp,n,nbVoisins,var)) {
+            if (val.set(exp,n,nbVoisins,var,erreur)) {
                 return val;
             }
             return null;
@@ -46,8 +38,26 @@ public abstract class Valeur {
                     }
                 }
             }
+            erreur[0]="Variable "+exp+" introuvable";
             return null;
         }
+        n=(new Immediat ()).getOp(exp);
+        if (n!=-1) {
+            val=new Immediat ();
+            if (val.set(exp,n,nbVoisins,var,erreur)) {
+                return val;
+            }
+            return null;
+        }
+        n=(new Etude ()).getOp(exp);
+        if (n!=-1) {
+            val=new Etude ();
+            if (val.set(exp,n,nbVoisins,var,erreur)) {
+                return val;
+            }
+            return null;
+        }
+        erreur[0]="Aucune valeur correspondante pour "+exp;
         return null;
     }
     

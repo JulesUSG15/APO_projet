@@ -8,8 +8,9 @@ public class OpLogBin extends Condition{
     private String op="";
     private String [] opList={"&","|"};
     
-    public boolean set (String exp, int position, int nbVoisins, Variable [] var) {
+    public boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur) {
         if (exp.length()<=position || !Arrays.toString(opList).contains(""+exp.charAt(position))) {
+            erreur[0]="Impossible de convertir "+exp+" en condition binaire";
             return false;
         }
         boolean b=false;
@@ -22,15 +23,16 @@ public class OpLogBin extends Condition{
             }
         }
         if (!b) {
+            erreur[0]="Aucune operation conditionnelle binaire ne correspond à "+exp;
             return false;
         }
         String exp1=(new Immediat ()).deParenthesage(exp.substring(0,debut));
         String exp2=(new Immediat ()).deParenthesage(exp.substring(position+1,exp.length()));
-        cond1=getCond(exp1,nbVoisins,var);
+        cond1=getCond(exp1,nbVoisins,var,erreur);
         if (cond1==null) {
             return false;
         }
-        cond2=getCond(exp2,nbVoisins,var);
+        cond2=getCond(exp2,nbVoisins,var,erreur);
         if (cond2==null) {
             return false;
         }

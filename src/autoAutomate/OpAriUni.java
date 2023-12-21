@@ -5,8 +5,9 @@ public class OpAriUni extends Valeur{
     private String op="";
     private String [] opList={"verif","count","#"};
     
-    public boolean set (String exp, int position, int nbVoisins, Variable [] var) {
+    public boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur) {
         if (exp.length()<=position) {
+            erreur[0]="Impossible de convertir "+exp+" en operation arithmetique unaire";
             return false;
         }
         boolean b=false;
@@ -19,18 +20,19 @@ public class OpAriUni extends Valeur{
             }
         }
         if (!b) {
+            erreur[0]="Aucune operation arithmetique unaire ne correspond à "+exp;
             return false;
         }
         String exp1=(new Immediat ()).deParenthesage(exp.substring(position+1,exp.length()));
         switch (op) {
             case "verif": {
-                obj=(new OpLogBin ()).getCond(exp1,nbVoisins,var);
+                obj=(new OpLogBin ()).getCond(exp1,nbVoisins,var,erreur);
                 if (obj!=null) {
                     return true;
                 }
             }break;
             case "count": {
-                obj=(new Immediat ()).getVal(exp1,nbVoisins,var);
+                obj=(new Immediat ()).getVal(exp1,nbVoisins,var,erreur);
                 if (obj!=null) {
                     return true;
                 }
