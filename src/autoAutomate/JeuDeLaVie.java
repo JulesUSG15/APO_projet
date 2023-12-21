@@ -5,15 +5,17 @@ import java.util.ArrayList;
 
 import java.awt.event.*;
 import javax.swing.*;
+import src.autoAutomate.Turtle;
+
 
 
 public class JeuDeLaVie extends JFrame implements ActionListener  {
 
     private ArrayList<Tableau> simulation = new ArrayList<Tableau>();
     private Regles reg;
-     JTextField fieldEtapes, fieldTaille;
-     JComboBox<String> choixGeneration;
-     JButton btnSimulation;
+    JTextField fieldEtapes, fieldTaille;
+    JComboBox<String> choixGeneration;
+    JButton btnSimulation;
 
     public JeuDeLaVie() {
         this.reg = new Regles();
@@ -22,23 +24,22 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
     
     public void main(String[] args) {
 
-        // System.out.println(this.reg.getExp());
-
         // Création de l'interface graphique
         
-        JFrame f = new JFrame();
+        JFrame f = new JFrame("Simulation - Jeu de la vie");
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JLabel titre = new JLabel("Jeu de la vie");
         titre.setBounds(20,10,200,30);
 
         JLabel labelTaille = new JLabel("Taille du tableau :");
         labelTaille.setBounds(20,40,120,30);
-        fieldTaille = new JTextField();
+        fieldTaille = new JTextField("10");
         fieldTaille.setBounds(20,70,120,30);
 
         JLabel labelEtapes = new JLabel("Nombre d'étapes :");
         labelEtapes.setBounds(150,40,120,30);
-        fieldEtapes = new JTextField();
+        fieldEtapes = new JTextField("5");
         fieldEtapes.setBounds(150,70,120,30);
 
         String[] choices = { "Initailisation aléatoire","Initailisation manuelle"};
@@ -90,7 +91,9 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
             }
 
             this.simuler(tab, etapes);
-            this.afficherConsole();
+            // this.afficherConsole();
+            this.afficherGraphique();
+
         }
     }
 
@@ -122,12 +125,60 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
     }
 
     public void afficherTabConsole (Tableau tab) {
-        for (int j=0;j<tab.getTaille();j++) {
-            for (int i=0;i<tab.getTaille();i++) {
-                System.out.print((int)tab.getVal(j,i)+" ");
+        for (int i=0;i<tab.getTaille();i++) {
+            for (int j=0;j<tab.getTaille();j++) {
+                System.out.print((int)tab.getVal(i,j)+" ");
             }
             System.out.println("");
         }
         System.out.println("");
+    }
+
+    public void afficherGraphique() {
+        int width = 500;
+        int step = width / this.simulation.get(0).getTaille();
+                
+        Turtle turtle = new Turtle();
+        turtle.create(width, width + 100);
+        turtle.setTitle("Jeu de la vie");
+
+        for (Tableau tab : this.simulation) {
+
+            this.afficheGraphiqueTableau(turtle, tab, step);
+            // try {
+            //     Thread.sleep(2000);
+            // } catch (InterruptedException e) {
+            //     e.printStackTrace();
+            // }    
+        }
+    }
+
+    public void afficheGraphiqueTableau(Turtle turtle, Tableau tab, int step) {
+            turtle.clear();
+            turtle.setColor(java.awt.Color.BLACK);
+            
+            turtle.fly(0, 0);
+            turtle.go(tab.getTaille() * step, 0);
+            turtle.go(tab.getTaille() * step, tab.getTaille() * step);
+            turtle.go(0, tab.getTaille() * step);
+            turtle.go(0, 0);
+
+             for (int i = 0; i< tab.getTaille(); i++) {
+                turtle.fly(i * step, 0);
+                turtle.go(i * step, tab.getTaille() * step);
+                
+                for (int j = 0; j < tab.getTaille(); j++) {
+                    turtle.fly(0, j * step);
+                    turtle.go(tab.getTaille() * step, j * step);
+
+                    if (tab.getVal(j, i) == 1) {
+                        turtle.fly((i + 0.5)*step,(tab.getTaille() - j - 0.5)*step);
+                        turtle.setColor(java.awt.Color.BLACK);
+                        turtle.spot(step);
+                    }
+                }
+            }
+
+
     }
 }
