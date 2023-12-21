@@ -1,7 +1,9 @@
 package src.autoAutomate;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import java.awt.event.*;
 import javax.swing.*;
@@ -16,6 +18,7 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
     JTextField fieldEtapes, fieldTaille;
     JComboBox<String> choixGeneration;
     JButton btnSimulation;
+    private int tabDisplayed = 0;
 
     public JeuDeLaVie() {
         this.reg = new Regles();
@@ -91,9 +94,11 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
             }
 
             this.simuler(tab, etapes);
-            // this.afficherConsole();
-            this.afficherGraphique();
 
+            int width = 500;
+            int step = width / this.simulation.get(0).getTaille();
+            Turtle turtle = this.createFenetreGraphique(width);
+            this.afficherTableauGraphique(turtle, this.simulation.get(0), step);
         }
     }
 
@@ -134,51 +139,69 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
         System.out.println("");
     }
 
-    public void afficherGraphique() {
-        int width = 500;
-        int step = width / this.simulation.get(0).getTaille();
-                
+    public Turtle createFenetreGraphique(int width) {                
         Turtle turtle = new Turtle();
         turtle.create(width, width + 100);
+        turtle.setLayout(null);
         turtle.setTitle("Jeu de la vie");
 
-        for (Tableau tab : this.simulation) {
-
-            this.afficheGraphiqueTableau(turtle, tab, step);
-            // try {
-            //     Thread.sleep(2000);
-            // } catch (InterruptedException e) {
-            //     e.printStackTrace();
-            // }    
-        }
-    }
-
-    public void afficheGraphiqueTableau(Turtle turtle, Tableau tab, int step) {
-            turtle.clear();
-            turtle.setColor(java.awt.Color.BLACK);
-            
-            turtle.fly(0, 0);
-            turtle.go(tab.getTaille() * step, 0);
-            turtle.go(tab.getTaille() * step, tab.getTaille() * step);
-            turtle.go(0, tab.getTaille() * step);
-            turtle.go(0, 0);
-
-             for (int i = 0; i< tab.getTaille(); i++) {
-                turtle.fly(i * step, 0);
-                turtle.go(i * step, tab.getTaille() * step);
-                
-                for (int j = 0; j < tab.getTaille(); j++) {
-                    turtle.fly(0, j * step);
-                    turtle.go(tab.getTaille() * step, j * step);
-
-                    if (tab.getVal(j, i) == 1) {
-                        turtle.fly((i + 0.5)*step,(tab.getTaille() - j - 0.5)*step);
-                        turtle.setColor(java.awt.Color.BLACK);
-                        turtle.spot(step);
-                    }
+        JButton btnNext = new JButton("Suivant");
+        btnNext.setBounds(140, 20, 100, 30);
+        turtle.add(btnNext);
+        btnNext.setVisible(true);
+        btnNext.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (tabDisplayed < simulation.size() - 1) {
+                    tabDisplayed++;
+                    int step = width / simulation.get(0).getTaille();
+                    afficherTableauGraphique(turtle, simulation.get(tabDisplayed), step);
                 }
             }
+        });
 
+        JButton btnPrevious = new JButton("Précédent");
+        btnPrevious.setBounds(20, 20, 100, 30);
+        turtle.add(btnPrevious);
+        btnPrevious.setVisible(true);
+        btnPrevious.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (tabDisplayed > 0) {
+                    tabDisplayed--;
+                    int step = width / simulation.get(0).getTaille();
+                    afficherTableauGraphique(turtle, simulation.get(tabDisplayed), step);
+                }
+            }
+        });
 
+        return turtle;
+    }
+
+    public void afficherTableauGraphique(Turtle turtle, Tableau tab, int step) {
+        turtle.clear();
+        turtle.setColor(java.awt.Color.BLACK);
+        
+        turtle.fly(0, 0);
+        turtle.go(tab.getTaille() * step, 0);
+        turtle.go(tab.getTaille() * step, tab.getTaille() * step);
+        turtle.go(0, tab.getTaille() * step);
+        turtle.go(0, 0);
+
+            for (int i = 0; i< tab.getTaille(); i++) {
+            turtle.fly(i * step, 0);
+            turtle.go(i * step, tab.getTaille() * step);
+            
+            for (int j = 0; j < tab.getTaille(); j++) {
+                turtle.fly(0, j * step);
+                turtle.go(tab.getTaille() * step, j * step);
+
+                if (tab.getVal(j, i) == 1) {
+                    turtle.fly((i + 0.5)*step,(tab.getTaille() - j - 0.5)*step);
+                    turtle.setColor(java.awt.Color.BLACK);
+                    turtle.spot(step);
+                }
+            }
+        }
+
+        turtle.render();
     }
 }
