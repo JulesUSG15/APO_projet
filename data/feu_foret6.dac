@@ -1,0 +1,19 @@
+/* Feu de forêt à 6 voisins */
+1,0; /* 0° */
+1,1; /* 60° */
+0,1; /* 120° */
+-1,0; /* 180° */
+0,-1; /* 240° */
+1,-1; /* 300° */
+@
+
+/* 0 pas de forêt */
+/* 1 forêt */
+/* 2 forêt en feu */
+/* 3 forêt brulée */
+
+#(0)=2.0?     /* La forêt en feu devient brulée */
+    1.0:3.0; 
+#(0)=1.0?     /* La forêt prend feu ou pas en fonction du nombre de forêts voisines en feu */
+    ($q+(verif(#(1)=2.0)*($p+$fd))+(verif(#(2)=2.0)*($p+0.5*$fd+0.866*$fh))+(verif(#(3)=2.0)*($p-0.5*$fd+0.866*$fh))+(verif(#(4)=2.0)*($p-$fd))+(verif(#(5)=2.0)*($p-0.5*$fd-0.866*$fh))+(verif(#(6)=2.0)*($p+0.5*$fd-0.866*$fh))):2.0,
+    1.0-($q+(verif(#(1)=2.0)*($p+$fd))+(verif(#(2)=2.0)*($p+0.5*$fd+0.866*$fh))+(verif(#(3)=2.0)*($p-0.5*$fd+0.866*$fh))+(verif(#(4)=2.0)*($p-$fd))+(verif(#(5)=2.0)*($p-0.5*$fd-0.866*$fh))+(verif(#(6)=2.0)*($p+0.5*$fd-0.866*$fh))):1.0; 
