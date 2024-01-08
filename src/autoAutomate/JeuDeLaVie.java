@@ -1,24 +1,23 @@
 package src.autoAutomate;
 import java.util.Random;
-import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
 import java.awt.event.*;
 import javax.swing.*;
-import src.autoAutomate.Turtle;
-
-
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
 
 public class JeuDeLaVie extends JFrame implements ActionListener  {
 
     private ArrayList<Tableau> simulation = new ArrayList<Tableau>();
     private Regles reg;
-    JTextField fieldEtapes, fieldTaille;
-    JComboBox<String> choixGeneration;
-    JButton btnSimulation;
-    private int tabDisplayed = 0;
+
+    // Interface graphique
+    private int width = 500;
+    private int frameDisplayed = 0;
+    private Turtle turtle = new Turtle();;
+    private JComboBox<String> choixGeneration;
+    private JTextField fieldEtapes, fieldTaille;
+    private JButton btnSimulation;
 
     public JeuDeLaVie() {
         this.reg = new Regles();
@@ -27,8 +26,27 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
     
     public void main(String[] args) {
 
+        // Gestion des touches
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+        @Override
+        public boolean dispatchKeyEvent(KeyEvent ke) {
+            synchronized (JeuDeLaVie.class) {
+                switch (ke.getID()) {
+                    case KeyEvent.KEY_PRESSED:
+                        if (ke.getKeyCode() == KeyEvent.VK_RIGHT) {
+                            nextFrame();                  
+                        } else if (ke.getKeyCode() == KeyEvent.VK_LEFT) {
+                            previousFrame();
+                        }
+                        break;
+                    }
+                    return false;
+                }
+            }
+        });
+
         // Création de l'interface graphique
-        
+
         JFrame f = new JFrame("Simulation - Jeu de la vie");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -67,7 +85,8 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+
+        // Lancement de la simulation
         if(e.getSource() == btnSimulation){
             int taille = 0;
             int etapes = 0;
@@ -78,6 +97,7 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
                 System.out.println("Veuillez entrer des valeurs correctes");
                 return;
             }
+
             // On verifie que les champs ne sont pas vides et que les valeurs sont correctes
             if (taille < 1 || etapes < 1) {
                 System.out.println("Veuillez entrer des valeurs correctes");
@@ -87,18 +107,31 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
             Tableau tab = new Tableau (2, taille);
 
             if (choixGeneration.getSelectedItem() == "Initailisation manuelle") {
-                this.initialiserTableauManuelle(tab);
+                initialiserTableauManuelle(tab);
             }
             else {
-                this.initialiserTableauAleatoire(tab);
+                initialiserTableauAleatoire(tab);
             }
 
-            this.simuler(tab, etapes);
+            //  On lance la simulation
+            simuler(tab, etapes);
 
-            int width = 500;
-            int step = width / this.simulation.get(0).getTaille();
-            Turtle turtle = this.createFenetreGraphique(width);
-            this.afficherTableauGraphique(turtle, this.simulation.get(0), step);
+            int step = width / simulation.get(0).getTaille();
+
+            // On ferme la fenetre de l'interface graphique précédente
+            turtle.dispatchEvent(new WindowEvent(turtle, WindowEvent.WINDOW_CLOSING));
+
+
+            // On crée une nouvelle fenetre pour afficher la simulation
+            turtle = new Turtle();
+            turtle.create(width, width);
+            turtle.setLayout(null);
+            turtle.setTitle("Jeu de la vie");
+
+            frameDisplayed = 0;
+
+            // On affiche le premier tableau de la simulation
+            afficherTableauGraphique(simulation.get(0), step);
         }
     }
 
@@ -116,15 +149,15 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
     }
 
     public void simuler(Tableau tab, int n) {
-        this.simulation.clear();
+        simulation.clear();
          for (int i=0; i < n; i++) {
-            tab = this.reg.appliquer(tab);
-            this.simulation.add(tab);
+            tab = reg.appliquer(tab);
+            simulation.add(tab);
         }
     } 
 
     public void afficherConsole() {
-        for (Tableau t : this.simulation) {
+        for (Tableau t : simulation) {
             afficherTabConsole(t);
         }
     }
@@ -139,44 +172,25 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
         System.out.println("");
     }
 
-    public Turtle createFenetreGraphique(int width) {                
-        Turtle turtle = new Turtle();
-        turtle.create(width, width + 100);
-        turtle.setLayout(null);
-        turtle.setTitle("Jeu de la vie");
-
-        JButton btnNext = new JButton("Suivant");
-        btnNext.setBounds(140, 20, 100, 30);
-        turtle.add(btnNext);
-        btnNext.setVisible(true);
-        btnNext.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (tabDisplayed < simulation.size() - 1) {
-                    tabDisplayed++;
-                    int step = width / simulation.get(0).getTaille();
-                    afficherTableauGraphique(turtle, simulation.get(tabDisplayed), step);
-                }
-            }
-        });
-
-        JButton btnPrevious = new JButton("Précédent");
-        btnPrevious.setBounds(20, 20, 100, 30);
-        turtle.add(btnPrevious);
-        btnPrevious.setVisible(true);
-        btnPrevious.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (tabDisplayed > 0) {
-                    tabDisplayed--;
-                    int step = width / simulation.get(0).getTaille();
-                    afficherTableauGraphique(turtle, simulation.get(tabDisplayed), step);
-                }
-            }
-        });
-
-        return turtle;
+    // Passe à la frame suivante
+    public void nextFrame() {
+        if (frameDisplayed < simulation.size() - 1) {
+            frameDisplayed++;
+            int step = width / simulation.get(0).getTaille();
+            afficherTableauGraphique(simulation.get(frameDisplayed), step);
+        }     
     }
 
-    public void afficherTableauGraphique(Turtle turtle, Tableau tab, int step) {
+    // Passe à la frame précédente
+    public void previousFrame() {
+        if (frameDisplayed > 0) {
+            frameDisplayed--;
+            int step = width / simulation.get(0).getTaille();
+            afficherTableauGraphique(simulation.get(frameDisplayed), step);
+        }   
+    }
+
+    public void afficherTableauGraphique(Tableau tab, int step) {
         turtle.clear();
         turtle.setColor(java.awt.Color.BLACK);
         
