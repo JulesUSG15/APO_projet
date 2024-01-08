@@ -1,35 +1,71 @@
 package src.autoAutomate;
-import java.util.Scanner;
 
-import src.autoAutomate.ReglesAutomate1D;
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Automate1D {
-    public static void main(String[] args) {
-        ReglesAutomate1D regles = new ReglesAutomate1D();
-        Scanner scanner = new Scanner(System.in);
+public class Automate1D extends JFrame implements ActionListener {
 
-        System.out.println("Simulation de l'automate 1D");
+    private ReglesAutomate1D regles;
+    private JTextField champNumeroRegle;
+    private JTextField champConfigInitiale;
+    private JTextField champNombreEtapes;
+    private JTextArea zoneResultats;
 
-        // Demander à l'utilisateur le numéro de la règle
-        System.out.print("Veuillez entrer le numéro de la règle (ex. 30) : ");
-        int numeroRegle = scanner.nextInt();
-        regles.initialiserAvecRegle(numeroRegle);
+    public Automate1D() {
+        regles = new ReglesAutomate1D();
+        champNumeroRegle = new JTextField();
+        champConfigInitiale = new JTextField();
+        champNombreEtapes = new JTextField();
+        zoneResultats = new JTextArea();
 
-        // Demander à l'utilisateur la configuration initiale
-        System.out.print("Veuillez entrer la configuration initiale (ex. 1001010) : ");
-        String configurationInitiale = scanner.next();
-        regles.initialiserConfiguration(configurationInitiale);
+        JButton boutonSimuler = new JButton("Simuler");
 
-        // Demander à l'utilisateur le nombre d'étapes de simulation
-        System.out.print("Veuillez entrer le nombre d'étapes de simulation : ");
-        int nombreEtapes = scanner.nextInt();
+        boutonSimuler.addActionListener(this);
 
-        // Effectuer la simulation
-        for (int etape = 0; etape < nombreEtapes; etape++) {
-            System.out.println("Étape " + (etape + 1) + " : " + regles);
-            regles.appliquerRegle();
+        JPanel panneauPrincipal = new JPanel();
+        panneauPrincipal.setLayout(new BoxLayout(panneauPrincipal, BoxLayout.Y_AXIS));
+
+        panneauPrincipal.add(new JLabel("Numéro de Règle :"));
+        panneauPrincipal.add(champNumeroRegle);
+        panneauPrincipal.add(new JLabel("Configuration Initiale :"));
+        panneauPrincipal.add(champConfigInitiale);
+        panneauPrincipal.add(new JLabel("Nombre d'Étapes :"));
+        panneauPrincipal.add(champNombreEtapes);
+        panneauPrincipal.add(boutonSimuler);
+        panneauPrincipal.add(zoneResultats);
+
+        add(panneauPrincipal);
+
+        setTitle("Simulation Automate 1D");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals("Simuler")) {
+            int numeroRegle = Integer.parseInt(champNumeroRegle.getText());
+            regles.initialiserAvecRegle(numeroRegle);
+
+            String configInitiale = champConfigInitiale.getText();
+            regles.initialiserConfiguration(configInitiale);
+
+            int nombreEtapes = Integer.parseInt(champNombreEtapes.getText());
+            StringBuilder resultat = new StringBuilder();
+
+            for (int etape = 0; etape < nombreEtapes; etape++) {
+                resultat.append("Étape ").append(etape + 1).append(": ").append(regles).append("\n");
+                regles.appliquerRegle();
+            }
+
+            zoneResultats.setText(resultat.toString());
         }
+    }
 
-        scanner.close();
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new Automate1D());
     }
 }
