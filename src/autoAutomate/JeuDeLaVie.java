@@ -24,7 +24,7 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
         this.reg.charger("data/jeu_vie.dac");
     }
     
-    public void main(String[] args) {
+    public void main() {
 
         // Gestion des touches
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {

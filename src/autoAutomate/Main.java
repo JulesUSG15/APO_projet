@@ -29,7 +29,7 @@ public class Main {
         btnJeuDeLaVie.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JeuDeLaVie j = new JeuDeLaVie();
-                j.main(args);
+                j.main();
             }
         });
 
