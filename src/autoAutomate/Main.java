@@ -1,42 +1,57 @@
 package src.autoAutomate;
-import java.util.Scanner;
+import javax.swing.*;
+import java.awt.event.*;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        JFrame frame = new JFrame("Menu - Projet APO");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
 
-        System.out.println("1. Automate 1D");
-        System.out.println("2. Règle de majorité");
-        System.out.println("3. Jeu de la vie");
-        System.out.println("4. Feu de forêt");
-        System.out.println("0. Quitter");
-        System.out.print("Choisissez une option : ");
+        JButton btnAutomate1D = new JButton("Automate 1D");
+        JButton btnRegleMajorite = new JButton("Règle de majorité");
+        JButton btnJeuDeLaVie = new JButton("Jeu de la vie");
+        JButton btnFeuDeForet = new JButton("Feu de forêt");
+        JButton btnQuitter = new JButton("Quitter");
 
-        int option = scanner.nextInt();
-
-        switch (option) {
-            case 1:
+        btnAutomate1D.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 Automate1D.main(args);
-                break;
-            case 2:
+            }
+        });
+
+        btnRegleMajorite.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 //RegleMajorite.main(args);
-                break;
-            case 3:
+            }
+        });
+
+        btnJeuDeLaVie.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 JeuDeLaVie j = new JeuDeLaVie();
                 j.main(args);
-                break;
-            case 4:
+            }
+        });
+
+        btnFeuDeForet.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 //FeuDeForet.main(args);
-                break;
-            case 0:
+            }
+        });
+
+        btnQuitter.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 System.out.println("Au revoir !");
-                break;
-            default:
-                System.out.println("Option invalide. Veuillez réessayer.");
-                break;
-        }
-        
-        scanner.close();
-        
+                System.exit(0);
+            }
+        });
+
+        frame.setLayout(new java.awt.GridLayout(5, 1));
+        frame.add(btnAutomate1D);
+        frame.add(btnRegleMajorite);
+        frame.add(btnJeuDeLaVie);
+        frame.add(btnFeuDeForet);
+        frame.add(btnQuitter);
+        frame.setVisible(true);
     }
 }
