@@ -3,7 +3,7 @@ package src.autoAutomate;
 public class OpAriUni extends Valeur{
     private Object obj;
     private String op="";
-    private String [] opList={"verif","count","#"};
+    private String [] opList={"verif","count","#","cos","sin"};
     
     public boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur) {
         if (exp.length()<=position) {
@@ -44,6 +44,18 @@ public class OpAriUni extends Valeur{
                     return true;
                 }
             }break;
+            case "cos": {
+                obj=(new Immediat ()).getVal(exp1,nbVoisins,var,erreur);
+                if (obj!=null) {
+                    return true;
+                }
+            }break;
+            case "sin": {
+                obj=(new Immediat ()).getVal(exp1,nbVoisins,var,erreur);
+                if (obj!=null) {
+                    return true;
+                }
+            }break;
         }
         return false;
     }
@@ -73,6 +85,12 @@ public class OpAriUni extends Valeur{
                     return tab.getVal(indices);
                 }
                 return tab.getVal(voisins[(int)obj-1]);
+            }
+            case "cos": {
+                return Math.cos(Math.PI*((Valeur)obj).get(tab, voisins, indices)/180);
+            }
+            case "sin": {
+                return Math.sin(Math.PI*((Valeur)obj).get(tab, voisins, indices)/180);
             }
         }
         return 0;
