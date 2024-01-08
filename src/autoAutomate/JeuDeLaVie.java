@@ -48,7 +48,12 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
         // Création de l'interface graphique
 
         JFrame f = new JFrame("Simulation - Jeu de la vie");
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        
+        f.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                turtle.dispatchEvent(new WindowEvent(turtle, WindowEvent.WINDOW_CLOSING));
+            }
+        });
 
         JLabel titre = new JLabel("Jeu de la vie");
         titre.setBounds(20,10,200,30);
