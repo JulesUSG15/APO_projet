@@ -71,11 +71,6 @@ public class Tableau {
             if (exps==null || exps.length<2) {
                 return false;
             }
-            System.out.println(" ");
-            for (int i=0;i<exps.length;i++) {
-                System.out.println(exps[i]);
-            }
-            System.out.println(" ");
             dim=Integer.parseInt(exps[1]);
             taille=Integer.parseInt(exps[3]);
             tab=new Object [taille];
@@ -119,16 +114,16 @@ public class Tableau {
     public boolean sauvegarder (String fichier) {
         try {
             String exp=new String ();
-            exp="Dim: "+dim+" Taille: "+taille+"?\r\n";
+            exp="Dim: "+dim+" Taille: "+taille+"\r\n";
             int [] indices= new int [dim];
             while (indices[0]<taille) {
                 for (int i=0;i<dim;i++) {
                     if (indices[i]>=taille) {
                         indices[i]=0;
+                        exp+="\r\n";
                     }
                 }
-                
-                
+                exp+=getVal(indices)+" ";
                 indices[dim-1]++;
                 for (int i=dim-2;i>=0;i--) {
                     if (indices[i+1]>=taille) {
