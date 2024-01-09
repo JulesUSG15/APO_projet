@@ -3,6 +3,8 @@ package src.autoAutomate;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class Tableau {
     private int dim;
@@ -135,6 +137,45 @@ public class Tableau {
             return true;
         } catch (IOException e) {
             return false;
+        }
+    }
+
+    public void remplir (int nb, float val) {
+        int [] indices= new int [dim];
+        ArrayList <int []> libres=new ArrayList <int []> ();
+        while (indices[0]<taille) {
+            for (int i=0;i<dim;i++) {
+                if (indices[i]>=taille) {
+                    indices[i]=0;
+                }
+            }
+            if (getVal(indices)!=val) {
+                int [] add=new int [dim];
+                for (int i=0;i<dim;i++) {
+                    add[i]=indices[i];
+                }
+                libres.add(add);
+            }
+            indices[dim-1]++;
+            for (int i=dim-2;i>=0;i--) {
+                if (indices[i+1]>=taille) {
+                    indices[i]++;
+                }
+            }
+        }
+        if (nb>=libres.size()) {
+            for (int i=0;i<libres.size();i++) {
+                setVal(libres.get(i),val);
+            }
+        }
+        else {
+            Random random = new Random();
+            int hasard;
+            for (int i=0;i<nb;i++) {
+                hasard=random.nextInt(libres.size());
+                setVal(libres.get(hasard),val);
+                libres.remove(hasard);
+            }
         }
     }
     
