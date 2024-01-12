@@ -244,4 +244,29 @@ public class Tableau {
         System.out.println("set impossible : "+(dim+1)+" parametres attendus");
         return false;
     }
+
+    public void afficher (boolean entier) {
+        int [] indices= new int [dim];
+        while (indices[0]<taille) {
+            for (int i=0;i<dim;i++) {
+                if (indices[i]>=taille) {
+                    indices[i]=0;
+                    System.out.print("\r\n");
+                }
+            }
+            if (entier) {
+                System.out.print((int)getVal(indices)+" ");
+            }
+            else {
+                System.out.print(getVal(indices)+" ");
+            }
+            indices[dim-1]++;
+            for (int i=dim-2;i>=0;i--) {
+                if (indices[i+1]>=taille) {
+                    indices[i]++;
+                }
+            }
+        }
+    }
+
 }

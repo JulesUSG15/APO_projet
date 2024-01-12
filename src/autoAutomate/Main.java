@@ -35,7 +35,8 @@ public class Main {
 
         btnFeuDeForet.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //FeuDeForet.main(args);
+                FeuDeForet f = new FeuDeForet();
+                f.main();
             }
         });
 
