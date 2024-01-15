@@ -14,14 +14,14 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
     // Interface graphique
     private int width = 500;
     private int frameDisplayed = 0;
-    private Turtle turtle = new Turtle();;
+    private Turtle turtle = new Turtle();
     private JComboBox<String> choixGeneration;
     private JTextField fieldEtapes, fieldTaille;
     private JButton btnSimulation;
 
     public JeuDeLaVie() {
         this.reg = new Regles();
-        this.reg.charger("data/jeu_vie.dac");
+        this.reg.charger("data/dac/jeu_vie.dac");
     }
     
     public void main() {

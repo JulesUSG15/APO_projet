@@ -13,18 +13,18 @@ public class FeuDeForet extends JFrame implements ActionListener  {
 
     // Interface graphique
     private int width = 500;
-    private int frameDisplayed = 0;
-    private Turtle turtle = new Turtle();;
-    private JComboBox<String> choixGeneration;
-    private JTextField fieldEtapes, fieldTaille, fieldQ, fieldP, fieldDensite, fieldPuisVent, fieldRotVent;
-    private JButton btnSimulation;
+    private int frameDisplayed = 0, etapes;
+    private Turtle turtle = new Turtle();
+    private JComboBox<String> choixVoisins;
+    private JTextField fieldEtapes, fieldTaille, fieldQ, fieldP, fieldDensite, fieldPuisVent, fieldRotVent, fieldCharger, fieldSauvegarder;
+    private JButton btnSimulation, btnPrepare, btnSetTaille, btnSetDensite, btnSetCharger, btnSetSauvegarder;
+    private JButton [][] tableau;
+    private Tableau tab;
+    private JFrame f;
+    private boolean grilleHexa;
 
     public FeuDeForet() {
         this.reg = new Regles();
-        this.reg.charger("data/Feu_foret8.dac");
-        for (int i=0;i<this.reg.getVarList().length;i++) {
-            System.out.print(this.reg.getVarList()[i]+" ");
-        }
     }
     
     public void main() {
@@ -50,7 +50,9 @@ public class FeuDeForet extends JFrame implements ActionListener  {
 
         // Création de l'interface graphique
 
-        JFrame f = new JFrame("Simulation - Feu de forêt");
+        tab=new Tableau(2,10);
+
+        f = new JFrame("Simulation - Feu de forêt");
         
         f.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -61,19 +63,16 @@ public class FeuDeForet extends JFrame implements ActionListener  {
         JLabel titre = new JLabel("Feu de forêt");
         titre.setBounds(20,10,200,30);
 
-        JLabel labelTaille = new JLabel("Taille du tableau :");
-        labelTaille.setBounds(20,40,120,30);
-        fieldTaille = new JTextField("10");
-        fieldTaille.setBounds(20,70,120,30);
-
         JLabel labelEtapes = new JLabel("Nombre d'étapes :");
-        labelEtapes.setBounds(150,40,120,30);
+        labelEtapes.setBounds(20,40,120,30);
         fieldEtapes = new JTextField("5");
-        fieldEtapes.setBounds(150,70,120,30);
+        fieldEtapes.setBounds(20,70,120,30);
 
-        String[] choices = { "Initailisation aléatoire","Initailisation manuelle"};
-        choixGeneration = new JComboBox<String>(choices);
-        choixGeneration.setBounds(280,70,180,30);
+        JLabel labelVoisins = new JLabel("Nombre de voisins :");
+        labelVoisins.setBounds(200,40,120,30);
+        String[] choices = { "4","6","8"};
+        choixVoisins = new JComboBox<String>(choices);
+        choixVoisins.setBounds(200,70,100,30);
 
         JLabel labelQ = new JLabel("Proba feu instant :");
         labelQ.setBounds(20,100,120,30);
@@ -100,13 +99,11 @@ public class FeuDeForet extends JFrame implements ActionListener  {
         fieldRotVent = new JTextField("270");
         fieldRotVent.setBounds(150,190,120,30);
 
-        btnSimulation = new JButton("Lancer la simulation");
-        btnSimulation.setBounds(20,230,150,30);
-        btnSimulation.addActionListener(this);
+        btnPrepare = new JButton("Préparer la simulation");
+        btnPrepare.setBounds(20,230,170,30);
+        btnPrepare.addActionListener(this);
 
         f.add(titre);
-        f.add(labelTaille);
-        f.add(fieldTaille);
         f.add(labelEtapes);
         f.add(fieldEtapes);
         f.add(labelQ);
@@ -119,8 +116,9 @@ public class FeuDeForet extends JFrame implements ActionListener  {
         f.add(fieldPuisVent);
         f.add(labelRotVent);
         f.add(fieldRotVent);
-        f.add(choixGeneration);
-        f.add(btnSimulation);
+        f.add(labelVoisins);
+        f.add(choixVoisins);
+        f.add(btnPrepare);
         f.setSize(500,500);
         f.setLayout(null);
         f.setVisible(true);
@@ -128,46 +126,94 @@ public class FeuDeForet extends JFrame implements ActionListener  {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
-        // Lancement de la simulation
-        if(e.getSource() == btnSimulation){
-            int taille = 0;
-            int etapes = 0;
-            double densite = 0;
+        // Lancement de la préparation
+        if (e.getSource() == btnPrepare) {
             try {
-                taille = Integer.parseInt(fieldTaille.getText());
                 etapes = Integer.parseInt(fieldEtapes.getText());
+                this.reg.charger("data/dac/Feu_foret"+choixVoisins.getSelectedItem()+".dac");
+                grilleHexa=Integer.parseInt((String)choixVoisins.getSelectedItem())==6;
                 reg.setVar("q",Double.parseDouble(fieldQ.getText()));
                 reg.setVar("p",Double.parseDouble(fieldP.getText()));
-                densite=Double.parseDouble(fieldDensite.getText());
                 double puis=Double.parseDouble(fieldPuisVent.getText());
-                double rot=Math.PI*(180-Double.parseDouble(fieldRotVent.getText()))/180;
+                double rot=Math.PI*(90-Double.parseDouble(fieldRotVent.getText()))/180;
                 reg.setVar("fh",puis*Math.sin(rot));
                 reg.setVar("fd",puis*Math.cos(rot));
             } catch (NumberFormatException ex) {
                 System.out.println("Veuillez entrer des valeurs correctes");
                 return;
             }
-
-            // On verifie que les champs ne sont pas vides et que les valeurs sont correctes
-            if (taille < 1 || etapes < 1 || densite<0) {
+            if (etapes < 1) {
                 System.out.println("Veuillez entrer des valeurs correctes");
                 return;
             }
-
-            Tableau tab = new Tableau (2, taille);
-
-            if (choixGeneration.getSelectedItem() == "Initailisation manuelle") {
-                initialiserTableauManuelle(tab);
+            pagePreparation();
+        }
+        // Modif de la taille du tableau
+        if (e.getSource() == btnSetTaille) {
+            int taille=0;
+            try {
+                taille=Integer.parseInt(fieldTaille.getText());
+            } catch (NumberFormatException ex) {
+                System.out.println("Veuillez entrer des valeurs correctes");
+                return;
             }
-            else {
-                initialiserTableauAleatoire(tab,densite);
+            if (taille < 1) {
+                System.out.println("Veuillez entrer des valeurs correctes");
+                return;
             }
+            tab=new Tableau (2,taille);
+            f.dispose();
+            pagePreparation();
+        }
+        // Generation aleatoire du tableau
+        if (e.getSource()==btnSetDensite) {
+            initialiserTableauAleatoire(Double.parseDouble(fieldDensite.getText()));
+            f.dispose();
+            pagePreparation();
+        }
+        // Chargement du fichier
+        if (e.getSource()==btnSetCharger) {
+            Tableau nouv=new Tableau (fieldCharger.getText());
+            if (nouv==null || nouv.getDim()!=2) {
+                System.out.println("Veuillez entrer des valeurs correctes");
+                return;
+            }
+            tab=nouv;
+            f.dispose();
+            pagePreparation();
+        }
+        // Sauvegarde du fichier
+        if (e.getSource()==btnSetSauvegarder) {
+            tab.sauvegarder(fieldSauvegarder.getText());
+            System.out.println("Tableau sauvegardé");
+        }
+        // Modif du tableau
+        if (tab!=null) {
+            for (int i=0;i<tab.getTaille();i++) {
+                for (int j=0;j<tab.getTaille();j++) {
+                    if (e.getSource() == tableau[i][j]) {
+                        tab.setVal(i,j,(tab.getVal(i,j)+1)%4);
+                        switch ((int)tab.getVal(i,j)) {
+                            case 1: {
+                                Color darkGreen=new Color (0,100, 0);
+                                tableau[i][j].setBackground(darkGreen);
+                            }break;
+                            case 2: tableau[i][j].setBackground(java.awt.Color.ORANGE);break;
+                            case 3: tableau[i][j].setBackground(java.awt.Color.BLACK);break;
+                            default: {
+                                Color ligthGreen=new Color (0,255, 0);
+                                tableau[i][j].setBackground(ligthGreen);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // Lancement de la simulation
+        if(e.getSource() == btnSimulation){
 
             //  On lance la simulation
             simuler(tab, etapes);
-
-            int step = width / simulation.get(0).getTaille();
 
             // On ferme la fenetre de l'interface graphique précédente
             turtle.dispatchEvent(new WindowEvent(turtle, WindowEvent.WINDOW_CLOSING));
@@ -182,15 +228,107 @@ public class FeuDeForet extends JFrame implements ActionListener  {
             frameDisplayed = 0;
 
             // On affiche le premier tableau de la simulation
-            afficherTableauGraphique(simulation.get(0), step);
+            afficherTableauGraphique(simulation.get(0));
         }
     }
 
-    public void initialiserTableauAleatoire(Tableau tab, double densite) {
+    public void pagePreparation () {
+        f = new JFrame("Préparation - Feu de forêt");
+        
+        JLabel labelTaille = new JLabel("Taille du tableau :");
+        labelTaille.setBounds(20,20,120,30);
+        fieldTaille = new JTextField(""+tab.getTaille());
+        fieldTaille.setBounds(150,20,120,30);
+        btnSetTaille = new JButton("Changer la taille");
+        btnSetTaille.setBounds(280,20,170,30);
+        btnSetTaille.addActionListener(this);
+
+        JLabel labelDensite = new JLabel("Densité de forêt :");
+        labelDensite.setBounds(20,50,120,30);
+        fieldDensite = new JTextField("0.5");
+        fieldDensite.setBounds(150,50,120,30);
+        btnSetDensite = new JButton("Générer aléatoirement");
+        btnSetDensite.setBounds(280,50,170,30);
+        btnSetDensite.addActionListener(this);
+
+        JLabel labelCharger = new JLabel("Tableau à charger :");
+        labelCharger.setBounds(20,80,120,30);
+        fieldCharger = new JTextField("data/tableaux/nom.txt");
+        fieldCharger.setBounds(150,80,120,30);
+        btnSetCharger = new JButton("Charger le tableau");
+        btnSetCharger.setBounds(280,80,170,30);
+        btnSetCharger.addActionListener(this);
+
+        JLabel labelSauvegarder = new JLabel("Sauvegarde du tableau :");
+        labelSauvegarder.setBounds(20,110,120,30);
+        fieldSauvegarder = new JTextField("data/tableaux/nom.txt");
+        fieldSauvegarder.setBounds(150,110,120,30);
+        btnSetSauvegarder = new JButton("Sauvegarder le tableau");
+        btnSetSauvegarder.setBounds(280,110,170,30);
+        btnSetSauvegarder.addActionListener(this);
+
+        btnSimulation = new JButton("Lancer la simulation");
+        btnSimulation.setBounds(150,150,170,30);
+        btnSimulation.addActionListener(this);
+
+        tableau = new JButton [tab.getTaille()][tab.getTaille()];
+        majTableauNormal();
+
+        f.add(labelTaille);
+        f.add(fieldTaille);
+        f.add(btnSetTaille);
+        f.add(labelDensite);
+        f.add(fieldDensite);
+        f.add(btnSetDensite);
+        f.add(labelCharger);
+        f.add(fieldCharger);
+        f.add(btnSetCharger);
+        f.add(labelSauvegarder);
+        f.add(fieldSauvegarder);
+        f.add(btnSetSauvegarder);
+        f.add(btnSimulation);
+        f.setSize(width,200+width);
+        f.setLayout(null);
+        f.setVisible(true);
+    }
+
+    public void majTableauNormal () {
+        Color darkGreen=new Color (0,100, 0);
+        Color ligthGreen=new Color (0,255, 0);
+        double step;
+        if (grilleHexa) {
+            step = (width-50) / tab.getTaille();
+        }
+        else {
+            step = (width-38) / tab.getTaille();
+        }
+        for (int i=0;i<tab.getTaille();i++) {
+            for (int j=0;j<tab.getTaille();j++) {
+                tableau[i][j]=new JButton ();
+                if (grilleHexa) {
+                    tableau[i][j].setBounds((int)(8+step/2*(j%2)+ i*(width-50)/tab.getTaille()),(int)(200+j*(width-50)/tab.getTaille()),(int)(step),(int)(step));
+                }
+                else {
+                    tableau[i][j].setBounds((int)(13+ i*(width-38)/tab.getTaille()),(int)(200+j*(width-38)/tab.getTaille()),(int)(step),(int)(step));
+                }
+                switch ((int)tab.getVal(i,j)) {
+                    case 1: tableau[i][j].setBackground(darkGreen);break;
+                    case 2: tableau[i][j].setBackground(java.awt.Color.ORANGE);break;
+                    case 3: tableau[i][j].setBackground(java.awt.Color.BLACK);break;
+                    default: tableau[i][j].setBackground(ligthGreen);
+                }
+                tableau[i][j].addActionListener(this);
+                f.add(tableau[i][j]);
+            }
+        }
+    }
+
+    public void initialiserTableauAleatoire(double densite) {
+        tab=new Tableau(2,tab.getTaille());
         tab.remplir((int)(Math.pow(tab.getTaille(),tab.getDim())*densite),1);
     }
 
-    public void initialiserTableauManuelle(Tableau tab) {
+    public void initialiserTableauManuelle() {
         System.out.println("Initialisation manuelle");
     }
 
@@ -214,8 +352,7 @@ public class FeuDeForet extends JFrame implements ActionListener  {
     public void nextFrame() {
         if (frameDisplayed < simulation.size() - 1) {
             frameDisplayed++;
-            int step = width / simulation.get(0).getTaille();
-            afficherTableauGraphique(simulation.get(frameDisplayed), step);
+            afficherTableauGraphique(simulation.get(frameDisplayed));
         }     
     }
 
@@ -223,12 +360,12 @@ public class FeuDeForet extends JFrame implements ActionListener  {
     public void previousFrame() {
         if (frameDisplayed > 0) {
             frameDisplayed--;
-            int step = width / simulation.get(0).getTaille();
-            afficherTableauGraphique(simulation.get(frameDisplayed), step);
+            afficherTableauGraphique(simulation.get(frameDisplayed));
         }   
     }
 
-    public void afficherTableauGraphique(Tableau tab, int step) {
+    public void afficherTableauGraphique(Tableau tab) {
+        double step=width / simulation.get(0).getTaille();
         turtle.clear();
         turtle.setColor(java.awt.Color.BLACK);
         
@@ -243,31 +380,21 @@ public class FeuDeForet extends JFrame implements ActionListener  {
 
         for (int i = 0; i< tab.getTaille(); i++) {
             for (int j = 0; j < tab.getTaille(); j++) {
-                turtle.fly(0, j * step);
-                turtle.go(tab.getTaille() * step, j * step);
 
-                switch ((int)tab.getVal(j, i)) {
-                    case 1: {
-                        turtle.fly((i + 0.5)*step,(tab.getTaille() - j - 0.5)*step);
-                        turtle.setColor(darkGreen);
-                        turtle.spot(step);
-                    }break;
-                    case 2: {
-                        turtle.fly((i + 0.5)*step,(tab.getTaille() - j - 0.5)*step);
-                        turtle.setColor(java.awt.Color.ORANGE);
-                        turtle.spot(step);
-                    }break;
-                    case 3: {
-                        turtle.fly((i + 0.5)*step,(tab.getTaille() - j - 0.5)*step);
-                        turtle.setColor(java.awt.Color.BLACK);
-                        turtle.spot(step);
-                    }break;
-                    default: {
-                        turtle.fly((i + 0.5)*step,(tab.getTaille() - j - 0.5)*step);
-                        turtle.setColor(ligthGreen);
-                        turtle.spot(step);
-                    }
+                if (grilleHexa) {
+                    turtle.fly((i + 0.5)*width/tab.getTaille()+step/2*(j%2),(tab.getTaille() - j - 0.5)*width/tab.getTaille());
                 }
+                else {
+                    turtle.fly((i + 0.5)*width/tab.getTaille(),(tab.getTaille() - j - 0.5)*width/tab.getTaille());
+                }
+
+                switch ((int)tab.getVal(i, j)) {
+                    case 1: turtle.setColor(darkGreen);break;
+                    case 2: turtle.setColor(java.awt.Color.ORANGE);break;
+                    case 3: turtle.setColor(java.awt.Color.BLACK);break;
+                    default: turtle.setColor(ligthGreen);
+                }
+                turtle.spot(step);
             }
         }
         turtle.setColor(java.awt.Color.BLACK);
