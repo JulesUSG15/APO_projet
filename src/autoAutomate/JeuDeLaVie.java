@@ -104,7 +104,7 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
             }
 
             // On verifie que les champs ne sont pas vides et que les valeurs sont correctes
-            if (taille < 1 || etapes < 1) {
+            if (taille < 1 || etapes < 0) {
                 System.out.println("Veuillez entrer des valeurs correctes");
                 return;
             }
@@ -195,7 +195,7 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
 
         for (int i = 0; i< tab.getTaille(); i++) {
             for (int j = 0; j < tab.getTaille(); j++) {
-                if (tab.getVal(j, i) == 1) {
+                if (tab.getVal(i, j) == 1) {
                     turtle.fly((i + 0.5)*step,(tab.getTaille() - j - 0.5)*step);
                     turtle.setColor(java.awt.Color.BLACK);
                     turtle.spot(step);

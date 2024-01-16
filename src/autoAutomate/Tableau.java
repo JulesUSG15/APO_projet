@@ -91,18 +91,18 @@ public class Tableau {
             }
             int [] indices= new int [dim];
             int num=4;
-            while (indices[0]<taille) {
-                for (int i=0;i<dim;i++) {
+            while (indices[dim-1]<taille) {
+                for (int i=dim-1;i>=0;i--) {
                     if (indices[i]>=taille) {
                         indices[i]=0;
                     }
                 }
                 setVal(indices,Double.valueOf(exps[num]));
                 num++;
-                indices[dim-1]++;
-                for (int i=dim-2;i>=0;i--) {
-                    if (indices[i+1]>=taille) {
-                        indices[i]++;
+                indices[0]++;
+                for (int i=0;i<dim-1;i++) {
+                    if (indices[i]>=taille) {
+                        indices[i+1]++;
                     }
                 }
             }
@@ -118,18 +118,18 @@ public class Tableau {
             String exp=new String ();
             exp="Dim: "+dim+" Taille: "+taille+"\r\n";
             int [] indices= new int [dim];
-            while (indices[0]<taille) {
-                for (int i=0;i<dim;i++) {
+            while (indices[dim-1]<taille) {
+                for (int i=dim-1;i>=0;i--) {
                     if (indices[i]>=taille) {
                         indices[i]=0;
                         exp+="\r\n";
                     }
                 }
                 exp+=getVal(indices)+" ";
-                indices[dim-1]++;
-                for (int i=dim-2;i>=0;i--) {
-                    if (indices[i+1]>=taille) {
-                        indices[i]++;
+                indices[0]++;
+                for (int i=0;i<dim-1;i++) {
+                    if (indices[i]>=taille) {
+                        indices[i+1]++;
                     }
                 }
             }
@@ -143,8 +143,8 @@ public class Tableau {
     public void remplir (int nb, float val) {
         int [] indices= new int [dim];
         ArrayList <int []> libres=new ArrayList <int []> ();
-        while (indices[0]<taille) {
-            for (int i=0;i<dim;i++) {
+        while (indices[dim-1]<taille) {
+            for (int i=dim-1;i>=0;i--) {
                 if (indices[i]>=taille) {
                     indices[i]=0;
                 }
@@ -156,10 +156,10 @@ public class Tableau {
                 }
                 libres.add(add);
             }
-            indices[dim-1]++;
-            for (int i=dim-2;i>=0;i--) {
-                if (indices[i+1]>=taille) {
-                    indices[i]++;
+            indices[0]++;
+            for (int i=0;i<dim-1;i++) {
+                if (indices[i]>=taille) {
+                    indices[i+1]++;
                 }
             }
         }
@@ -247,8 +247,8 @@ public class Tableau {
 
     public void afficher (boolean entier) {
         int [] indices= new int [dim];
-        while (indices[0]<taille) {
-            for (int i=0;i<dim;i++) {
+        while (indices[dim-1]<taille) {
+            for (int i=dim-1;i>=0;i--) {
                 if (indices[i]>=taille) {
                     indices[i]=0;
                     System.out.print("\r\n");
@@ -260,10 +260,10 @@ public class Tableau {
             else {
                 System.out.print(getVal(indices)+" ");
             }
-            indices[dim-1]++;
-            for (int i=dim-2;i>=0;i--) {
-                if (indices[i+1]>=taille) {
-                    indices[i]++;
+            indices[0]++;
+            for (int i=0;i<dim-1;i++) {
+                if (indices[i]>=taille) {
+                    indices[i+1]++;
                 }
             }
         }

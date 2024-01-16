@@ -69,10 +69,10 @@ public class FeuDeForet extends JFrame implements ActionListener  {
         fieldEtapes.setBounds(20,70,120,30);
 
         JLabel labelVoisins = new JLabel("Nombre de voisins :");
-        labelVoisins.setBounds(200,40,120,30);
+        labelVoisins.setBounds(150,40,120,30);
         String[] choices = { "4","6","8"};
         choixVoisins = new JComboBox<String>(choices);
-        choixVoisins.setBounds(200,70,100,30);
+        choixVoisins.setBounds(150,70,100,30);
 
         JLabel labelQ = new JLabel("Proba feu instant :");
         labelQ.setBounds(20,100,120,30);
@@ -83,11 +83,6 @@ public class FeuDeForet extends JFrame implements ActionListener  {
         labelP.setBounds(150,100,150,30);
         fieldP = new JTextField("0.1");
         fieldP.setBounds(150,130,120,30);
-
-        JLabel labelDensite = new JLabel("Densite de forêt :");
-        labelDensite.setBounds(300,100,150,30);
-        fieldDensite = new JTextField("0.5");
-        fieldDensite.setBounds(300,130,120,30);
 
         JLabel labelPuisVent = new JLabel("Puissance du vent :");
         labelPuisVent.setBounds(20,160,120,30);
@@ -110,8 +105,6 @@ public class FeuDeForet extends JFrame implements ActionListener  {
         f.add(fieldQ);
         f.add(labelP);
         f.add(fieldP);
-        f.add(labelDensite);
-        f.add(fieldDensite);
         f.add(labelPuisVent);
         f.add(fieldPuisVent);
         f.add(labelRotVent);
@@ -135,14 +128,14 @@ public class FeuDeForet extends JFrame implements ActionListener  {
                 reg.setVar("q",Double.parseDouble(fieldQ.getText()));
                 reg.setVar("p",Double.parseDouble(fieldP.getText()));
                 double puis=Double.parseDouble(fieldPuisVent.getText());
-                double rot=Math.PI*(90-Double.parseDouble(fieldRotVent.getText()))/180;
+                double rot=Math.PI*(-90+Double.parseDouble(fieldRotVent.getText()))/180;
                 reg.setVar("fh",puis*Math.sin(rot));
                 reg.setVar("fd",puis*Math.cos(rot));
             } catch (NumberFormatException ex) {
                 System.out.println("Veuillez entrer des valeurs correctes");
                 return;
             }
-            if (etapes < 1) {
+            if (etapes < 0) {
                 System.out.println("Veuillez entrer des valeurs correctes");
                 return;
             }
@@ -297,19 +290,19 @@ public class FeuDeForet extends JFrame implements ActionListener  {
         Color ligthGreen=new Color (0,255, 0);
         double step;
         if (grilleHexa) {
-            step = (width-50) / tab.getTaille();
+            step = 0.92*width / (tab.getTaille()+0.5);
         }
         else {
-            step = (width-38) / tab.getTaille();
+            step = 0.92*width / tab.getTaille();
         }
         for (int i=0;i<tab.getTaille();i++) {
             for (int j=0;j<tab.getTaille();j++) {
                 tableau[i][j]=new JButton ();
                 if (grilleHexa) {
-                    tableau[i][j].setBounds((int)(8+step/2*(j%2)+ i*(width-50)/tab.getTaille()),(int)(200+j*(width-50)/tab.getTaille()),(int)(step),(int)(step));
+                    tableau[i][j].setBounds((int)(12+((i+j/2)%tab.getTaille()+ 0.5*(j%2)) * step),(int)(200+j*step),(int)(step),(int)(step));
                 }
                 else {
-                    tableau[i][j].setBounds((int)(13+ i*(width-38)/tab.getTaille()),(int)(200+j*(width-38)/tab.getTaille()),(int)(step),(int)(step));
+                    tableau[i][j].setBounds((int)(12+i*step),(int)(200+j*step),(int)(step),(int)(step));
                 }
                 switch ((int)tab.getVal(i,j)) {
                     case 1: tableau[i][j].setBackground(darkGreen);break;
@@ -365,7 +358,13 @@ public class FeuDeForet extends JFrame implements ActionListener  {
     }
 
     public void afficherTableauGraphique(Tableau tab) {
-        double step=width / simulation.get(0).getTaille();
+        double step;
+        if (grilleHexa) {
+            step=width / (simulation.get(0).getTaille()+0.5);
+        }
+        else {
+            step=width / simulation.get(0).getTaille();
+        }
         turtle.clear();
         turtle.setColor(java.awt.Color.BLACK);
         
@@ -382,10 +381,10 @@ public class FeuDeForet extends JFrame implements ActionListener  {
             for (int j = 0; j < tab.getTaille(); j++) {
 
                 if (grilleHexa) {
-                    turtle.fly((i + 0.5)*width/tab.getTaille()+step/2*(j%2),(tab.getTaille() - j - 0.5)*width/tab.getTaille());
+                    turtle.fly(((i+j/2)%tab.getTaille()+ 0.5*(j%2)+0.5) * step,(tab.getTaille() - j - 0.5)*step);
                 }
                 else {
-                    turtle.fly((i + 0.5)*width/tab.getTaille(),(tab.getTaille() - j - 0.5)*width/tab.getTaille());
+                    turtle.fly((i + 0.5)*step,(tab.getTaille() - j - 0.5)*step);
                 }
 
                 switch ((int)tab.getVal(i, j)) {
@@ -395,14 +394,20 @@ public class FeuDeForet extends JFrame implements ActionListener  {
                     default: turtle.setColor(ligthGreen);
                 }
                 turtle.spot(step);
+                turtle.setColor(java.awt.Color.BLACK);
+                if (grilleHexa) {
+                    turtle.fly(((i+j/2)%tab.getTaille()+ 0.5*(j%2)) * step, (tab.getTaille() - j - 1)*step);
+                    turtle.go(((i+j/2)%tab.getTaille()+ 0.5*(j%2)) * step, (tab.getTaille() - j)*step);
+                }
+                else {
+                    turtle.fly(i * step, (tab.getTaille() - j - 1)*step);
+                    turtle.go(i * step, (tab.getTaille() - j)*step);
+                }
             }
         }
-        turtle.setColor(java.awt.Color.BLACK);
         for (int i = 0; i< tab.getTaille(); i++) {
-            turtle.fly(i * step, 0);
-            turtle.go(i * step, tab.getTaille() * step);
             turtle.fly(0, i * step);
-            turtle.go(tab.getTaille() * step, i * step);
+            turtle.go(width, i * step);
         }
 
         turtle.render();
