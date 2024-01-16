@@ -22,7 +22,8 @@ public class Main {
 
         btnRegleMajorite.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //RegleMajorite.main(args);
+                Majorite m = new Majorite();
+                m.main();
             }
         });
 

@@ -178,6 +178,25 @@ public class Tableau {
             }
         }
     }
+
+    public void intialiserAleatoirement (int min, int max) {
+        int [] indices= new int [dim];
+        Random random = new Random();
+        while (indices[dim-1]<taille) {
+            for (int i=dim-1;i>=0;i--) {
+                if (indices[i]>=taille) {
+                    indices[i]=0;
+                }
+            }
+            setVal(indices,random.nextInt(min,max+1));
+            indices[0]++;
+            for (int i=0;i<dim-1;i++) {
+                if (indices[i]>=taille) {
+                    indices[i+1]++;
+                }
+            }
+        }
+    }
     
     public int getDim () {
         return dim;

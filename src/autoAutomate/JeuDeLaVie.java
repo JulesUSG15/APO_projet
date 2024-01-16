@@ -121,8 +121,6 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
             //  On lance la simulation
             simuler(tab, etapes);
 
-            int step = width / simulation.get(0).getTaille();
-
             // On ferme la fenetre de l'interface graphique précédente
             turtle.dispatchEvent(new WindowEvent(turtle, WindowEvent.WINDOW_CLOSING));
 
@@ -136,7 +134,7 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
             frameDisplayed = 0;
 
             // On affiche le premier tableau de la simulation
-            afficherTableauGraphique(simulation.get(0), step);
+            afficherTableauGraphique(simulation.get(0));
         }
     }
 
@@ -169,8 +167,7 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
     public void nextFrame() {
         if (frameDisplayed < simulation.size() - 1) {
             frameDisplayed++;
-            int step = width / simulation.get(0).getTaille();
-            afficherTableauGraphique(simulation.get(frameDisplayed), step);
+            afficherTableauGraphique(simulation.get(frameDisplayed));
         }     
     }
 
@@ -178,12 +175,12 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
     public void previousFrame() {
         if (frameDisplayed > 0) {
             frameDisplayed--;
-            int step = width / simulation.get(0).getTaille();
-            afficherTableauGraphique(simulation.get(frameDisplayed), step);
+            afficherTableauGraphique(simulation.get(frameDisplayed));
         }   
     }
 
-    public void afficherTableauGraphique(Tableau tab, int step) {
+    public void afficherTableauGraphique(Tableau tab) {
+        double step=width / simulation.get(0).getTaille();
         turtle.clear();
         turtle.setColor(java.awt.Color.BLACK);
         
@@ -195,20 +192,21 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
 
         for (int i = 0; i< tab.getTaille(); i++) {
             for (int j = 0; j < tab.getTaille(); j++) {
-                if (tab.getVal(i, j) == 1) {
                     turtle.fly((i + 0.5)*step,(tab.getTaille() - j - 0.5)*step);
+                if (tab.getVal(i, j)==1) {
                     turtle.setColor(java.awt.Color.BLACK);
                     turtle.spot(step);
                 }
+                turtle.setColor(java.awt.Color.BLACK);
+                turtle.fly(i * step, (tab.getTaille() - j - 1)*step);
+                turtle.go(i * step, (tab.getTaille() - j)*step);
             }
         }
-        turtle.setColor(java.awt.Color.BLACK);
         for (int i = 0; i< tab.getTaille(); i++) {
-            turtle.fly(i * step, 0);
-            turtle.go(i * step, tab.getTaille() * step);
             turtle.fly(0, i * step);
-            turtle.go(tab.getTaille() * step, i * step);
+            turtle.go(width, i * step);
         }
+
         turtle.render();
     }
 }
