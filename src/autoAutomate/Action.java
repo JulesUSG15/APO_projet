@@ -45,7 +45,7 @@ public class Action {
             return -1;
         double [] tirage;
         tirage=new double[nb];
-        tirage[0]=Math.abs(proba[0].get(tab, voisins, indices));
+        tirage[0]=Math.max(0,proba[0].get(tab, voisins, indices));
         for (int i=1;i<nb;i++) {
             tirage[i]=tirage[i-1]+Math.max(0,proba[i].get(tab, voisins, indices));
         }
