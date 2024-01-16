@@ -3,7 +3,7 @@ package src.autoAutomate;
 public class OpAriUni extends Valeur{
     private Object obj;
     private String op="";
-    private String [] opList={"verif","count","#","cos","sin"};
+    private String [] opList={"verif","count","#","cos","sin","tan","exp","ln"};
     
     public boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur) {
         if (exp.length()<=position) {
@@ -24,38 +24,30 @@ public class OpAriUni extends Valeur{
             return false;
         }
         String exp1=(new Immediat ()).deParenthesage(exp.substring(position+1,exp.length()));
-        switch (op) {
-            case "verif": {
-                obj=(new OpLogBin ()).getCond(exp1,nbVoisins,var,erreur);
-                if (obj!=null) {
-                    return true;
-                }
-            }break;
-            case "count": {
-                obj=(new Immediat ()).getVal(exp1,nbVoisins,var,erreur);
-                if (obj!=null) {
-                    return true;
-                }
-            }break;
-            case "#": {
-                int [] val=new int [1];
-                if (getInt(exp1,val)) {
-                    obj=val[0];
-                    return true;
-                }
-            }break;
-            case "cos": {
-                obj=(new Immediat ()).getVal(exp1,nbVoisins,var,erreur);
-                if (obj!=null) {
-                    return true;
-                }
-            }break;
-            case "sin": {
-                obj=(new Immediat ()).getVal(exp1,nbVoisins,var,erreur);
-                if (obj!=null) {
-                    return true;
-                }
-            }break;
+        if (op.equals("verif")) {
+            obj=(new OpLogBin ()).getCond(exp1,nbVoisins,var,erreur);
+            if (obj!=null) {
+                return true;
+            }
+        }
+        if (op.equals("count")) {
+            obj=(new Immediat ()).getVal(exp1,nbVoisins,var,erreur);
+            if (obj!=null) {
+                return true;
+            }
+        }
+        if (op.equals("#")) {
+            int [] val=new int [1];
+            if (getInt(exp1,val)) {
+                obj=val[0];
+                return true;
+            }
+        }
+        if (op.equals("cos") || op.equals("sin") || op.equals("tan") || op.equals("exp") || op.equals("ln")) {
+            obj=(new Immediat ()).getVal(exp1,nbVoisins,var,erreur);
+            if (obj!=null) {
+                return true;
+            }
         }
         return false;
     }
@@ -86,12 +78,11 @@ public class OpAriUni extends Valeur{
                 }
                 return tab.getVal(voisins[(int)obj-1]);
             }
-            case "cos": {
-                return Math.cos(Math.PI*((Valeur)obj).get(tab, voisins, indices)/180);
-            }
-            case "sin": {
-                return Math.sin(Math.PI*((Valeur)obj).get(tab, voisins, indices)/180);
-            }
+            case "cos": return Math.cos(Math.PI*((Valeur)obj).get(tab, voisins, indices)/180);
+            case "sin": return Math.sin(Math.PI*((Valeur)obj).get(tab, voisins, indices)/180);
+            case "tan": return Math.tan(Math.PI*((Valeur)obj).get(tab, voisins, indices)/180);
+            case "exp": return Math.exp(((Valeur)obj).get(tab, voisins, indices));
+            case "ln": return Math.log(((Valeur)obj).get(tab, voisins, indices));
         }
         return 0;
     }
