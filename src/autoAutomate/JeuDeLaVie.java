@@ -10,6 +10,7 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
 
     private ArrayList<Tableau> simulation = new ArrayList<Tableau>();
     private Regles reg;
+    private Tableau tab;
 
     // Interface graphique
     private int width = 500;
@@ -18,7 +19,6 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
     private JTextField fieldEtapes, fieldTaille, fieldDensite, fieldCharger, fieldSauvegarder;
     private JButton btnSimulation, btnPrepare, btnSetTaille, btnSetDensite, btnSetCharger, btnSetSauvegarder;
     private JButton [][] tableau;
-    private Tableau tab;
     private JFrame f;
 
     public JeuDeLaVie() {
