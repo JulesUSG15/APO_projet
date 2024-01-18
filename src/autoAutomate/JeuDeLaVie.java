@@ -1,5 +1,4 @@
 package src.autoAutomate;
-import java.util.Random;
 import java.util.ArrayList;
 import java.awt.event.*;
 import javax.swing.*;
@@ -16,7 +15,6 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
     private int width = 500;
     private int frameDisplayed = 0, etapes;
     private Turtle turtle = new Turtle();
-    private JComboBox<String> choixGeneration;
     private JTextField fieldEtapes, fieldTaille, fieldDensite, fieldCharger, fieldSauvegarder;
     private JButton btnSimulation, btnPrepare, btnSetTaille, btnSetDensite, btnSetCharger, btnSetSauvegarder;
     private JButton [][] tableau;
