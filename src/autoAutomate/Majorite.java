@@ -133,7 +133,7 @@ public class Majorite extends JFrame implements ActionListener  {
                 System.out.println("Veuillez entrer des valeurs correctes");
                 return;
             }
-            if (max < 1 || max > 15) {
+            if (max < 1) {
                 System.out.println("Veuillez entrer des valeurs correctes");
                 return;
             }
@@ -162,8 +162,8 @@ public class Majorite extends JFrame implements ActionListener  {
             for (int i=0;i<tab.getTaille();i++) {
                 for (int j=0;j<tab.getTaille();j++) {
                     if (e.getSource() == tableau[i][j]) {
-                        tab.setVal(i,j,(tab.getVal(i,j)+1)%16);
-                        Color fond=new Color (Math.min(Math.max(0,765-50*(int)tab.getVal(i,j)),255),Math.min(Math.max(0,510-50*(int)tab.getVal(i,j)),255),Math.min(Math.max(0,255-50*(int)tab.getVal(i,j)),255));
+                        tab.setVal(i,j,(tab.getVal(i,j)+1)%50);
+                        Color fond=new Color (255-((int)(97*tab.getVal(i,j)))%256,255-((int)(11*tab.getVal(i,j)))%256,255-((int)(163*tab.getVal(i,j)))%256);
                         tableau[i][j].setBackground(fond);
                     }
                 }
@@ -203,8 +203,8 @@ public class Majorite extends JFrame implements ActionListener  {
         btnSetTaille.setBounds(280,20,170,30);
         btnSetTaille.addActionListener(this);
 
-        JLabel labelAleatoire = new JLabel("Valeur maximale :");
-        labelAleatoire.setBounds(20,50,120,30);
+        JLabel labelAleatoire = new JLabel("Nombre de couleurs :");
+        labelAleatoire.setBounds(20,50,130,30);
         fieldAleatoire = new JTextField("15");
         fieldAleatoire.setBounds(150,50,120,30);
         btnAleatoire = new JButton("Générer aléatoirement");
@@ -270,7 +270,7 @@ public class Majorite extends JFrame implements ActionListener  {
                 else {
                     tableau[i][j].setBounds((int)(12+i*step),(int)(200+j*step),(int)(step),(int)(step));
                 }
-                Color fond=new Color (Math.min(Math.max(0,765-50*(int)tab.getVal(i,j)),255),Math.min(Math.max(0,510-50*(int)tab.getVal(i,j)),255),Math.min(Math.max(0,255-50*(int)tab.getVal(i,j)),255));
+                Color fond=new Color (255-((int)(97*tab.getVal(i,j)))%256,255-((int)(11*tab.getVal(i,j)))%256,255-((int)(163*tab.getVal(i,j)))%256);
                 tableau[i][j].setBackground(fond);
                 tableau[i][j].addActionListener(this);
                 f.add(tableau[i][j]);
@@ -280,7 +280,7 @@ public class Majorite extends JFrame implements ActionListener  {
 
     public void initialiserTableauAleatoire(int max) {
         tab=new Tableau(2,tab.getTaille());
-        tab.intialiserAleatoirement(0,max);
+        tab.intialiserAleatoirement(0,max-1);
     }
 
     public void simuler(Tableau tab, int n) {
@@ -341,7 +341,7 @@ public class Majorite extends JFrame implements ActionListener  {
                 else {
                     turtle.fly((i + 0.5)*step,(tab.getTaille() - j - 0.5)*step);
                 }
-                Color fond=new Color (Math.min(Math.max(0,765-50*(int)tab.getVal(i,j)),255),Math.min(Math.max(0,510-50*(int)tab.getVal(i,j)),255),Math.min(Math.max(0,255-50*(int)tab.getVal(i,j)),255));
+                Color fond=new Color (255-((int)(97*tab.getVal(i,j)))%256,255-((int)(11*tab.getVal(i,j)))%256,255-((int)(163*tab.getVal(i,j)))%256);
                 turtle.setColor(fond);
                 turtle.spot(step);
                 turtle.setColor(java.awt.Color.BLACK);

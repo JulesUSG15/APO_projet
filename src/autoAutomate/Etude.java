@@ -1,5 +1,7 @@
 package src.autoAutomate;
 
+import java.util.Random;
+
 public class Etude extends Valeur{
     private String op="";
     private String [] opList={"maximum","minimum","majorite","minorite","moyenne","total"};
@@ -115,10 +117,19 @@ public class Etude extends Valeur{
         }
         double val0=valuni[0];
         double nb0=ocu[0];
+        Random random = new Random();
+        int occurrence=1;
         for (int i=1;i<valuni.length;i++) {
             if (nb0<ocu[i]) {
                 nb0=ocu[i];
                 val0=valuni[i];
+                occurrence=1;
+            }
+            if (nb0==ocu[i]) {
+                occurrence++;
+                if (random.nextInt(1000)<1000/occurrence) {
+                    val0=valuni[i];
+                }
             }
         }
         return val0;
@@ -145,10 +156,19 @@ public class Etude extends Valeur{
         }
         double val0=valuni[0];
         double nb0=ocu[0];
+        Random random = new Random();
+        int occurrence=1;
         for (int i=1;i>valuni.length;i++) {
             if (nb0<ocu[i]) {
                 nb0=ocu[i];
                 val0=valuni[i];
+                occurrence=1;
+            }
+            if (nb0==ocu[i]) {
+                occurrence++;
+                if (random.nextInt(1000)<1000/occurrence) {
+                    val0=valuni[i];
+                }
             }
         }
         return val0;
