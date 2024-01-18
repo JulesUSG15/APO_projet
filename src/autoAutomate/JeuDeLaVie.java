@@ -11,10 +11,11 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
     private ArrayList<Tableau> simulation = new ArrayList<Tableau>();
     private Regles reg;
     private Tableau tab;
+    private int etapes;
 
     // Interface graphique
     private int width = 500;
-    private int frameDisplayed = 0, etapes;
+    private int frameDisplayed = 0;
     private Turtle turtle = new Turtle();
     private JTextField fieldEtapes, fieldTaille, fieldDensite, fieldCharger, fieldSauvegarder;
     private JButton btnSimulation, btnPrepare, btnSetTaille, btnSetDensite, btnSetCharger, btnSetSauvegarder;
