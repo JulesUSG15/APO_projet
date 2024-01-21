@@ -53,40 +53,6 @@ Les types de valeurs :
             - 0.9
             - 2
 
-    Le type voisin :
-
-        Le type voisin est défini par '#' et permet de récupérer la valeur contenue dans la cellule d'un voisin.
-        #i renvoi la valeur contenue dans la cellule du i eme voisin défini.
-        La valeur suivie par '#' est un entier naturel allant de 0 jusqu'au nombre de voisins définis.
-        #0 est spécial. Il permet de récupérer la valeur contenue dans la cellule sur laquelle la règle est appliquée.
-
-        Exemple ci-dessus :
-            - #0 renvoi la valeur contenue dans la cellule sur laquelle la règle est appliquée
-            - #1 renvoi la valeur contenue dans la cellule de coordonnées 0, -1 relativement à la cellule sur laquelle la règle est appliquée
-            - #3 renvoi la valeur contenue dans la cellule de coordonnées -1, 0 relativement à la cellule sur laquelle la règle est appliquée
-            - #4 renvoi la valeur contenue dans la cellule de coordonnées 1, 0 relativement à la cellule sur laquelle la règle est appliquée
-    
-    Le type état :
-
-        Le type état est défini par 'count' et renvoi le nombre de voisins qui possèdent une certaine valeur.
-        count(i) renvoi le nombre de voisins dont leur valeur est égale à i.
-        Ce qui suit 'count' est une autre valeur.
-
-        Exemple ci-dessus :
-            - count1 renvoi le nombre de voisins dont leur valeur vaut 1
-            - count0 renvoi le nombre de voisins dont leur valeur vaut 0
-            - count(#2) renvoi le nombre de voisins dont leur valeur vaut celle du voisin 2
-            - count(#1*count(#2)) renvoi le nombre de voisins dont leur valeur vaut le résultat de #1*count(#2)
-    
-    Le type condition :
-
-        Le type condition est défini par 'verif' et renvoi 1 ou 0.
-        Ce qui suit 'verif' est une condition.
-        Ce type renvoi 1 si la condition est validé, 0 sinon.
-
-        Exemple ci-dessus :
-            - verif(#2=2) renvoi 1 si #2=2, 0 sinon
-
     Le type variable :
 
         Le type variable est défini par '$'.
@@ -115,9 +81,9 @@ Les types de valeurs :
         Exemple ci-dessus :
             - total : renvoi le total des valeurs des voisins
 
-    Les types opérateur :
+    Les types opérateur binaire :
 
-        Les types opérateur sont les résultats d'opérations arithmetiques.
+        Les types opérateur binaire sont les résultats d'opérations arithmetiques.
             - Addition défini par '+'. Prends une valeur à sa gauche et à sa droite.
             - Soustraction défini par '-'. Prends une valeur à sa gauche et à sa droite.
             - Multiplication défini par '*'. Prends une valeur à sa gauche et à sa droite.
@@ -128,6 +94,29 @@ Les types de valeurs :
             - #1*count(#2) renvoi le produit de #1 et count(#2).
             - 0.9+count3 renvoi l'addition de 0.9 et count3.
             - count1-1 renvoi la soustraction de count1 par 1.
+    
+    Les types opérateur unaire :
+
+        Les types opérateur unaire sont des fonctions.
+            - 'verif'. Prend une condition à sa droite et renvoi 1 si elle est validée, 0 sinon.
+            - 'count'. Prend une valeur à sa droite et renvoi le nombre de voisins ayant cette valeur.
+            - '#'. Prend un entier à sa droite et renvoi la valeur contenue dans le i eme voisin. (0 étant la cellule actuelle).
+            - 'cos'. Prend une valeur à sa droite et renvoi le cosinus en degrés de cette valeur.
+            - 'sin'. Prend une valeur à sa droite et renvoi le inus en degrés de cette valeur.
+            - 'tan'. Prend une valeur à sa droite et renvoi la tangente en degrés de cette valeur.
+            - 'exp'. Prend une valeur à sa droite et renvoi l'exponentielle de cette valeur.
+            - 'ln'. Prend une valeur à sa droite et renvoi le logarithme de cette valeur.
+        
+        Exemple ci-dessus :
+            - verif(#2=2) renvoi 1 si #2=2, 0 sinon
+            - count1 renvoi le nombre de voisins dont leur valeur vaut 1
+            - count0 renvoi le nombre de voisins dont leur valeur vaut 0
+            - count(#2) renvoi le nombre de voisins dont leur valeur vaut celle du voisin 2
+            - count(#1*count(#2)) renvoi le nombre de voisins dont leur valeur vaut le résultat de #1*count(#2)
+            - #0 renvoi la valeur contenue dans la cellule sur laquelle la règle est appliquée
+            - #1 renvoi la valeur contenue dans la cellule de coordonnées 0, -1 relativement à la cellule sur laquelle la règle est appliquée
+            - #3 renvoi la valeur contenue dans la cellule de coordonnées -1, 0 relativement à la cellule sur laquelle la règle est appliquée
+            - #4 renvoi la valeur contenue dans la cellule de coordonnées 1, 0 relativement à la cellule sur laquelle la règle est appliquée
 
 
 Définition des règles :

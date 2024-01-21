@@ -242,11 +242,11 @@ public class Regles {
                 for (int i=1;i<dim;i++) {
                     exp+=","+voisins[j][i];
                 }
-                exp+="; ";
+                exp+=";\r\n";
             }
-            exp+="@ ";
+            exp+="@\r\n\r";
             for (int i=0;i<conditions.length;i++) {
-                exp+=conditions[i].getExp()+" ? "+actions[i].getExp();
+                exp+=conditions[i].getExp()+"?\r\n    "+actions[i].getExp()+"\r\n";
             }
             return exp;
         }
