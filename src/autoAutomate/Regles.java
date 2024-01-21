@@ -266,20 +266,8 @@ public class Regles {
     
     public boolean sauvegarder (String fichier) {
         if (valide) {
-            String exp="";
-            for (int j=0;j<voisins.length;j++) {
-                exp+=voisins[j][0];
-                for (int i=1;i<dim;i++) {
-                    exp+=","+voisins[j][i];
-                }
-                exp+=";\r\n";
-            }
-            exp+="@\r\n\r";
-            for (int i=0;i<conditions.length;i++) {
-                exp+=conditions[i].getExp()+"?\r\n    "+actions[i].getExp()+"\r\n";
-            }
             try {
-                Files.write(Paths.get(fichier), exp.getBytes());
+                Files.write(Paths.get(fichier), getExp().getBytes());
                 return true;
             } catch (IOException e) {
                 erreur="Fichier "+fichier+" introuvable";
