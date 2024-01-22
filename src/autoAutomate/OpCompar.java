@@ -7,6 +7,14 @@ public class OpCompar extends Condition{
     private String [] opList={"<=",">=","=","<",">"};
     
     public boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur, int dim) {
+        if (position==0) {
+            erreur[0]="Valeur attendue à gauche de l'operateur "+exp.charAt(position);
+            return false;
+        }
+        if (position==exp.length()-1) {
+            erreur[0]="Valeur attendue à droite de l'operateur "+exp.charAt(position);
+            return false;
+        }
         if (exp.length()<=position) {
             erreur[0]="Impossible de convertir "+exp+" en condition de comparaison";
             return false;
@@ -59,7 +67,7 @@ public class OpCompar extends Condition{
         }
         int par=0;
         int debut;
-        for (int i=exp.length()-1;i>=1;i--) {
+        for (int i=exp.length()-1;i>=0;i--) {
             if (exp.charAt(i)=='(') {
                 par--;
             }

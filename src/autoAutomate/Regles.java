@@ -347,5 +347,9 @@ public class Regles {
     public String getErreur () {
         return erreur;
     }
+
+    public int getDim () {
+        return dim;
+    }
     
 }

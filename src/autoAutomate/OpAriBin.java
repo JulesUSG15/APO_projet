@@ -11,6 +11,14 @@ public class OpAriBin extends Valeur {
             erreur[0]="Impossible de convertir "+exp+" en operation arithmetique binaire";
             return false;
         }
+        if (position==0 && exp.charAt(position)!='-') {
+            erreur[0]="Valeur attendue à gauche de l'operateur "+exp.charAt(position);
+            return false;
+        }
+        if (position==exp.length()-1) {
+            erreur[0]="Valeur attendue à droite de l'operateur "+exp.charAt(position);
+            return false;
+        }
         boolean b=false;
         int debut=0;
         for (int j=0;j<opList.length;j++) {
@@ -62,7 +70,7 @@ public class OpAriBin extends Valeur {
         int debut;
         for (int j=0;j<opList.length;j++) {
             int par=0;
-            for (int i=exp.length()-1;i>=1;i--) {
+            for (int i=exp.length()-1;i>=0;i--) {
                 if (exp.charAt(i)=='(') {
                     par--;
                 }
@@ -75,7 +83,9 @@ public class OpAriBin extends Valeur {
                             for (int k=0;k<opList[j].length;k++) {
                                 debut=i-opList[j][k].length()+1;
                                 if (0<=debut && exp.substring(debut,i+1).equals(opList[j][k])) {
-                                    return i;
+                                    if (i!=0 || !opList[j][k].equals("-")) {
+                                        return i;
+                                    }
                                 }
                             }
                         }

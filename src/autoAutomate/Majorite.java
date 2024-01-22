@@ -158,7 +158,7 @@ public class Majorite extends JFrame implements ActionListener  {
             System.out.println("Tableau sauvegardé");
         }
         // Modif du tableau
-        if (tab!=null) {
+        if (tab!=null  && tableau!=null) {
             for (int i=0;i<tab.getTaille();i++) {
                 for (int j=0;j<tab.getTaille();j++) {
                     if (e.getSource() == tableau[i][j]) {
@@ -183,7 +183,7 @@ public class Majorite extends JFrame implements ActionListener  {
             turtle = new Turtle();
             turtle.create(width, width);
             turtle.setLayout(null);
-            turtle.setTitle("Feu de forêt");
+            turtle.setTitle("Majorité");
 
             frameDisplayed = 0;
 
@@ -193,7 +193,7 @@ public class Majorite extends JFrame implements ActionListener  {
     }
 
     public void pagePreparation () {
-        f = new JFrame("Préparation - Feu de forêt");
+        f = new JFrame("Préparation - Majorité");
         
         JLabel labelTaille = new JLabel("Taille du tableau :");
         labelTaille.setBounds(20,20,120,30);

@@ -181,7 +181,7 @@ public class FeuDeForet extends JFrame implements ActionListener  {
             System.out.println("Tableau sauvegardé");
         }
         // Modif du tableau
-        if (tab!=null) {
+        if (tab!=null  && tableau!=null) {
             for (int i=0;i<tab.getTaille();i++) {
                 for (int j=0;j<tab.getTaille();j++) {
                     if (e.getSource() == tableau[i][j]) {
