@@ -5,7 +5,7 @@ public class Action {
     private Valeur [] valeurs=null;
 
     
-    public boolean set (String exp, int nbVoisins, Variable [] var, String [] erreur) {
+    public boolean set (String exp, int nbVoisins, Variable [] var, String [] erreur, int dim) {
         String [] exps=exp.split(",");
         if (exps==null || exps.length==0) {
             erreur[0]="Instruction manquante";
@@ -26,12 +26,12 @@ public class Action {
                 return false;
             }
             act[0]=(new Immediat ()).deParenthesage(act[0]);
-            proba[i]=(new Immediat ()).getVal(act[0],nbVoisins,var,erreur);
+            proba[i]=(new Immediat ()).getVal(act[0],nbVoisins,var,erreur,dim);
             if (proba[i]==null) {
                 return false;
             }
             act[1]=(new Immediat ()).deParenthesage(act[1]);
-            valeurs[i]=(new Immediat ()).getVal(act[1],nbVoisins,var,erreur);
+            valeurs[i]=(new Immediat ()).getVal(act[1],nbVoisins,var,erreur,dim);
             if (valeurs[i]==null) {
                 return false;
             }

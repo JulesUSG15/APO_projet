@@ -19,7 +19,7 @@ public class Regles {
         exp=(new Immediat ()).deParenthesage(exp);
         String [] er=new String [1];
         er[0]=erreur;
-        conditions[num]=(new OpLogBin ()).getCond(exp,voisins.length,variables,er);
+        conditions[num]=(new OpLogBin ()).getCond(exp,voisins.length,variables,er,dim);
         erreur=er[0];
         if (conditions[num]==null) {
             return false;
@@ -34,7 +34,7 @@ public class Regles {
         actions[num]=new Action ();
         String [] er=new String [1];
         er[0]=erreur;
-        boolean ret=actions[num].set(exp,voisins.length,variables,er);
+        boolean ret=actions[num].set(exp,voisins.length,variables,er,dim);
         erreur=er[0];
         return ret;
     }
@@ -109,7 +109,7 @@ public class Regles {
                 variables[0]=new Variable ();
                 String [] er=new String [1];
                 er[0]=erreur;
-                variables[0].set("$"+nom,nom.length(),0,null,er);
+                variables[0].set("$"+nom,nom.length(),0,null,er,dim);
                 erreur=er[0];
             }
             else {
@@ -120,7 +120,7 @@ public class Regles {
                 nouv[variables.length]=new Variable ();
                 String [] er=new String [1];
                 er[0]=erreur;
-                nouv[variables.length].set("$"+nom,nom.length(),0,null,er);
+                nouv[variables.length].set("$"+nom,nom.length(),0,null,er,dim);
                 erreur=er[0];
                 variables=nouv;
             }

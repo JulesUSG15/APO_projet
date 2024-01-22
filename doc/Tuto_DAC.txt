@@ -26,7 +26,7 @@ Définition des voisins :
 
     Les coordonnées sont des entiers et sont séparés par ','.
     Tous les voisins doivent avoir le même nombre de coordonnées.
-    Ce nombre de coordonnées définit la dimension des tableaux sur lesquels peuvent s'appliquer ces règles.
+    Ce nombre de coordonnées défini la dimension de la règle et donc la dimension des tableaux sur lesquels peut s'appliquer la règle.
     Il est donc indispensable de définir au moins 1 voisin même si on ne l'utilise pas.
 
     La définition d'un voisin se finit par ';'.
@@ -84,11 +84,12 @@ Les types de valeurs :
     Les types opérateur binaire :
 
         Les types opérateur binaire sont les résultats d'opérations arithmetiques.
-            - Addition défini par '+'. Prends une valeur à sa gauche et à sa droite.
-            - Soustraction défini par '-'. Prends une valeur à sa gauche et à sa droite.
-            - Multiplication défini par '*'. Prends une valeur à sa gauche et à sa droite.
-            - Division défini par '/'. Prends une valeur à sa gauche et à sa droite.
-            - Puissance défini par '^'. Prends une valeur à sa gauche et à sa droite.
+            - Addition défini par '+'. Prend une valeur à sa gauche et à sa droite.
+            - Soustraction défini par '-'. Prend une valeur à sa gauche et à sa droite.
+            - Modulo défini par '%'. Prend une valeur à sa gauche et à sa droite.
+            - Multiplication défini par '*'. Prend une valeur à sa gauche et à sa droite.
+            - Division défini par '/'. Prend une valeur à sa gauche et à sa droite.
+            - Puissance défini par '^'. Prend une valeur à sa gauche et à sa droite.
         
         Exemple ci-dessus :
             - #1*count(#2) renvoi le produit de #1 et count(#2).
@@ -100,12 +101,14 @@ Les types de valeurs :
         Les types opérateur unaire sont des fonctions.
             - 'verif'. Prend une condition à sa droite et renvoi 1 si elle est validée, 0 sinon.
             - 'count'. Prend une valeur à sa droite et renvoi le nombre de voisins ayant cette valeur.
-            - '#'. Prend un entier à sa droite et renvoi la valeur contenue dans le i eme voisin. (0 étant la cellule actuelle).
+            - '#'. Prend un entier compris entre 0 et le nombre de voisins à sa droite et renvoi la valeur contenue dans le i ème voisin. (0 étant la cellule actuelle).
             - 'cos'. Prend une valeur à sa droite et renvoi le cosinus en degrés de cette valeur.
             - 'sin'. Prend une valeur à sa droite et renvoi le inus en degrés de cette valeur.
             - 'tan'. Prend une valeur à sa droite et renvoi la tangente en degrés de cette valeur.
             - 'exp'. Prend une valeur à sa droite et renvoi l'exponentielle de cette valeur.
             - 'ln'. Prend une valeur à sa droite et renvoi le logarithme de cette valeur.
+            - 'rand'. Prend un entier supérieur ou égal à 1 à sa droite et renvoi un entier supérieur ou égal à 0 et inférieur strictement à cet entier.
+            - 'coord'. Prend un entier compris entre 1 et la dimension de la règle et renvoi la i ème coordonnée de la cellule.
         
         Exemple ci-dessus :
             - verif(#2=2) renvoi 1 si #2=2, 0 sinon
