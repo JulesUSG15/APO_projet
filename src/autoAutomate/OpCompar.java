@@ -6,7 +6,7 @@ public class OpCompar extends Condition{
     private String op="";
     private String [] opList={"<=",">=","=","<",">"};
     
-    public boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur) {
+    public boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur, int dim) {
         if (exp.length()<=position) {
             erreur[0]="Impossible de convertir "+exp+" en condition de comparaison";
             return false;
@@ -27,11 +27,11 @@ public class OpCompar extends Condition{
         }
         String exp1=(new Immediat ()).deParenthesage(exp.substring(0,debut));
         String exp2=(new Immediat ()).deParenthesage(exp.substring(position+1,exp.length()));
-        val1=(new Immediat ()).getVal(exp1,nbVoisins,var,erreur);
+        val1=(new Immediat ()).getVal(exp1,nbVoisins,var,erreur,dim);
         if (val1==null) {
             return false;
         }
-        val2=(new Immediat ()).getVal(exp2,nbVoisins,var,erreur);
+        val2=(new Immediat ()).getVal(exp2,nbVoisins,var,erreur,dim);
         if (val2==null) {
             return false;
         }

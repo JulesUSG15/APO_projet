@@ -6,7 +6,7 @@ public class Etude extends Valeur{
     private String op="";
     private String [] opList={"maximum","minimum","majorite","minorite","moyenne","total"};
     
-    public boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur) {
+    public boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur, int dim) {
         if (exp.length()<=position) {
             erreur[0]="Impossible de convertir "+exp+" en valeur d'etude";
             return false;

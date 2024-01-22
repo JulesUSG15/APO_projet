@@ -4,7 +4,7 @@ public class Variable extends Valeur {
     private String nom=" ";
     private double val=0;
     
-    public boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur) {
+    public boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur, int dim) {
         if (exp.length()<=1 || exp.charAt(0)!='$' || position>=exp.length()) {
             erreur[0]="Impossible de convertir "+exp+" en variable";
             return false;

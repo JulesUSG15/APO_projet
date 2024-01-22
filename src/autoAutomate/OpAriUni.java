@@ -1,11 +1,13 @@
 package src.autoAutomate;
 
+import java.util.Random;
+
 public class OpAriUni extends Valeur{
     private Object obj;
     private String op="";
-    private String [] opList={"verif","count","#","cos","sin","tan","exp","ln"};
+    private String [] opList={"verif","count","#","cos","sin","tan","exp","ln","rand","coord"};
     
-    public boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur) {
+    public boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur,int dim) {
         if (exp.length()<=position) {
             erreur[0]="Impossible de convertir "+exp+" en operation arithmetique unaire";
             return false;
@@ -25,13 +27,13 @@ public class OpAriUni extends Valeur{
         }
         String exp1=(new Immediat ()).deParenthesage(exp.substring(position+1,exp.length()));
         if (op.equals("verif")) {
-            obj=(new OpLogBin ()).getCond(exp1,nbVoisins,var,erreur);
+            obj=(new OpLogBin ()).getCond(exp1,nbVoisins,var,erreur,dim);
             if (obj!=null) {
                 return true;
             }
         }
         if (op.equals("count")) {
-            obj=(new Immediat ()).getVal(exp1,nbVoisins,var,erreur);
+            obj=(new Immediat ()).getVal(exp1,nbVoisins,var,erreur,dim);
             if (obj!=null) {
                 return true;
             }
@@ -39,14 +41,37 @@ public class OpAriUni extends Valeur{
         if (op.equals("#")) {
             int [] val=new int [1];
             if (getInt(exp1,val)) {
-                obj=val[0];
-                return true;
+                if (val[0]<nbVoisins) {
+                    obj=val[0];
+                    return true;
+                }
+                erreur[0]="L'entier qui suit la fonction '#' doit être compris entre 0 et "+nbVoisins;
             }
         }
         if (op.equals("cos") || op.equals("sin") || op.equals("tan") || op.equals("exp") || op.equals("ln")) {
-            obj=(new Immediat ()).getVal(exp1,nbVoisins,var,erreur);
+            obj=(new Immediat ()).getVal(exp1,nbVoisins,var,erreur,dim);
             if (obj!=null) {
                 return true;
+            }
+        }
+        if (op.equals("rand")) {
+            int [] val=new int [1];
+            if (getInt(exp1,val)) {
+                if (0<val[0]) {
+                    obj=val[0];
+                    return true;
+                }
+                erreur[0]="L'entier qui suit la fonction 'rand' doit être supérieur à 0";
+            }
+        }
+        if (op.equals("coord")) {
+            int [] val=new int [1];
+            if (getInt(exp1,val)) {
+                if (0<val[0] && val[0]<=dim) {
+                    obj=val[0];
+                    return true;
+                }
+                erreur[0]="L'entier qui suit la fonction 'coord' doit être compris entre 1 et "+dim;
             }
         }
         return false;
@@ -83,6 +108,11 @@ public class OpAriUni extends Valeur{
             case "tan": return Math.tan(Math.PI*((Valeur)obj).get(tab, voisins, indices)/180);
             case "exp": return Math.exp(((Valeur)obj).get(tab, voisins, indices));
             case "ln": return Math.log(((Valeur)obj).get(tab, voisins, indices));
+            case "rand": {
+                Random rand=new Random();
+                return rand.nextInt((int)obj);
+            }
+            case "coord": return indices[(int)obj-1];
         }
         return 0;
     }

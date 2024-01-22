@@ -3,7 +3,7 @@ package src.autoAutomate;
 public class Immediat extends Valeur {
     private double val=0;
     
-    public boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur) {
+    public boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur, int dim) {
         double [] nouv=new double [1];
         if (!getDouble(exp,nouv)) {
             erreur[0]="Impossible de convertir "+exp+" en reel";

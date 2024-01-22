@@ -5,7 +5,7 @@ public class OpLogUni extends Condition{
     private String op="";
     private String [] opList={"!"};
     
-    public boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur) {
+    public boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur, int dim) {
         if (exp.length()<=position) {
             erreur[0]="Impossible de convertir "+exp+" en condition unaire";
             return false;
@@ -24,7 +24,7 @@ public class OpLogUni extends Condition{
             return false;
         }
         String exp1=(new Immediat ()).deParenthesage(exp.substring(position+1,exp.length()));
-        cond=getCond(exp1,nbVoisins,var,erreur);
+        cond=getCond(exp1,nbVoisins,var,erreur,dim);
         if (cond!=null) {
             return true;
         }
