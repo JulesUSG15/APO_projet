@@ -106,7 +106,8 @@ Dans ce code, `total` renvoie le total des valeurs des voisins
 Les types opérateur binaire sont les résultats d'opérations arithmetiques.
 - **Addition** défini par `+`. Prend une valeur à sa gauche et à sa droite.
 - **Soustraction** défini par `-`. Prend une valeur à sa gauche et à sa droite.
-- **Multiplicatio**n défini par `*`. Prend une valeur à sa gauche et à sa droite.
+- **Modulo** défini par `%`. Prend une valeur à sa gauche et à sa droite.
+- **Multiplication** défini par `*`. Prend une valeur à sa gauche et à sa droite.
 - **Division** défini par `/`. Prend une valeur à sa gauche et à sa droite.
 - **Puissance** défini par `^`. Prend une valeur à sa gauche et à sa droite.
         
@@ -127,6 +128,8 @@ Les types opérateur unaire sont des fonctions.
 - `tan` : Prend une valeur à sa droite et renvoie la tangente en degrés de cette valeur.
 - `exp` : Prend une valeur à sa droite et renvoie l'exponentielle de cette valeur.
 - `ln` : Prend une valeur à sa droite et renvoie le logarithme de cette valeur.
+- `rand`. Prend un entier supérieur ou égal à 1 à sa droite et renvoi un entier supérieur ou égal à 0 et inférieur strictement à cet entier.
+- `coord`. Prend un entier compris entre 1 et la dimension de la règle et renvoi la i ème coordonnée de la cellule.
         
 Par exemple :
 - `verif(#2=2)` renvoie `1` si `#2=2`, `0` sinon
