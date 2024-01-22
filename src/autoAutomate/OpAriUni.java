@@ -41,7 +41,7 @@ public class OpAriUni extends Valeur{
         if (op.equals("#")) {
             int [] val=new int [1];
             if (getInt(exp1,val)) {
-                if (val[0]<nbVoisins) {
+                if (val[0]<=nbVoisins) {
                     obj=val[0];
                     return true;
                 }

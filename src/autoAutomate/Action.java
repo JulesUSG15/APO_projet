@@ -61,7 +61,7 @@ public class Action {
     public String getExp () {
         String exp=proba[0].getExp()+":"+valeurs[0].getExp();
         for (int i=1;i<proba.length;i++) {
-            exp+=", "+proba[i].getExp()+":"+valeurs[i].getExp();
+            exp+=", \r\n    "+proba[i].getExp()+":"+valeurs[i].getExp();
         }
         exp+="; ";
         return exp;

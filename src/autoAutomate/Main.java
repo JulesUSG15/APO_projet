@@ -12,7 +12,7 @@ public class Main {
         JButton btnRegleMajorite = new JButton("Règle de majorité");
         JButton btnJeuDeLaVie = new JButton("Jeu de la vie");
         JButton btnFeuDeForet = new JButton("Feu de forêt");
-        JButton btnQuitter = new JButton("Quitter");
+        JButton btnPersonnaliser = new JButton("Personnaliser");
 
         btnAutomate1D.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -41,10 +41,10 @@ public class Main {
             }
         });
 
-        btnQuitter.addActionListener(new ActionListener() {
+        btnPersonnaliser.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Au revoir !");
-                System.exit(0);
+                Personnaliser p = new Personnaliser();
+                p.main();
             }
         });
 
@@ -53,7 +53,7 @@ public class Main {
         frame.add(btnRegleMajorite);
         frame.add(btnJeuDeLaVie);
         frame.add(btnFeuDeForet);
-        frame.add(btnQuitter);
+        frame.add(btnPersonnaliser);
         frame.setVisible(true);
     }
 }
