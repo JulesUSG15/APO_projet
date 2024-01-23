@@ -38,7 +38,6 @@ public class Automate1D extends JFrame implements ActionListener {
         add(panneauPrincipal);
 
         setTitle("Simulation Automate 1D");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
