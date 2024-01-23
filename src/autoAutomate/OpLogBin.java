@@ -6,7 +6,7 @@ public class OpLogBin extends Condition{
     private Condition cond1=null;
     private Condition cond2=null;
     private String op="";
-    private String [] opList={"&","|"};
+    private String [] opList={"&&","||"};
     
     public boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur, int dim) {
         if (exp.length()<=position || !Arrays.toString(opList).contains(""+exp.charAt(position))) {
@@ -41,8 +41,8 @@ public class OpLogBin extends Condition{
     
     public boolean get (Tableau tab, int [][] voisins, int [] indices) {
         switch (op) {
-            case "&": return cond1.get(tab,voisins,indices) && cond2.get(tab,voisins,indices);
-            case "|": return cond1.get(tab,voisins,indices) || cond2.get(tab,voisins,indices);
+            case "&&": return cond1.get(tab,voisins,indices) && cond2.get(tab,voisins,indices);
+            case "||": return cond1.get(tab,voisins,indices) || cond2.get(tab,voisins,indices);
         }
         return false;
     }

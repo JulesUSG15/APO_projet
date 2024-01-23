@@ -5,7 +5,7 @@ import java.util.Random;
 public class OpAriUni extends Valeur{
     private Object obj;
     private String op="";
-    private String [] opList={"verif","count","#","cos","sin","tan","exp","ln","rand","coord"};
+    private String [] opList={"verif","count","#","cos","sin","tan","exp","ln","rand","coord","int"};
     
     public boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur,int dim) {
         if (exp.length()<=position) {
@@ -48,7 +48,7 @@ public class OpAriUni extends Valeur{
                 erreur[0]="L'entier qui suit la fonction '#' doit être compris entre 0 et "+nbVoisins;
             }
         }
-        if (op.equals("cos") || op.equals("sin") || op.equals("tan") || op.equals("exp") || op.equals("ln")) {
+        if (op.equals("cos") || op.equals("sin") || op.equals("tan") || op.equals("exp") || op.equals("ln") || op.equals("int")) {
             obj=(new Immediat ()).getVal(exp1,nbVoisins,var,erreur,dim);
             if (obj!=null) {
                 return true;
@@ -113,6 +113,7 @@ public class OpAriUni extends Valeur{
                 return rand.nextInt((int)obj);
             }
             case "coord": return indices[(int)obj-1];
+            case "int": return (int)((Valeur)obj).get(tab, voisins, indices);
         }
         return 0;
     }

@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Etude extends Valeur{
     private String op="";
-    private String [] opList={"maximum","minimum","majorite","minorite","moyenne","total"};
+    private String [] opList={"maximum","minimum","majorite","minorite","moyenne","total", "taille"};
     
     public boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur, int dim) {
         if (exp.length()<=position) {
@@ -38,6 +38,7 @@ public class Etude extends Valeur{
             case "minorite": return minorite(vals);
             case "moyenne": return moyenne(vals);
             case "total": return total(vals);
+            case "taille": return tab.getTaille();
         }
         return 0;
     }
