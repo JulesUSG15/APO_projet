@@ -130,8 +130,8 @@ public class Personnaliser extends JFrame implements ActionListener  {
         if (e.getSource() == btnSetSauvegarderDAC) {
             if (reg.set(fieldDAC.getText())) {
                 if (reg.sauvegarder(fieldSauvegarderDAC.getText())) {
-                    System.out.println("Règle sauvegardée");
                     f.dispose();
+                    System.out.println("Règle sauvegardée");
                     pageDAC(reg.getExp());
                 }
                 else {

@@ -4,7 +4,7 @@ public class OpCompar extends Condition{
     private Valeur val1=null;
     private Valeur val2=null;
     private String op="";
-    private String [] opList={"<=",">=","=","<",">"};
+    private String [] opList={"<=",">=","==","!=","<",">"};
     
     public boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur, int dim) {
         if (position==0) {
@@ -50,7 +50,8 @@ public class OpCompar extends Condition{
         switch (op) {
             case "<=": return val1.get(tab,voisins,indices) <= val2.get(tab,voisins,indices);
             case ">=": return val1.get(tab,voisins,indices) >= val2.get(tab,voisins,indices);
-            case "=": return val1.get(tab,voisins,indices) == val2.get(tab,voisins,indices);
+            case "==": return val1.get(tab,voisins,indices) == val2.get(tab,voisins,indices);
+            case "!=": return val1.get(tab,voisins,indices) != val2.get(tab,voisins,indices);
             case "<": return val1.get(tab,voisins,indices) < val2.get(tab,voisins,indices);
             case ">": return val1.get(tab,voisins,indices) > val2.get(tab,voisins,indices);
         }
