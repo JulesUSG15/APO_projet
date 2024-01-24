@@ -194,7 +194,12 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
         
         JLabel labelTaille = new JLabel("Taille du tableau :");
         labelTaille.setBounds(20,20,120,30);
-        fieldTaille = new JTextField(""+tab.getTaille());
+        if (fieldTaille==null) {
+            fieldTaille = new JTextField(""+tab.getTaille());
+        }
+        else {
+            fieldTaille = new JTextField(fieldTaille.getText());
+        }
         fieldTaille.setBounds(150,20,120,30);
         btnSetTaille = new JButton("Changer la taille");
         btnSetTaille.setBounds(280,20,170,30);
@@ -202,7 +207,12 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
 
         JLabel labelDensite = new JLabel("Densité :");
         labelDensite.setBounds(20,50,130,30);
-        fieldDensite = new JTextField("0.5");
+        if (fieldDensite==null) {
+            fieldDensite = new JTextField("0.5");
+        }
+        else {
+            fieldDensite = new JTextField(fieldDensite.getText());
+        }
         fieldDensite.setBounds(150,50,120,30);
         btnSetDensite = new JButton("Générer aléatoirement");
         btnSetDensite.setBounds(280,50,170,30);
@@ -210,7 +220,12 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
 
         JLabel labelCharger = new JLabel("Tableau à charger :");
         labelCharger.setBounds(20,80,120,30);
-        fieldCharger = new JTextField("data/tableaux/nom.txt");
+        if (fieldCharger==null) {
+            fieldCharger = new JTextField("data/tableaux/nom.txt");
+        }
+        else {
+            fieldCharger = new JTextField(fieldCharger.getText());
+        }
         fieldCharger.setBounds(150,80,120,30);
         btnSetCharger = new JButton("Charger le tableau");
         btnSetCharger.setBounds(280,80,170,30);
@@ -218,7 +233,12 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
 
         JLabel labelSauvegarder = new JLabel("Sauvegarde du tableau :");
         labelSauvegarder.setBounds(20,110,120,30);
-        fieldSauvegarder = new JTextField("data/tableaux/nom.txt");
+        if (fieldSauvegarder==null) {
+            fieldSauvegarder = new JTextField("data/tableaux/nom.txt");
+        }
+        else {
+            fieldSauvegarder = new JTextField(fieldSauvegarder.getText());
+        }
         fieldSauvegarder.setBounds(150,110,120,30);
         btnSetSauvegarder = new JButton("Sauvegarder le tableau");
         btnSetSauvegarder.setBounds(280,110,170,30);

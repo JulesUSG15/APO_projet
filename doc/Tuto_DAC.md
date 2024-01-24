@@ -87,7 +87,7 @@ Exemple ci-dessous :
 
 Le type étude est défini par un mot.
 Rien n'empêche de créer une variable du même nom.
-Ce type permet de renvoyer un réel après l'étude des voisins.
+Ce type permet de renvoyer un réel après l'étude des voisins ou du tableau.
 
 Voici les différentes études possibles :
 - `maximum` : renvoie la valeur maximale parmi les voisins
@@ -96,6 +96,7 @@ Voici les différentes études possibles :
 - `minorite` : renvoie la valeur la moins présente parmi les voisins
 - `moyenne` : renvoie la moyenne des valeurs des voisins
 - `total` : renvoie le total des valeurs des voisins
+- `taille` : renvoie la taille du tableau
         
 Par exemple :
 `count(#1*count(#2))==total?`
@@ -130,6 +131,7 @@ Les types opérateur unaire sont des fonctions.
 - `ln` : Prend une valeur à sa droite et renvoie le logarithme de cette valeur.
 - `rand`. Prend un entier supérieur ou égal à 1 à sa droite et renvoi un entier supérieur ou égal à 0 et inférieur strictement à cet entier.
 - `coord`. Prend un entier compris entre 1 et la dimension de la règle et renvoi la i ème coordonnée de la cellule.
+- `int`. Prend une valeur à sa droite et renvoie la partie entière de cette valeur.
         
 Par exemple :
 - `verif(#2==2)` renvoie `1` si `#2==2`, `0` sinon

@@ -120,7 +120,7 @@ public class Etude extends Valeur{
         double nb0=ocu[0];
         Random random = new Random();
         int occurrence=1;
-        for (int i=1;i<valuni.length;i++) {
+        for (int i=1;i<nb;i++) {
             if (nb0<ocu[i]) {
                 nb0=ocu[i];
                 val0=valuni[i];
@@ -159,8 +159,8 @@ public class Etude extends Valeur{
         double nb0=ocu[0];
         Random random = new Random();
         int occurrence=1;
-        for (int i=1;i>valuni.length;i++) {
-            if (nb0<ocu[i]) {
+        for (int i=1;i<nb;i++) {
+            if (nb0>ocu[i]) {
                 nb0=ocu[i];
                 val0=valuni[i];
                 occurrence=1;
