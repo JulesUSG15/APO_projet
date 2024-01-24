@@ -252,7 +252,7 @@ public class Personnaliser extends JFrame implements ActionListener  {
                 for (int j=0;j<tab.getTaille();j++) {
                     if (e.getSource() == tableau[i][j]) {
                         tab.setVal(i,j,(tab.getVal(i,j)+1)%50);
-                        Color fond=new Color (255-((int)(97*Math.abs(tab.getVal(i,j))))%256,255-((int)(11*Math.abs(tab.getVal(i,j))))%256,255-((int)(163*Math.abs(tab.getVal(i,j))))%256);
+                        Color fond=new Color (255-modulo((int)(97*tab.getVal(i,j)),256),255-modulo((int)(11*tab.getVal(i,j)),256),255-modulo((int)(163*tab.getVal(i,j)),256));
                         tableau[i][j].setBackground(fond);
                         tableau[i][j].setText((int)tab.getVal(i,j)+"");
                     }
@@ -386,7 +386,7 @@ public class Personnaliser extends JFrame implements ActionListener  {
                 else {
                     tableau[i][j].setBounds((int)(12+i*step),(int)(300+j*step),(int)(step),(int)(step));
                 }
-                Color fond=new Color (255-((int)(97*Math.abs(tab.getVal(i,j))))%256,255-((int)(11*Math.abs(tab.getVal(i,j))))%256,255-((int)(163*Math.abs(tab.getVal(i,j))))%256);
+                Color fond=new Color (255-modulo((int)(97*tab.getVal(i,j)),256),255-modulo((int)(11*tab.getVal(i,j)),256),255-modulo((int)(163*tab.getVal(i,j)),256));
                 tableau[i][j].setBackground(fond);
                 tableau[i][j].setText((int)tab.getVal(i,j)+"");
                 tableau[i][j].setFont(font);
@@ -394,6 +394,13 @@ public class Personnaliser extends JFrame implements ActionListener  {
                 f.add(tableau[i][j]);
             }
         }
+    }
+
+    public int modulo (int val1, int val2) {
+        if (val1>=0) {
+            return val1%val2;
+        }
+        return (val2-(-val1-1)%val2-1);
     }
 
     public void initialiserTableauAleatoire(int max) {
@@ -459,7 +466,7 @@ public class Personnaliser extends JFrame implements ActionListener  {
                 else {
                     turtle.fly((i + 0.5)*step,(tab.getTaille() - j - 0.5)*step);
                 }
-                Color fond=new Color (255-((int)(97*Math.abs(tab.getVal(i,j))))%256,255-((int)(11*Math.abs(tab.getVal(i,j))))%256,255-((int)(163*Math.abs(tab.getVal(i,j))))%256);
+                Color fond=new Color (255-modulo((int)(97*tab.getVal(i,j)),256),255-modulo((int)(11*tab.getVal(i,j)),256),255-modulo((int)(163*tab.getVal(i,j)),256));
                 turtle.setColor(fond);
                 turtle.spot(step);
                 turtle.setColor(java.awt.Color.BLACK);
