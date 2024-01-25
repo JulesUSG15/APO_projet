@@ -13,7 +13,7 @@ public class Personnaliser extends JFrame implements ActionListener  {
     private Regles reg;
 
     // Interface graphique
-    private int width = 500;
+    private int width = 700;
     private int frameDisplayed = 0, etapes;
     private Turtle turtle = new Turtle();
     private JTextField fieldEtapes, fieldTaille, fieldAleatoire, fieldChargerDAC, fieldSauvegarderDAC, fieldCharger, fieldSauvegarder;
@@ -274,7 +274,6 @@ public class Personnaliser extends JFrame implements ActionListener  {
             turtle = new Turtle();
             turtle.create(width, width);
             turtle.setLayout(null);
-            turtle.setTitle("Personnaliser");
 
             frameDisplayed = 0;
 
@@ -363,7 +362,7 @@ public class Personnaliser extends JFrame implements ActionListener  {
         f.add(btnSetSauvegarder);
         f.add(btnChangerGrille);
         f.add(btnSimulation);
-        f.setSize(width,300+width);
+        f.setSize(500,800);
         f.setLayout(null);
         f.setVisible(true);
     }
@@ -372,10 +371,10 @@ public class Personnaliser extends JFrame implements ActionListener  {
         double step;
 
         if (grilleHexa) {
-            step = 0.92*width / (tab.getTaille()+0.5);
+            step = 0.92*500 / (tab.getTaille()+0.5);
         }
         else {
-            step = 0.92*width / tab.getTaille();
+            step = 0.92*500 / tab.getTaille();
         }
         Font font=new Font ("Serif",Font.BOLD,(int)(100/tab.getTaille()));
         for (int i=0;i<tab.getTaille();i++) {
@@ -443,6 +442,7 @@ public class Personnaliser extends JFrame implements ActionListener  {
     }
 
     public void afficherTableauGraphique(Tableau tab) {
+        turtle.setTitle("Personnaliser | Etape : "+frameDisplayed);
         double step;
         if (grilleHexa) {
             step=width / (simulation.get(0).getTaille()+0.5);

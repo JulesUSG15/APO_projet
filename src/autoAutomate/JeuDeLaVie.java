@@ -14,7 +14,7 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
     private int etapes;
 
     // Interface graphique
-    private int width = 500;
+    private int width = 700;
     private int frameDisplayed = 0;
     private Turtle turtle = new Turtle();
     private JTextField fieldEtapes, fieldTaille, fieldDensite, fieldCharger, fieldSauvegarder;
@@ -180,7 +180,6 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
             turtle = new Turtle();
             turtle.create(width, width);
             turtle.setLayout(null);
-            turtle.setTitle("Jeu de la vie");
 
             frameDisplayed = 0;
 
@@ -264,13 +263,13 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
         f.add(fieldSauvegarder);
         f.add(btnSetSauvegarder);
         f.add(btnSimulation);
-        f.setSize(width,200+width);
+        f.setSize(500,700);
         f.setLayout(null);
         f.setVisible(true);
     }
 
     public void majTableau () {
-        double step = 0.92*width / tab.getTaille();
+        double step = 0.92*500 / tab.getTaille();
         for (int i=0;i<tab.getTaille();i++) {
             for (int j=0;j<tab.getTaille();j++) {
                 tableau[i][j]=new JButton ();
@@ -323,6 +322,7 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
     }
 
     public void afficherTableauGraphique(Tableau tab) {
+        turtle.setTitle("Jeu de la vie | Etape : "+frameDisplayed);
         double step=width / simulation.get(0).getTaille();
         turtle.clear();
         turtle.setColor(java.awt.Color.BLACK);

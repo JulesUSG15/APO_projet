@@ -12,7 +12,7 @@ public class Majorite extends JFrame implements ActionListener  {
     private Regles reg;
 
     // Interface graphique
-    private int width = 500;
+    private int width = 700;
     private int frameDisplayed = 0, etapes;
     private Turtle turtle = new Turtle();
     private JComboBox<String> choixVoisins;
@@ -184,7 +184,6 @@ public class Majorite extends JFrame implements ActionListener  {
             turtle = new Turtle();
             turtle.create(width, width);
             turtle.setLayout(null);
-            turtle.setTitle("Majorité");
 
             frameDisplayed = 0;
 
@@ -268,7 +267,7 @@ public class Majorite extends JFrame implements ActionListener  {
         f.add(fieldSauvegarder);
         f.add(btnSetSauvegarder);
         f.add(btnSimulation);
-        f.setSize(width,200+width);
+        f.setSize(500,700);
         f.setLayout(null);
         f.setVisible(true);
     }
@@ -277,10 +276,10 @@ public class Majorite extends JFrame implements ActionListener  {
         double step;
 
         if (grilleHexa) {
-            step = 0.92*width / (tab.getTaille()+0.5);
+            step = 0.92*500 / (tab.getTaille()+0.5);
         }
         else {
-            step = 0.92*width / tab.getTaille();
+            step = 0.92*500 / tab.getTaille();
         }
         for (int i=0;i<tab.getTaille();i++) {
             for (int j=0;j<tab.getTaille();j++) {
@@ -345,6 +344,7 @@ public class Majorite extends JFrame implements ActionListener  {
     }
 
     public void afficherTableauGraphique(Tableau tab) {
+        turtle.setTitle("Majorité | Etape : "+frameDisplayed);
         double step;
         if (grilleHexa) {
             step=width / (simulation.get(0).getTaille()+0.5);
