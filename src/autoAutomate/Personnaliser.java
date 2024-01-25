@@ -252,7 +252,8 @@ public class Personnaliser extends JFrame implements ActionListener  {
                 for (int j=0;j<tab.getTaille();j++) {
                     if (e.getSource() == tableau[i][j]) {
                         tab.setVal(i,j,(tab.getVal(i,j)+1)%50);
-                        Color fond=new Color (255-modulo((int)(97*tab.getVal(i,j)),256),255-modulo((int)(11*tab.getVal(i,j)),256),255-modulo((int)(163*tab.getVal(i,j)),256));
+                        double val=tab.getVal(i,j);
+                        Color fond=new Color (255-modulo((int)(97*val),256),255-modulo((int)(11*val),256),255-modulo((int)(163*val),256));
                         tableau[i][j].setBackground(fond);
                         tableau[i][j].setText((int)tab.getVal(i,j)+"");
                     }
@@ -386,7 +387,8 @@ public class Personnaliser extends JFrame implements ActionListener  {
                 else {
                     tableau[i][j].setBounds((int)(12+i*step),(int)(300+j*step),(int)(step),(int)(step));
                 }
-                Color fond=new Color (255-modulo((int)(97*tab.getVal(i,j)),256),255-modulo((int)(11*tab.getVal(i,j)),256),255-modulo((int)(163*tab.getVal(i,j)),256));
+                double val=tab.getVal(i,j);
+                Color fond=new Color (255-modulo((int)(97*val),256),255-modulo((int)(11*val),256),255-modulo((int)(163*val),256));
                 tableau[i][j].setBackground(fond);
                 tableau[i][j].setText((int)tab.getVal(i,j)+"");
                 tableau[i][j].setFont(font);
@@ -466,7 +468,8 @@ public class Personnaliser extends JFrame implements ActionListener  {
                 else {
                     turtle.fly((i + 0.5)*step,(tab.getTaille() - j - 0.5)*step);
                 }
-                Color fond=new Color (255-modulo((int)(97*tab.getVal(i,j)),256),255-modulo((int)(11*tab.getVal(i,j)),256),255-modulo((int)(163*tab.getVal(i,j)),256));
+                double val=tab.getVal(i,j);
+                Color fond=new Color (255-modulo((int)(97*val),256),255-modulo((int)(11*val),256),255-modulo((int)(163*val),256));
                 turtle.setColor(fond);
                 turtle.spot(step);
                 turtle.setColor(java.awt.Color.BLACK);
