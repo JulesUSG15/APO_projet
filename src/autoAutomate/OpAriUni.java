@@ -77,7 +77,7 @@ public class OpAriUni extends Valeur{
         return false;
     }
     
-    public double get (Tableau tab, int [][] voisins, int [] indices) {
+    public double get (Tableau tab, double [] voisins, int [] indices) {
         switch (op) {
             case "verif": {
                 if (((Condition)obj).get(tab, voisins, indices)) {
@@ -90,7 +90,7 @@ public class OpAriUni extends Valeur{
                 if (voisins!=null) {
                     double val=((Valeur)obj).get(tab, voisins, indices);
                     for (int i=0;i<voisins.length;i++) {
-                        if (tab.getVal(voisins[i])==val) {
+                        if (voisins[i]==val) {
                             res++;
                         }
                     }
@@ -101,7 +101,7 @@ public class OpAriUni extends Valeur{
                 if ((int)obj==0) {
                     return tab.getVal(indices);
                 }
-                return tab.getVal(voisins[(int)obj-1]);
+                return voisins[(int)obj-1];
             }
             case "cos": return Math.cos(Math.PI*((Valeur)obj).get(tab, voisins, indices)/180);
             case "sin": return Math.sin(Math.PI*((Valeur)obj).get(tab, voisins, indices)/180);

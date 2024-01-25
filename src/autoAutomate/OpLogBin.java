@@ -39,7 +39,7 @@ public class OpLogBin extends Condition{
         return true;
     }
     
-    public boolean get (Tableau tab, int [][] voisins, int [] indices) {
+    public boolean get (Tableau tab, double [] voisins, int [] indices) {
         switch (op) {
             case "&&": return cond1.get(tab,voisins,indices) && cond2.get(tab,voisins,indices);
             case "||": return cond1.get(tab,voisins,indices) || cond2.get(tab,voisins,indices);

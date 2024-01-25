@@ -47,7 +47,7 @@ public class OpAriBin extends Valeur {
         return true;
     }
     
-    public double get (Tableau tab, int [][] voisins, int [] indices) {
+    public double get (Tableau tab, double [] voisins, int [] indices) {
         switch (op) {
             case "+": return val1.get(tab,voisins,indices)+val2.get(tab,voisins,indices);
             case "-": return val1.get(tab,voisins,indices)-val2.get(tab,voisins,indices);

@@ -4,13 +4,13 @@ public abstract class Condition {
     
     public abstract boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur, int dim);
     
-    public abstract boolean get (Tableau tab, int [][] voisins, int [] indices);
+    public abstract boolean get (Tableau tab, double [] voisins, int [] indices);
     
     public abstract String getExp ();
 
     public abstract int getOp (String exp);
     
-    public Condition getCond (String exp,int nbVoisins,Variable [] var, String [] erreur, int dim) {
+    public Condition getCond (String exp, int nbVoisins, Variable [] var, String [] erreur, int dim) {
         Condition cond;
         int n=(new OpLogBin ()).getOp(exp);
         if (n!=-1) {

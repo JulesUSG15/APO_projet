@@ -173,15 +173,17 @@ public class Regles {
     }
     
     private double get (Tableau tab, int [] indices) {
-        int [][] vois=new int [voisins.length][dim];
-        for (int j=0;j<vois.length;j++) {
+        int [] vois=new int [dim];
+        double [] valVois=new double [voisins.length];
+        for (int j=0;j<voisins.length;j++) {
             for (int i=0;i<dim;i++) {
-                vois[j][i]=indices[i]+voisins[j][i];
+                vois[i]=indices[i]+voisins[j][i];
             }
+            valVois[j]=tab.getVal(vois);
         }
         for (int i=0;i<conditions.length;i++) {
-            if (conditions[i].get(tab, vois, indices)) {
-                return actions[i].get(tab,vois,indices);
+            if (conditions[i].get(tab, valVois, indices)) {
+                return actions[i].get(tab,valVois,indices);
             }
         }
         return tab.getVal(indices);

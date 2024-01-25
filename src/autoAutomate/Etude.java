@@ -26,18 +26,14 @@ public class Etude extends Valeur{
         return true;
     }
     
-    public double get (Tableau tab, int [][] voisins, int [] indices) {
-        double [] vals=new double [voisins.length];
-        for (int i=0;i<vals.length;i++) {
-            vals[i]=tab.getVal(voisins[i]);
-        }
+    public double get (Tableau tab, double [] voisins, int [] indices) {
         switch (op) {
-            case "maximum": return maximum(vals);
-            case "minimum": return minimum(vals);
-            case "majorite": return majorite(vals);
-            case "minorite": return minorite(vals);
-            case "moyenne": return moyenne(vals);
-            case "total": return total(vals);
+            case "maximum": return maximum(voisins);
+            case "minimum": return minimum(voisins);
+            case "majorite": return majorite(voisins);
+            case "minorite": return minorite(voisins);
+            case "moyenne": return moyenne(voisins);
+            case "total": return total(voisins);
             case "taille": return tab.getTaille();
         }
         return 0;

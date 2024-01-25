@@ -46,7 +46,7 @@ public class OpCompar extends Condition{
         return true;
     }
     
-    public boolean get (Tableau tab, int [][] voisins, int [] indices) {
+    public boolean get (Tableau tab, double [] voisins, int [] indices) {
         switch (op) {
             case "<=": return val1.get(tab,voisins,indices) <= val2.get(tab,voisins,indices);
             case ">=": return val1.get(tab,voisins,indices) >= val2.get(tab,voisins,indices);

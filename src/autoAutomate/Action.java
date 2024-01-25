@@ -39,7 +39,7 @@ public class Action {
         return true;
     }
     
-    public double get (Tableau tab, int [][] voisins, int [] indices) {
+    public double get (Tableau tab, double [] voisins, int [] indices) {
         int nb=proba.length;
         if (nb<1) 
             return -1;

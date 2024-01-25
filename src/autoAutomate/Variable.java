@@ -14,7 +14,7 @@ public class Variable extends Valeur {
         return true;
     }
     
-    public double get (Tableau tab, int [][] voisins, int [] indices) {
+    public double get (Tableau tab, double [] voisins, int [] indices) {
         return val;
     }
     

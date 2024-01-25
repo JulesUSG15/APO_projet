@@ -4,7 +4,7 @@ public abstract class Valeur {
     
     public abstract boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur, int dim);
     
-    public abstract double get (Tableau tab, int [][] voisins, int [] indices);
+    public abstract double get (Tableau tab, double [] voisins, int [] indices);
     
     public abstract String getExp ();
 
