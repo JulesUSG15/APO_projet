@@ -8,18 +8,14 @@ import javax.swing.*;
 import java.net.URL;
 
 // for audio files only
-import java.applet.Applet;
-import java.applet.AudioClip;
 
 // Support for saving the canvas to a file
 import java.awt.image.*;
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import javax.imageio.ImageIO;
 
 public class Turtle extends JFrame {
-     static private Turtle turtle;
 
      static private Image offscreenImage;        // double buffered image
      static private Graphics2D offscreen;
@@ -31,7 +27,6 @@ public class Turtle extends JFrame {
      static private Color bg;                    // background color
 
      // singleton class - user is not allowed to create new ones 
-     public void Turtle() { }
 
 
     // create a canvas with drawing area width-by-height
@@ -66,7 +61,6 @@ public class Turtle extends JFrame {
     // close the window
     public void done() {
         dispose();
-        turtle = null;
     }
 
 
@@ -82,12 +76,6 @@ public class Turtle extends JFrame {
     public void clear(Color backg) {
         bg = backg;
         clear();
-    }
-
-    // wait for a short while
-    public void pause(int delay) {
-        try { Thread.currentThread().sleep(delay); }
-        catch (InterruptedException e) { }
     }
 
     // change the color of the paint
@@ -152,12 +140,6 @@ public class Turtle extends JFrame {
         x += d * Math.cos(Math.toRadians(orientation));
         y += d * Math.sin(Math.toRadians(orientation));
         offscreen.draw(new Line2D.Double(x, y, oldx, oldy));
-    }
-
-    public void grunt(String s) {
-        URL url = Turtle.class.getResource(s); 
-        AudioClip clip = Applet.newAudioClip(url);
-        clip.play();
     }
 
     public void paint(Graphics g) {
