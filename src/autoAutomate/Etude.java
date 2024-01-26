@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Etude extends Valeur{
     private String op="";
-    private String [] opList={"maximum","minimum","majorite","minorite","moyenne","total", "taille"};
+    private String [] opList={"maximum","minimum","majority","minority","average","median","sum", "length"};
     
     public boolean set (String exp, int position, int nbVoisins, Variable [] var, String [] erreur, int dim) {
         if (exp.length()<=position) {
@@ -30,11 +30,12 @@ public class Etude extends Valeur{
         switch (op) {
             case "maximum": return maximum(voisins);
             case "minimum": return minimum(voisins);
-            case "majorite": return majorite(voisins);
-            case "minorite": return minorite(voisins);
-            case "moyenne": return moyenne(voisins);
-            case "total": return total(voisins);
-            case "taille": return tab.getTaille();
+            case "majority": return majority(voisins);
+            case "minority": return minority(voisins);
+            case "average": return average(voisins);
+            case "median": return median(voisins);
+            case "sum": return sum(voisins);
+            case "length": return tab.getTaille();
         }
         return 0;
     }
@@ -93,7 +94,7 @@ public class Etude extends Valeur{
         return val0;
     }
 
-    private double majorite (double [] vals) {
+    private double majority (double [] vals) {
         double [] valuni=new double [vals.length];
         double [] ocu=new double [vals.length];
         int nb=0;
@@ -132,7 +133,7 @@ public class Etude extends Valeur{
         return val0;
     }
 
-    private double minorite (double [] vals) {
+    private double minority (double [] vals) {
         double [] valuni=new double [vals.length];
         double [] ocu=new double [vals.length];
         int nb=0;
@@ -171,11 +172,29 @@ public class Etude extends Valeur{
         return val0;
     }
 
-    private double moyenne (double [] vals) {
-        return total(vals)/vals.length;
+    private double average (double [] vals) {
+        return sum(vals)/vals.length;
     }
 
-     private double total (double [] vals) {
+    private double median (double [] vals) {
+        double t;
+        int max=(vals.length+2)/2;
+        for (int i=0;i<max;i++) {
+            for (int j=i+1;j<vals.length;j++) {
+                if (vals[j]>vals[i]) {
+                    t=vals[i];
+                    vals[i]=vals[j];
+                    vals[j]=t;
+                }
+            }
+        }
+        if (vals.length%2==1) {
+            return vals[max-1];
+        }
+        return (vals[max-1]+vals[max-2])/2;
+    }
+
+     private double sum (double [] vals) {
         double tot=0;
         for (int i=0;i<vals.length;i++) {
             tot+=vals[i];

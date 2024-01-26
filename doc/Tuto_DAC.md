@@ -14,7 +14,7 @@ Voici un exemple de code écrit en DAC :
 
 count1>0 && #0==1?
     $var_Exe4:#2, (0.9+count3+verif(#2==2)):2;
-!(#4<=1 || #3==0) && count(#1*count(#2))==total?   /* Ceci est un commentaire */
+!(#4<=1 || #3==0) && count(#1*count(#2))==sum?   /* Ceci est un commentaire */
     2:count1-1;
 ```
 
@@ -92,15 +92,16 @@ Ce type permet de renvoyer un réel après l'étude des voisins ou du tableau.
 Voici les différentes études possibles :
 - `maximum` : renvoie la valeur maximale parmi les voisins
 - `minimum` : renvoie la valeur minimale parmi les voisins
-- `majorite` : renvoie la valeur la plus présente parmi les voisins
-- `minorite` : renvoie la valeur la moins présente parmi les voisins
-- `moyenne` : renvoie la moyenne des valeurs des voisins
-- `total` : renvoie le total des valeurs des voisins
-- `taille` : renvoie la taille du tableau
+- `majority` : renvoie la valeur la plus présente parmi les voisins
+- `minority` : renvoie la valeur la moins présente parmi les voisins
+- `average` : renvoie la moyenne des valeurs des voisins
+- `median` : renvoie la médiane des valeurs des voisins
+- `sum` : renvoie la somme des valeurs des voisins
+- `length` : renvoie la taille du tableau
         
 Par exemple :
-`count(#1*count(#2))==total?`
-Dans ce code, `total` renvoie le total des valeurs des voisins
+`count(#1*count(#2))==sum?`
+Dans ce code, `sum` renvoie la somme des valeurs des voisins
 
 ##### Les types opérateur binaire
 
@@ -171,7 +172,7 @@ Une condition peut être composée de plusieurs opérateurs conditionnels :
         
 Par exemple :
 - `count1>0 && #0==1` est valide si au moins un voisin vaut 1 et si la cellule sur laquelle la règle est appliquée vaut 0
-- `!(#4<=1 || #3==0) && count(#1*count(#2))==total` est valide si `count(#1*count(#2))` vaut le total des valeurs des voisins et que l'on n'a pas `#4` inferieur ou égal à 1 ou `#3` égal à 0.
+- `!(#4<=1 || #3==0) && count(#1*count(#2))==sum` est valide si `count(#1*count(#2))` vaut la somme des valeurs des voisins et que l'on n'a pas `#4` inferieur ou égal à 1 ou `#3` égal à 0.
     
 ##### Les actions
 
@@ -208,7 +209,7 @@ Maintenant un exemple plus poussé, reprenons le code de l'introduction :
 
 count1>0 && #0==1?
     $var_Exe4:#2, (0.9+count3+verif(#2==2)):2;
-!(#4<=1 || #3==0) && count(#1*count(#2))==total?   /* Ceci est un commentaire */
+!(#4<=1 || #3==0) && count(#1*count(#2))==sum?   /* Ceci est un commentaire */
     2:count1-1;
 ```
 
@@ -217,7 +218,7 @@ count1>0 && #0==1?
 On assignerait alors la valeur du deuxième voisin à la cellule sur laquelle la règle est appliquée.
 - La deuxième instruction a une probabilité de `(0.9+count3+verif(#2==2))/($var_Exe4+0.9+count3+verif(#2==2))` d'être exécutée.
 On assignerait alors la valeur 2 à la cellule sur laquelle la règle est appliquée.
-- Si `!(#4<=1 || #3==0) && count(#1*count(#2))==total` est valide, on execute `2:count1-1;`
+- Si `!(#4<=1 || #3==0) && count(#1*count(#2))==sum` est valide, on execute `2:count1-1;`
 - L'instruction a une probabilité de `2/2` = 100% de chances d'être exécutée.
 On assignerait alors (le nombre de voisins valant 1) moins 1 à la cellule sur laquelle la règle est appliquée.
 
