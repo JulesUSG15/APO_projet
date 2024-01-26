@@ -382,13 +382,6 @@ public class FeuDeForet extends JFrame implements ActionListener  {
             step=width / simulation.get(0).getTaille();
         }
         turtle.clear();
-        turtle.setColor(java.awt.Color.BLACK);
-        
-        turtle.fly(0, 0);
-        turtle.go(tab.getTaille() * step, 0);
-        turtle.go(tab.getTaille() * step, tab.getTaille() * step);
-        turtle.go(0, tab.getTaille() * step);
-        turtle.go(0, 0);
 
         Color ligthGreen=new Color (0,255, 0);
         Color darkGreen=new Color (0,100, 0);
@@ -410,20 +403,7 @@ public class FeuDeForet extends JFrame implements ActionListener  {
                     default: turtle.setColor(ligthGreen);
                 }
                 turtle.spot(step);
-                turtle.setColor(java.awt.Color.BLACK);
-                if (grilleHexa) {
-                    turtle.fly(((i+j/2)%tab.getTaille()+ 0.5*(j%2)) * step, (tab.getTaille() - j - 1)*step);
-                    turtle.go(((i+j/2)%tab.getTaille()+ 0.5*(j%2)) * step, (tab.getTaille() - j)*step);
-                }
-                else {
-                    turtle.fly(i * step, (tab.getTaille() - j - 1)*step);
-                    turtle.go(i * step, (tab.getTaille() - j)*step);
-                }
             }
-        }
-        for (int i = 0; i< tab.getTaille(); i++) {
-            turtle.fly(0, i * step);
-            turtle.go(width, i * step);
         }
 
         turtle.render();

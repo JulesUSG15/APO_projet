@@ -16,7 +16,7 @@ public class Personnaliser extends JFrame implements ActionListener  {
     private int width = 700;
     private int frameDisplayed = 0, etapes;
     private Turtle turtle = new Turtle();
-    private JTextField fieldEtapes, fieldTaille, fieldAleatoire, fieldChargerDAC, fieldSauvegarderDAC, fieldCharger, fieldSauvegarder;
+    private JTextField fieldEtapes, fieldTaille, fieldAleatoire, fieldChargerDAC, fieldSauvegarderDAC, fieldCharger, fieldSauvegarder, fieldPas;
     private JTextArea fieldDAC;
     private JButton btnSimulation, btnPrepare, btnSetTaille, btnAleatoire, btnSetChargerDAC, btnSetSauvegarderDAC, btnSetCharger, btnSetSauvegarder, btnChangerGrille;
     private JButton [][] tableau;
@@ -251,11 +251,19 @@ public class Personnaliser extends JFrame implements ActionListener  {
             for (int i=0;i<tab.getTaille();i++) {
                 for (int j=0;j<tab.getTaille();j++) {
                     if (e.getSource() == tableau[i][j]) {
-                        tab.setVal(i,j,(tab.getVal(i,j)+1)%50);
+                        double pas=1;
+                        try {
+                            pas=Double.parseDouble(fieldPas.getText());
+                        } catch (NumberFormatException ex) {
+                            System.out.println("Veuillez entrer des valeurs correctes pour le pas des valeurs");
+                            return;
+                        }
+                        tab.setVal(i,j,tab.getVal(i,j)+pas);
                         double val=tab.getVal(i,j);
                         Color fond=new Color (255-modulo((int)(97*val),256),255-modulo((int)(11*val),256),255-modulo((int)(163*val),256));
                         tableau[i][j].setBackground(fond);
-                        tableau[i][j].setText((int)tab.getVal(i,j)+"");
+                        tableau[i][j].setText((int)val+"");
+                        tableau[i][j].setToolTipText(val+"");
                     }
                 }
             }
@@ -341,8 +349,18 @@ public class Personnaliser extends JFrame implements ActionListener  {
         btnChangerGrille.setBounds(280,140,170,30);
         btnChangerGrille.addActionListener(this);
 
+        JLabel labelPas = new JLabel("Pas entre les valeurs :");
+        labelPas.setBounds(20,170,140,30);
+        if (fieldPas==null) {
+            fieldPas = new JTextField("1");
+        }
+        else {
+            fieldPas = new JTextField(fieldPas.getText());
+        }
+        fieldPas.setBounds(150,170,120,30);
+
         btnSimulation = new JButton("Lancer la simulation");
-        btnSimulation.setBounds(150,180,170,30);
+        btnSimulation.setBounds(150,220,170,30);
         btnSimulation.addActionListener(this);
 
         tableau = new JButton [tab.getTaille()][tab.getTaille()];
@@ -361,6 +379,8 @@ public class Personnaliser extends JFrame implements ActionListener  {
         f.add(fieldSauvegarder);
         f.add(btnSetSauvegarder);
         f.add(btnChangerGrille);
+        f.add(labelPas);
+        f.add(fieldPas);
         f.add(btnSimulation);
         f.setSize(500,800);
         f.setLayout(null);
@@ -391,6 +411,7 @@ public class Personnaliser extends JFrame implements ActionListener  {
                 tableau[i][j].setBackground(fond);
                 tableau[i][j].setText((int)tab.getVal(i,j)+"");
                 tableau[i][j].setFont(font);
+                tableau[i][j].setToolTipText(val+"");
                 tableau[i][j].addActionListener(this);
                 f.add(tableau[i][j]);
             }
@@ -407,6 +428,20 @@ public class Personnaliser extends JFrame implements ActionListener  {
     public void initialiserTableauAleatoire(int max) {
         tab=new Tableau(2,tab.getTaille());
         tab.intialiserAleatoirement(0,max-1);
+        double pas=1;
+        try {
+            pas=Double.parseDouble(fieldPas.getText());
+        } catch (NumberFormatException ex) {
+            System.out.println("Veuillez entrer des valeurs correctes pour le pas des valeurs");
+            return;
+        }
+        if (pas!=1) {
+            for (int i=0;i<tab.getTaille();i++) {
+                for (int j=0;j<tab.getTaille();j++) {
+                    tab.setVal(i,j,tab.getVal(i,j)*pas);
+                }
+            }
+        }
     }
 
     public void simuler(Tableau tab, int n) {
@@ -451,13 +486,6 @@ public class Personnaliser extends JFrame implements ActionListener  {
             step=width / simulation.get(0).getTaille();
         }
         turtle.clear();
-        turtle.setColor(java.awt.Color.BLACK);
-        
-        turtle.fly(0, 0);
-        turtle.go(tab.getTaille() * step, 0);
-        turtle.go(tab.getTaille() * step, tab.getTaille() * step);
-        turtle.go(0, tab.getTaille() * step);
-        turtle.go(0, 0);
 
         for (int i = 0; i< tab.getTaille(); i++) {
             for (int j = 0; j < tab.getTaille(); j++) {
@@ -472,20 +500,7 @@ public class Personnaliser extends JFrame implements ActionListener  {
                 Color fond=new Color (255-modulo((int)(97*val),256),255-modulo((int)(11*val),256),255-modulo((int)(163*val),256));
                 turtle.setColor(fond);
                 turtle.spot(step);
-                turtle.setColor(java.awt.Color.BLACK);
-                if (grilleHexa) {
-                    turtle.fly(((i+j/2)%tab.getTaille()+ 0.5*(j%2)) * step, (tab.getTaille() - j - 1)*step);
-                    turtle.go(((i+j/2)%tab.getTaille()+ 0.5*(j%2)) * step, (tab.getTaille() - j)*step);
-                }
-                else {
-                    turtle.fly(i * step, (tab.getTaille() - j - 1)*step);
-                    turtle.go(i * step, (tab.getTaille() - j)*step);
-                }
             }
-        }
-        for (int i = 0; i< tab.getTaille(); i++) {
-            turtle.fly(0, i * step);
-            turtle.go(width, i * step);
         }
 
         turtle.render();

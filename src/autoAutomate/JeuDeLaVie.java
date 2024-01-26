@@ -325,13 +325,6 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
         turtle.setTitle("Jeu de la vie | Etape : "+frameDisplayed);
         double step=width / simulation.get(0).getTaille();
         turtle.clear();
-        turtle.setColor(java.awt.Color.BLACK);
-        
-        turtle.fly(0, 0);
-        turtle.go(tab.getTaille() * step, 0);
-        turtle.go(tab.getTaille() * step, tab.getTaille() * step);
-        turtle.go(0, tab.getTaille() * step);
-        turtle.go(0, 0);
 
         for (int i = 0; i< tab.getTaille(); i++) {
             for (int j = 0; j < tab.getTaille(); j++) {
@@ -340,14 +333,7 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
                     turtle.setColor(java.awt.Color.BLACK);
                     turtle.spot(step);
                 }
-                turtle.setColor(java.awt.Color.BLACK);
-                turtle.fly(i * step, (tab.getTaille() - j - 1)*step);
-                turtle.go(i * step, (tab.getTaille() - j)*step);
             }
-        }
-        for (int i = 0; i< tab.getTaille(); i++) {
-            turtle.fly(0, i * step);
-            turtle.go(width, i * step);
         }
 
         turtle.render();
