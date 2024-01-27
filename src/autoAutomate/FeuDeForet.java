@@ -6,6 +6,11 @@ import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.Color;
 
+/**
+ * La classe FeuDeForet implémente une interface graphique pour simuler un feu de forêt
+ * dans un automate cellulaire. Elle permet de configurer et d'afficher les différentes étapes
+ * de la simulation.
+ */
 public class FeuDeForet extends JFrame implements ActionListener  {
 
     private ArrayList<Tableau> simulation = new ArrayList<Tableau>();
@@ -23,10 +28,17 @@ public class FeuDeForet extends JFrame implements ActionListener  {
     private JFrame f;
     private boolean grilleHexa;
 
+    /**
+     * Constructeur pour créer l'interface graphique de la simulation de feu de forêt.
+     * Initialise les composants graphiques et configure les paramètres de la simulation.
+     */
     public FeuDeForet() {
         this.reg = new Regles();
     }
     
+    /**
+     * Configure et lance l'interface graphique principale pour la simulation.
+     */
     public void main() {
 
         // Gestion des touches
@@ -117,6 +129,13 @@ public class FeuDeForet extends JFrame implements ActionListener  {
         f.setVisible(true);
     }
 
+    /**
+     * Gère les actions effectuées par l'utilisateur sur l'interface graphique.
+     * Cela inclut la préparation de la simulation, la modification de la taille du tableau,
+     * le chargement et la sauvegarde des configurations, ainsi que le lancement de la simulation.
+     * 
+     * @param e L'événement d'action qui a déclenché cette méthode.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         // Lancement de la préparation
@@ -224,6 +243,10 @@ public class FeuDeForet extends JFrame implements ActionListener  {
         }
     }
 
+    /**
+     * Prépare l'interface graphique pour la configuration de la simulation.
+     * Permet à l'utilisateur de configurer les paramètres avant de lancer la simulation.
+     */
     public void pagePreparation () {
         f = new JFrame("Préparation - Feu de forêt");
         
@@ -304,6 +327,9 @@ public class FeuDeForet extends JFrame implements ActionListener  {
         f.setVisible(true);
     }
 
+    /**
+     * Met à jour le tableau de l'interface graphique en fonction de l'état actuel de la simulation.
+     */
     public void majTableau () {
         Color darkGreen=new Color (0,100, 0);
         Color ligthGreen=new Color (0,255, 0);
@@ -335,11 +361,22 @@ public class FeuDeForet extends JFrame implements ActionListener  {
         }
     }
 
+    /**
+     * Initialise le tableau de l'automate avec une densité donnée de manière aléatoire.
+     * 
+     * @param densite La densité de forêt à utiliser pour l'initialisation.
+     */
     public void initialiserTableauAleatoire(double densite) {
         tab=new Tableau(2,tab.getTaille());
         tab.remplir((int)(Math.pow(tab.getTaille(),tab.getDim())*densite),1);
     }
 
+    /**
+     * Simule le feu de forêt pour un nombre donné d'étapes.
+     * 
+     * @param tab Le tableau représentant l'état initial de la simulation.
+     * @param n Le nombre d'étapes à simuler.
+     */
     public void simuler(Tableau tab, int n) {
         simulation.clear();
         simulation.add(tab);
@@ -349,6 +386,9 @@ public class FeuDeForet extends JFrame implements ActionListener  {
         }
     } 
 
+    /**
+     * Affiche le résultat de la simulation dans la console.
+     */
     public void afficherConsole() {
         for (Tableau t : simulation) {
             t.afficher(true);
@@ -356,7 +396,9 @@ public class FeuDeForet extends JFrame implements ActionListener  {
         }
     }
 
-    // Passe à la frame suivante
+    /**
+     * Passe à la frame suivante dans la simulation graphique.
+     */
     public void nextFrame() {
         if (frameDisplayed < simulation.size() - 1) {
             frameDisplayed++;
@@ -364,7 +406,9 @@ public class FeuDeForet extends JFrame implements ActionListener  {
         }     
     }
 
-    // Passe à la frame précédente
+    /**
+     * Retourne à la frame précédente dans la simulation graphique.
+     */
     public void previousFrame() {
         if (frameDisplayed > 0) {
             frameDisplayed--;
@@ -372,6 +416,11 @@ public class FeuDeForet extends JFrame implements ActionListener  {
         }   
     }
 
+    /**
+     * Affiche l'état actuel du tableau de l'automate dans une interface graphique.
+     * 
+     * @param tab Le tableau à afficher.
+     */
     public void afficherTableauGraphique(Tableau tab) {
         turtle.setTitle("Feu de forêt | Etape : "+frameDisplayed);
         double step;

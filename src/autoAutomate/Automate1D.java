@@ -4,14 +4,29 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * La classe Automate1D est une interface graphique pour la simulation d'automates cellulaires unidimensionnels.
+ * Elle permet à l'utilisateur de spécifier une règle, une configuration initiale et le nombre d'étapes à simuler.
+ */
 public class Automate1D extends JFrame implements ActionListener {
 
+    /**
+     * L'objet ReglesAutomate1D qui contient la règle et la configuration initiale de l'automate.
+     */
     private ReglesAutomate1D regles;
+
+    /**
+     * Les composants graphiques de l'interface.
+     */
     private JTextField champNumeroRegle;
     private JTextField champConfigInitiale;
     private JTextField champNombreEtapes;
     private JTextArea zoneResultats;
 
+    /**
+     * Constructeur pour créer l'interface graphique de l'automate 1D.
+     * Initialise les composants graphiques et configure l'interface.
+     */
     public Automate1D() {
         regles = new ReglesAutomate1D();
         champNumeroRegle = new JTextField();
@@ -43,6 +58,14 @@ public class Automate1D extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    /**
+     * Méthode déclenchée lorsqu'une action est effectuée sur les éléments graphiques.
+     * Spécifiquement, elle est appelée quand l'utilisateur appuie sur le bouton "Simuler".
+     * Cette méthode gère la récupération des données entrées par l'utilisateur,
+     * exécute la simulation de l'automate cellulaire et affiche les résultats.
+     * 
+     * @param e L'événement d'action qui a déclenché cette méthode.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Simuler")) {
@@ -63,7 +86,11 @@ public class Automate1D extends JFrame implements ActionListener {
             zoneResultats.setText(resultat.toString());
         }
     }
-
+    /**
+     * Cette méthode lance l'interface graphique de l'automate 1D en utilisant Swing.
+     * 
+     * @param args Arguments de ligne de commande (non utilisés dans cette application).
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new Automate1D());
     }
