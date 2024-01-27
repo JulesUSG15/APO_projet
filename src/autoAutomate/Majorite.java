@@ -13,19 +13,64 @@ import java.awt.Color;
  */
 public class Majorite extends JFrame implements ActionListener  {
 
+    /**
+     * La liste des états de la simulation.
+     */
     private ArrayList<Tableau> simulation = new ArrayList<Tableau>();
+
+    /**
+     * L'objet Regles qui contient la règle de majorité.
+     */
     private Regles reg;
 
-    // Interface graphique
+    /**
+     * La largeur de la fenêtre de la simulation.
+     */
     private int width = 700;
+
+    /**
+     * Le nombre d'étapes de la simulation.
+     */
     private int frameDisplayed = 0, etapes;
+
+    /**
+     * L'objet Turtle qui permet d'afficher la simulation.
+     */
     private Turtle turtle = new Turtle();
+
+    /**
+     * Les composants graphiques de l'interface.
+     */
     private JComboBox<String> choixVoisins;
+
+    /**
+     * Les champs de texte de l'interface.
+     */
     private JTextField fieldEtapes, fieldTaille, fieldAleatoire, fieldCharger, fieldSauvegarder;
+
+    /**
+     * Les boutons de l'interface.
+     */
     private JButton btnSimulation, btnPrepare, btnSetTaille, btnAleatoire, btnSetCharger, btnSetSauvegarder;
+
+    /**
+     * Le tableau de l'interface graphique.
+     */
     private JButton [][] tableau;
+
+    /**
+     * Le tableau initial de la simulation.
+     */
     private Tableau tab;
+
+    /**
+     * La fenêtre principale de l'interface graphique.
+     */
     private JFrame f;
+
+    /**
+     * Vrai si la grille est hexagonale, faux sinon.
+     */
     private boolean grilleHexa;
 
     /**
