@@ -3,15 +3,54 @@ package src.autoAutomate;
 import java.nio.file.*;
 import java.io.*;
 
+/**
+ * La classe Regles gère les règles d'un automate cellulaire, incluant les conditions et les actions.
+ * Elle permet de lire, de définir, de sauvegarder et d'appliquer des règles à un automate.
+ */
 public class Regles {
+
+    /**
+     * dim est la dimension de l'espace de l'automate.
+     */
     private int dim=0;
+
+    /**
+     * valide est un booléen indiquant si les règles sont valides ou non.
+     */
     private boolean valide=false;
+
+    /**
+     * voisins est un tableau d'entiers représentant les coordonnées des voisins.
+     */
     private int [][] voisins=null;
+
+    /**
+     * conditions est un tableau de conditions.
+     */
     private Condition [] conditions=null;
+
+    /**
+     * actions est un tableau d'actions.
+     */
     private Action [] actions=null;
+
+    /**
+     * variables est un tableau de variables.
+     */
     private Variable [] variables=null;
+
+    /**
+     * erreur est une chaîne de caractères contenant les messages d'erreur.
+     */
     private String erreur="";
     
+    /**
+     * Définit une condition pour l'automate à une position donnée.
+     * 
+     * @param exp L'expression de la condition.
+     * @param num La position dans le tableau de conditions.
+     * @return Vrai si la condition est définie avec succès, faux sinon.
+     */
     private boolean setCondition (String exp, int num) {
         if (num<0 || conditions.length-1<num) {
             return false;
@@ -27,6 +66,13 @@ public class Regles {
         return true;
     }
     
+    /**
+     * Définit une action pour l'automate à une position donnée.
+     * 
+     * @param exp L'expression de l'action.
+     * @param num La position dans le tableau d'actions.
+     * @return Vrai si l'action est définie avec succès, faux sinon.
+     */
     private boolean setAction (String exp, int num) {
         if (num<0 || conditions.length-1<num) {
             return false;
@@ -39,6 +85,12 @@ public class Regles {
         return ret;
     }
     
+    /**
+     * Configure les conditions et actions de l'automate à partir d'une expression.
+     * 
+     * @param exp L'expression représentant les règles de l'automate.
+     * @return Vrai si les règles sont définies avec succès, faux sinon.
+     */
     private boolean setCondActions (String exp) {
         setVariables(exp);
         String [] exps=exp.split(";");
@@ -70,6 +122,12 @@ public class Regles {
         return true;
     }
     
+    /**
+     * Définit les coordonnées des voisins pour l'automate.
+     * 
+     * @param exp L'expression représentant les coordonnées des voisins.
+     * @return Vrai si les voisins sont définis avec succès, faux sinon.
+     */
     private boolean setVoisins (String exp) {
         String [] vois=exp.split(";");
         if (vois==null || vois.length<1) {
@@ -102,6 +160,12 @@ public class Regles {
         return true;
     }
 
+    /**
+     * Ajoute une variable si elle n'existe pas déjà.
+     * 
+     * @param nom Le nom de la variable à ajouter.
+     * @return Vrai si la variable est ajoutée, faux si elle existe déjà.
+     */
     private boolean addVariable (String nom) {
         if (!isVariable(nom)) {
             if (variables==null) {
@@ -129,6 +193,11 @@ public class Regles {
         return false;
     }
 
+    /**
+     * Configure les variables de l'automate à partir d'une expression.
+     * 
+     * @param exp L'expression contenant les variables à configurer.
+     */
     private void setVariables (String exp) {
         Valeur fonction=new Variable ();
         String sub;
@@ -142,6 +211,12 @@ public class Regles {
         }
     }
 
+    /**
+     * Retire les commentaires d'une expression.
+     * 
+     * @param exp L'expression à traiter.
+     * @return L'expression sans commentaires.
+     */
     private String retireCom (String exp) {
         if (!exp.contains("/*") || !exp.contains("*/")) {
             return exp;
@@ -172,6 +247,13 @@ public class Regles {
         return res;
     }
     
+    /**
+     * Calcule la valeur d'une cellule à partir de ses voisins.
+     * 
+     * @param tab Le tableau représentant l'état de l'automate.
+     * @param indices Les indices de la cellule.
+     * @return La valeur de la cellule.
+     */
     private double get (Tableau tab, int [] indices) {
         int [] vois=new int [dim];
         double [] valVois=new double [voisins.length];
@@ -189,6 +271,12 @@ public class Regles {
         return tab.getVal(indices);
     }
 
+    /**
+     * Configure les règles de l'automate à partir d'une expression.
+     * 
+     * @param exp L'expression représentant les règles de l'automate.
+     * @return Vrai si les règles sont définies avec succès, faux sinon.
+     */
     public boolean set (String exp) {
         erreur="";
         exp=retireCom(exp);
@@ -212,6 +300,12 @@ public class Regles {
         return valide;
     }
     
+    /**
+     * Applique les règles de l'automate à un tableau.
+     * 
+     * @param tab Le tableau représentant l'état de l'automate.
+     * @return Le tableau résultant de l'application des règles.
+     */
     public Tableau appliquer (Tableau tab) {
         if (tab.getDim()!=dim || !valide) {
             return tab;
@@ -236,6 +330,11 @@ public class Regles {
         return res;
     }
     
+    /**
+     * Renvoie l'expression représentant les règles de l'automate.
+     * 
+     * @return Une chaîne de caractères représentant les règles de l'automate.
+     */
     public String getExp () {
         if (valide) {
             String exp="";
@@ -255,6 +354,12 @@ public class Regles {
         return "Error";
     }
     
+    /**
+     * Charge les règles d'un fichier.
+     * 
+     * @param fichier Le fichier contenant les règles.
+     * @return Vrai si les règles sont chargées avec succès, faux sinon.
+     */
     public boolean charger (String fichier) {
         try {
             String exp=new String(Files.readAllBytes(Paths.get(fichier)));
@@ -266,6 +371,12 @@ public class Regles {
         }
     }
     
+    /**
+     * Sauvegarde les règles dans un fichier.
+     * 
+     * @param fichier Le fichier dans lequel sauvegarder les règles.
+     * @return Vrai si les règles sont sauvegardées avec succès, faux sinon.
+     */
     public boolean sauvegarder (String fichier) {
         if (valide) {
             try {
@@ -280,6 +391,12 @@ public class Regles {
         return false;
     }
 
+    /**
+     * Vérifie si une variable est définie dans les règles de l'automate.
+     * 
+     * @param nom Le nom de la variable à vérifier.
+     * @return Vrai si la variable est définie, faux sinon.
+     */
     public boolean isVariable (String nom) {
         if (variables!=null) {
             for (int i=0;i<variables.length;i++) {
@@ -291,6 +408,13 @@ public class Regles {
         return false;
     }
 
+    /**
+     * Définit une variable dans les règles de l'automate.
+     * 
+     * @param nom Le nom de la variable à définir.
+     * @param val La valeur de la variable.
+     * @return Vrai si la variable est définie avec succès, faux sinon.
+     */
     public boolean setVar (String nom, double val) {
         if (variables!=null) {
             for (int i=0;i<variables.length;i++) {
@@ -303,6 +427,12 @@ public class Regles {
         return false;
     }
 
+    /**
+     * Récupère la valeur d'une variable définie dans les règles de l'automate.
+     * 
+     * @param nom Le nom de la variable.
+     * @return La valeur de la variable.
+     */
     public double getVar (String nom) {
         if (variables!=null) {
             for (int i=0;i<variables.length;i++) {
@@ -314,6 +444,11 @@ public class Regles {
         return 0;
     }
 
+    /**
+     * Renvoie la liste des noms de toutes les variables définies dans les règles de l'automate.
+     * 
+     * @return Un tableau contenant les noms des variables.
+     */
     public String [] getVarList () {
         if (variables!=null) {
             String [] list=new String [variables.length];
@@ -325,6 +460,11 @@ public class Regles {
         return null;
     }
 
+    /**
+     * Renvoie le nombre de variables définies dans les règles de l'automate.
+     * 
+     * @return Le nombre de variables.
+     */
     public int getNbVars () {
         if (variables==null) {
             return 0;
@@ -332,6 +472,12 @@ public class Regles {
         return variables.length;
     }
 
+    /**
+     * Simplifie une expression en retirant les espaces et les retours à la ligne.
+     * 
+     * @param exp L'expression à simplifier.
+     * @return L'expression simplifiée.
+     */
     private String simplification (String exp) {
         String [] exps=exp.split("\r?\n|\r");
         String res="";
@@ -346,10 +492,20 @@ public class Regles {
         return res;
     }
 
+    /**
+     * Renvoie vrai si les règles sont valides, faux sinon.
+     * 
+     * @return Vrai si les règles sont valides, faux sinon.
+     */
     public String getErreur () {
         return erreur;
     }
 
+    /**
+     * Renvoie vrai si les règles sont valides, faux sinon.
+     * 
+     * @return Vrai si les règles sont valides, faux sinon.
+     */
     public int getDim () {
         return dim;
     }

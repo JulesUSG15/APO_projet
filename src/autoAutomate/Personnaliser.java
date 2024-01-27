@@ -7,27 +7,84 @@ import java.awt.KeyboardFocusManager;
 import java.awt.Color;
 import java.awt.Font;
 
+/**
+ * La classe Personnaliser implémente une interface graphique pour personnaliser et simuler
+ * un automate cellulaire selon des règles définies par l'utilisateur. Elle permet de configurer
+ * les paramètres de la simulation et d'afficher les différentes étapes de celle-ci.
+ */
 public class Personnaliser extends JFrame implements ActionListener  {
 
+    /**
+     * La liste des tableaux de la simulation.
+     */
     private ArrayList<Tableau> simulation = new ArrayList<Tableau>();
+
+    /**
+     * L'objet Regles qui contient la règle de l'automate.
+     */
     private Regles reg;
 
-    // Interface graphique
+    /**
+     * La largeur de la fenêtre de la simulation.
+     */
     private int width = 700;
+
+    /**
+     * Le nombre d'étapes de la simulation.
+     */
     private int frameDisplayed = 0, etapes;
+
+    /**
+     * L'objet Turtle qui permet d'afficher la simulation.
+     */
     private Turtle turtle = new Turtle();
+
+    /**
+     * Les composants graphiques de l'interface.
+     */
     private JTextField fieldEtapes, fieldTaille, fieldAleatoire, fieldChargerDAC, fieldSauvegarderDAC, fieldCharger, fieldSauvegarder, fieldPas;
+
+    /**
+     * Les composants graphiques de l'interface.
+     */
     private JTextArea fieldDAC;
+
+    /**
+     * Les boutons de l'interface.
+     */
     private JButton btnSimulation, btnPrepare, btnSetTaille, btnAleatoire, btnSetChargerDAC, btnSetSauvegarderDAC, btnSetCharger, btnSetSauvegarder, btnChangerGrille;
+
+    /**
+     * Le tableau de l'interface graphique.
+     */
     private JButton [][] tableau;
+
+    /**
+     * Le tableau de la simulation.
+     */
     private Tableau tab;
+
+    /**
+     * Les fenêtres de l'interface graphique.
+     */
     private JFrame f, p;
+
+    /**
+     * Le type de grille de l'interface graphique.
+     */
     private boolean grilleHexa;
 
+    /**
+     * Constructeur pour créer l'interface graphique de personnalisation de l'automate cellulaire.
+     * Initialise les composants graphiques et configure les paramètres de la simulation.
+     */
     public Personnaliser() {
         this.reg = new Regles();
     }
     
+    /**
+     * Configure et lance l'interface graphique principale pour la personnalisation de la simulation.
+     */
     public void main() {
 
         // Gestion des touches
@@ -56,6 +113,11 @@ public class Personnaliser extends JFrame implements ActionListener  {
         pageDAC("");
     }
 
+    /**
+     * Configure et lance l'interface graphique pour la personnalisation de la règle.
+     * 
+     * @param code Le code de la règle à personnaliser.
+     */
     public void pageDAC (String code) {
         p = new JFrame("Simulation - Personnaliser");
         
@@ -127,6 +189,13 @@ public class Personnaliser extends JFrame implements ActionListener  {
         p.setVisible(true);
     }
 
+    /**
+     * Gère les actions effectuées par l'utilisateur sur l'interface graphique.
+     * Cela inclut la personnalisation des règles, la modification de la taille du tableau,
+     * le chargement et la sauvegarde des configurations, ainsi que le lancement de la simulation.
+     * 
+     * @param e L'événement d'action qui a déclenché cette méthode.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         // Charger une règle
@@ -290,6 +359,10 @@ public class Personnaliser extends JFrame implements ActionListener  {
         }
     }
 
+    /**
+     * Prépare l'interface graphique pour la configuration de la simulation personnalisée.
+     * Permet à l'utilisateur de configurer les paramètres avant de lancer la simulation.
+     */
     public void pagePreparation () {
         f = new JFrame("Préparation - Personnaliser");
         
@@ -387,6 +460,9 @@ public class Personnaliser extends JFrame implements ActionListener  {
         f.setVisible(true);
     }
 
+    /**
+     * Met à jour le tableau de l'interface graphique en fonction de l'état actuel de la simulation.
+     */
     public void majTableau () {
         double step;
 
@@ -418,6 +494,13 @@ public class Personnaliser extends JFrame implements ActionListener  {
         }
     }
 
+    /**
+     * Calcule le modulo de deux entiers.
+     * 
+     * @param val1 Le premier entier.
+     * @param val2 Le second entier.
+     * @return Le modulo de val1 par val2.
+     */
     public int modulo (int val1, int val2) {
         if (val1>=0) {
             return val1%val2;
@@ -425,6 +508,11 @@ public class Personnaliser extends JFrame implements ActionListener  {
         return (val2-(-val1-1)%val2-1);
     }
 
+    /**
+     * Initialise le tableau de simulation avec des valeurs aléatoires.
+     * 
+     * @param max La valeur maximale des valeurs aléatoires.
+     */
     public void initialiserTableauAleatoire(int max) {
         tab=new Tableau(2,tab.getTaille());
         tab.intialiserAleatoirement(0,max-1);
@@ -444,6 +532,12 @@ public class Personnaliser extends JFrame implements ActionListener  {
         }
     }
 
+    /**
+     * Lance la simulation de l'automate cellulaire.
+     * 
+     * @param tab Le tableau initial de la simulation.
+     * @param n Le nombre d'étapes de la simulation.
+     */
     public void simuler(Tableau tab, int n) {
         simulation.clear();
         simulation.add(tab);
@@ -453,6 +547,9 @@ public class Personnaliser extends JFrame implements ActionListener  {
         }
     } 
 
+    /**
+     * Affiche la simulation dans la console.
+     */
     public void afficherConsole() {
         for (Tableau t : simulation) {
             t.afficher(true);
@@ -460,7 +557,9 @@ public class Personnaliser extends JFrame implements ActionListener  {
         }
     }
 
-    // Passe à la frame suivante
+    /**
+     * Passe à la frame suivante.
+     */
     public void nextFrame() {
         if (frameDisplayed < simulation.size() - 1) {
             frameDisplayed++;
@@ -468,7 +567,9 @@ public class Personnaliser extends JFrame implements ActionListener  {
         }     
     }
 
-    // Passe à la frame précédente
+    /**
+     * Passe à la frame précédente.
+     */
     public void previousFrame() {
         if (frameDisplayed > 0) {
             frameDisplayed--;
@@ -476,6 +577,11 @@ public class Personnaliser extends JFrame implements ActionListener  {
         }   
     }
 
+    /**
+     * Affiche le tableau de la simulation dans l'interface graphique.
+     * 
+     * @param tab Le tableau à afficher.
+     */
     public void afficherTableauGraphique(Tableau tab) {
         turtle.setTitle("Personnaliser | Etape : "+frameDisplayed);
         double step;

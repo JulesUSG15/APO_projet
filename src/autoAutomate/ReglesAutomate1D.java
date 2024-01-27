@@ -2,10 +2,26 @@ package src.autoAutomate;
 
 import java.util.Arrays;
 
+/**
+ * Classe gérant les règles et la configuration d'un automate cellulaire unidimensionnel.
+ */
 public class ReglesAutomate1D {
+
+    /**
+     * Tableau représentant les règles de l'automate.
+     */
     private int[] regle;
+
+    /**
+     * Tableau représentant la configuration de l'automate.
+     */
     private int[] configuration;
 
+    /**
+     * Initialise l'automate avec une règle spécifiée par un numéro.
+     * 
+     * @param numeroRegle Le numéro de la règle à appliquer.
+     */
     public void initialiserAvecRegle(int numeroRegle) {
         regle = new int[8];
         for (int i = 0; i < 8; i++) {
@@ -13,6 +29,11 @@ public class ReglesAutomate1D {
         }
     }
 
+    /**
+     * Initialise la configuration de l'automate avec une chaîne de caractères.
+     * 
+     * @param configurationInitiale La chaîne représentant la configuration initiale.
+     */
     public void initialiserConfiguration(String configurationInitiale) {
         configuration = new int[configurationInitiale.length()];
         for (int i = 0; i < configurationInitiale.length(); i++) {
@@ -20,6 +41,9 @@ public class ReglesAutomate1D {
         }
     }
 
+    /**
+     * Applique la règle de l'automate à la configuration actuelle pour obtenir la configuration suivante.
+     */
     public void appliquerRegle() {
         int[] nouvelleConfiguration = new int[configuration.length];
 
@@ -34,11 +58,11 @@ public class ReglesAutomate1D {
         configuration = Arrays.copyOf(nouvelleConfiguration, nouvelleConfiguration.length);
     }
 
-    public int[][] appliquerRegles(int[][] configurationActuelle, int[][] voisinage) {
-        // Cette méthode ne sera pas utilisée pour les automates 1D, vous pouvez laisser vide ou lever une exception
-        throw new UnsupportedOperationException("Méthode non applicable pour les automates 1D");
-    }
-
+    /**
+     * Représente la configuration actuelle de l'automate sous forme de chaîne de caractères.
+     * 
+     * @return La chaîne représentant la configuration actuelle de l'automate.
+     */
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int cell : configuration) {
