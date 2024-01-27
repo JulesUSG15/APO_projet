@@ -2,7 +2,18 @@ package src.autoAutomate;
 import javax.swing.*;
 import java.awt.event.*;
 
+/**
+ * La classe Main fournit le point d'entrée principal pour une application graphique
+ * permettant à l'utilisateur de choisir et de lancer différentes simulations d'automates cellulaires.
+ */
 public class Main {
+    
+    /**
+     * Le point d'entrée principal de l'application.
+     * Crée une interface graphique avec des boutons pour lancer différentes simulations d'automates cellulaires.
+     * 
+     * @param args Arguments de la ligne de commande (non utilisés dans cette application).
+     */
     public static void main(String[] args) {
         JFrame frame = new JFrame("Menu - Projet APO");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

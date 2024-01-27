@@ -13,19 +13,64 @@ import java.awt.Color;
  */
 public class FeuDeForet extends JFrame implements ActionListener  {
 
+    /**
+     * Liste des états de la simulation.
+     */
     private ArrayList<Tableau> simulation = new ArrayList<Tableau>();
+
+    /**
+     * Règles de transition de l'automate.
+     */
     private Regles reg;
 
-    // Interface graphique
+    /**
+     * Largeur de la fenêtre de la simulation.
+     */
     private int width = 700;
+
+    /**
+     * Nombre d'étapes de la simulation.
+     */
     private int frameDisplayed = 0, etapes;
+
+    /**
+     * Interface graphique pour la simulation.
+     */
     private Turtle turtle = new Turtle();
+
+    /**
+     * Composants graphiques pour la configuration de la simulation.
+     */
     private JComboBox<String> choixVoisins;
+
+    /**
+     * Composants graphiques pour la configuration de la simulation.
+     */
     private JTextField fieldEtapes, fieldTaille, fieldQ, fieldP, fieldDensite, fieldPuisVent, fieldRotVent, fieldCharger, fieldSauvegarder;
+
+    /**
+     * Les boutons de l'interface graphique principale.
+     */
     private JButton btnSimulation, btnPrepare, btnSetTaille, btnSetDensite, btnSetCharger, btnSetSauvegarder;
+
+    /**
+     * Tableau graphique représentant l'état de l'automate.
+     */
     private JButton [][] tableau;
+
+    /**
+     * Tableau représentant l'état de l'automate.
+     */
     private Tableau tab;
+
+    /**
+     * Fenêtre principale de l'interface graphique.
+     */
     private JFrame f;
+
+    /**
+     * Booléen indiquant si la grille de l'automate est hexagonale ou non.
+     */
     private boolean grilleHexa;
 
     /**

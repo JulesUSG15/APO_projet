@@ -6,27 +6,80 @@ import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.Color;
 
+/**
+ * La classe JeuDeLaVie implémente une interface graphique pour simuler le jeu de la vie,
+ * un automate cellulaire. Elle permet à l'utilisateur de configurer et de visualiser
+ * les différentes étapes de la simulation.
+ */
 public class JeuDeLaVie extends JFrame implements ActionListener  {
 
+    /**
+     * La liste des tableaux représentant les étapes de la simulation.
+     */
     private ArrayList<Tableau> simulation = new ArrayList<Tableau>();
+
+    /**
+     * Les règles de l'automate.
+     */
     private Regles reg;
+
+    /**
+     * Le tableau représentant l'état de l'automate.
+     */
     private Tableau tab;
+
+    /**
+     * Le nombre d'étapes à simuler.
+     */
     private int etapes;
 
-    // Interface graphique
+    /**
+     * La largeur de la fenêtre de simulation.
+     */
     private int width = 700;
+
+    /**
+     * Le nombre de frames affichées dans la simulation.
+     */
     private int frameDisplayed = 0;
+
+    /**
+     * L'interface graphique pour la simulation.
+     */
     private Turtle turtle = new Turtle();
+
+    /**
+     * Les composants graphiques de l'interface graphique principale.
+     */
     private JTextField fieldEtapes, fieldTaille, fieldDensite, fieldCharger, fieldSauvegarder;
+
+    /**
+     * Les boutons de l'interface graphique principale.
+     */
     private JButton btnSimulation, btnPrepare, btnSetTaille, btnSetDensite, btnSetCharger, btnSetSauvegarder;
+
+    /**
+     * Le tableau graphique de l'interface graphique principale.
+     */
     private JButton [][] tableau;
+
+    /**
+     * La fenêtre de l'interface graphique principale.
+     */
     private JFrame f;
 
+    /**
+     * Constructeur pour créer l'interface graphique du jeu de la vie.
+     * Initialise les composants graphiques et charge les règles de base du jeu de la vie.
+     */
     public JeuDeLaVie() {
         this.reg = new Regles();
         this.reg.charger("data/dac/jeu_vie.dac");
     }
     
+    /**
+     * Configure et lance l'interface graphique principale pour la simulation du jeu de la vie.
+     */
     public void main() {
 
         // Gestion des touches
@@ -81,6 +134,13 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
         f.setVisible(true);
     }
 
+    /**
+     * Gère les actions effectuées par l'utilisateur sur l'interface graphique.
+     * Cela inclut la préparation de la simulation, la modification de la taille du tableau,
+     * le chargement et la sauvegarde des configurations, ainsi que le lancement de la simulation.
+     * 
+     * @param e L'événement d'action qui a déclenché cette méthode.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -188,6 +248,10 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
         }
     }
 
+    /**
+     * Prépare l'interface graphique pour la configuration de la simulation.
+     * Permet à l'utilisateur de configurer les paramètres avant de lancer la simulation.
+     */
     public void pagePreparation () {
         f = new JFrame("Préparation - Feu de forêt");
         
@@ -268,6 +332,9 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
         f.setVisible(true);
     }
 
+    /**
+     * Met à jour le tableau de l'interface graphique en fonction de l'état actuel de la simulation.
+     */
     public void majTableau () {
         double step = 0.92*500 / tab.getTaille();
         for (int i=0;i<tab.getTaille();i++) {
@@ -284,11 +351,22 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
         }
     }
 
+    /**
+     * Initialise le tableau de l'automate avec une densité donnée de manière aléatoire.
+     * 
+     * @param densite La densité à utiliser pour l'initialisation.
+     */
     public void initialiserTableauAleatoire(double densite) {
         tab=new Tableau(2,tab.getTaille());
         tab.remplir((int)(Math.pow(tab.getTaille(),tab.getDim())*densite),1);
     }
 
+    /**
+     * Lance la simulation du jeu de la vie sur un tableau donné.
+     * 
+     * @param tab Le tableau à utiliser pour la simulation.
+     * @param n Le nombre d'étapes à simuler.
+     */
     public void simuler(Tableau tab, int n) {
         simulation.clear();
         simulation.add(tab);
@@ -298,6 +376,9 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
         }
     } 
 
+    /**
+     * Affiche la simulation dans la console.
+     */
     public void afficherConsole() {
         for (Tableau t : simulation) {
             t.afficher(true);
@@ -305,7 +386,9 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
         }
     }
 
-    // Passe à la frame suivante
+    /**
+     * Passe à la frame suivante dans la simulation graphique.
+     */
     public void nextFrame() {
         if (frameDisplayed < simulation.size() - 1) {
             frameDisplayed++;
@@ -313,7 +396,9 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
         }     
     }
 
-    // Passe à la frame précédente
+    /**
+     * Retourne à la frame précédente dans la simulation graphique.
+     */
     public void previousFrame() {
         if (frameDisplayed > 0) {
             frameDisplayed--;
@@ -321,6 +406,11 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
         }   
     }
 
+    /**
+     * Affiche l'état actuel du tableau de l'automate dans une interface graphique.
+     * 
+     * @param tab Le tableau à afficher.
+     */
     public void afficherTableauGraphique(Tableau tab) {
         turtle.setTitle("Jeu de la vie | Etape : "+frameDisplayed);
         double step=width / simulation.get(0).getTaille();

@@ -6,6 +6,11 @@ import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.Color;
 
+/**
+ * La classe Majorite implémente une interface graphique pour simuler un automate cellulaire
+ * basé sur la règle de majorité. Elle permet à l'utilisateur de configurer et de visualiser
+ * les différentes étapes de la simulation.
+ */
 public class Majorite extends JFrame implements ActionListener  {
 
     private ArrayList<Tableau> simulation = new ArrayList<Tableau>();
@@ -23,12 +28,18 @@ public class Majorite extends JFrame implements ActionListener  {
     private JFrame f;
     private boolean grilleHexa;
 
+    /**
+     * Constructeur pour créer l'interface graphique de la simulation basée sur la règle de majorité.
+     * Initialise les composants graphiques et configure les paramètres de la simulation.
+     */
     public Majorite() {
         this.reg = new Regles();
     }
     
+    /**
+     * Configure et lance l'interface graphique principale pour la simulation de la règle de majorité.
+     */
     public void main() {
-
         // Gestion des touches
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
         @Override
@@ -89,6 +100,13 @@ public class Majorite extends JFrame implements ActionListener  {
         f.setVisible(true);
     }
 
+    /**
+     * Gère les actions effectuées par l'utilisateur sur l'interface graphique.
+     * Cela inclut la préparation de la simulation, la modification de la taille du tableau,
+     * le chargement et la sauvegarde des configurations, ainsi que le lancement de la simulation.
+     * 
+     * @param e L'événement d'action qui a déclenché cette méthode.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         // Lancement de la préparation
@@ -192,6 +210,10 @@ public class Majorite extends JFrame implements ActionListener  {
         }
     }
 
+    /**
+     * Prépare l'interface graphique pour la configuration de la simulation.
+     * Permet à l'utilisateur de configurer les paramètres avant de lancer la simulation.
+     */
     public void pagePreparation () {
         f = new JFrame("Préparation - Personnaliser");
         
@@ -272,6 +294,9 @@ public class Majorite extends JFrame implements ActionListener  {
         f.setVisible(true);
     }
 
+    /**
+     * Met à jour le tableau de l'interface graphique en fonction de l'état actuel de la simulation.
+     */
     public void majTableau () {
         double step;
 
@@ -299,11 +324,22 @@ public class Majorite extends JFrame implements ActionListener  {
         }
     }
 
+    /**
+     * Initialise le tableau de la simulation avec des valeurs aléatoires.
+     * 
+     * @param max La valeur maximale des valeurs aléatoires.
+     */
     public void initialiserTableauAleatoire(int max) {
         tab=new Tableau(2,tab.getTaille());
         tab.intialiserAleatoirement(0,max-1);
     }
 
+    /**
+     * Lance la simulation de la règle de majorité.
+     * 
+     * @param tab Le tableau initial de la simulation.
+     * @param n Le nombre d'étapes de la simulation.
+     */
     public void simuler(Tableau tab, int n) {
         simulation.clear();
         simulation.add(tab);
@@ -313,6 +349,9 @@ public class Majorite extends JFrame implements ActionListener  {
         }
     } 
 
+    /**
+     * Affiche la simulation dans la console.
+     */
     public void afficherConsole() {
         for (Tableau t : simulation) {
             t.afficher(true);
@@ -320,7 +359,9 @@ public class Majorite extends JFrame implements ActionListener  {
         }
     }
 
-    // Passe à la frame suivante
+    /**
+     * Passe à la frame suivante dans la simulation graphique.
+     */
     public void nextFrame() {
         if (frameDisplayed < simulation.size() - 1) {
             frameDisplayed++;
@@ -328,7 +369,9 @@ public class Majorite extends JFrame implements ActionListener  {
         }     
     }
 
-    // Passe à la frame précédente
+    /**
+     * Passe à la frame précédente dans la simulation graphique.
+     */
     public void previousFrame() {
         if (frameDisplayed > 0) {
             frameDisplayed--;
@@ -336,6 +379,13 @@ public class Majorite extends JFrame implements ActionListener  {
         }   
     }
 
+    /**
+     * Calcule le modulo de deux valeurs en tenant compte des valeurs négatives.
+     * 
+     * @param val1 Première valeur pour le calcul du modulo.
+     * @param val2 Deuxième valeur pour le calcul du modulo.
+     * @return Le résultat du modulo.
+     */
     public int modulo (int val1, int val2) {
         if (val1>=0) {
             return val1%val2;
@@ -343,6 +393,11 @@ public class Majorite extends JFrame implements ActionListener  {
         return (val2-(-val1-1)%val2-1);
     }
 
+    /**
+     * Affiche l'état actuel du tableau de l'automate dans une interface graphique.
+     * 
+     * @param tab Le tableau à afficher.
+     */
     public void afficherTableauGraphique(Tableau tab) {
         turtle.setTitle("Majorité | Etape : "+frameDisplayed);
         double step;
