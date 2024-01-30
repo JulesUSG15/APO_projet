@@ -70,4 +70,9 @@ public class ReglesAutomate1D {
         }
         return sb.toString();
     }
+
+    public int[] getConfiguration() {
+        return configuration;
+    }
+    
 }

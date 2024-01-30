@@ -1,32 +1,20 @@
 package src.autoAutomate;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * La classe Automate1D est une interface graphique pour la simulation d'automates cellulaires unidimensionnels.
- * Elle permet à l'utilisateur de spécifier une règle, une configuration initiale et le nombre d'étapes à simuler.
- */
+
 public class Automate1D extends JFrame implements ActionListener {
 
-    /**
-     * L'objet ReglesAutomate1D qui contient la règle et la configuration initiale de l'automate.
-     */
     private ReglesAutomate1D regles;
-
-    /**
-     * Les composants graphiques de l'interface.
-     */
     private JTextField champNumeroRegle;
     private JTextField champConfigInitiale;
     private JTextField champNombreEtapes;
     private JTextArea zoneResultats;
+    private AutomatePanel automatePanel; // Panel pour afficher graphiquement l'automate
 
-    /**
-     * Constructeur pour créer l'interface graphique de l'automate 1D.
-     * Initialise les composants graphiques et configure l'interface.
-     */
     public Automate1D() {
         regles = new ReglesAutomate1D();
         champNumeroRegle = new JTextField();
@@ -35,8 +23,9 @@ public class Automate1D extends JFrame implements ActionListener {
         zoneResultats = new JTextArea();
 
         JButton boutonSimuler = new JButton("Simuler");
-
         boutonSimuler.addActionListener(this);
+
+        automatePanel = new AutomatePanel(); // Initialisation du panel de l'automate
 
         JPanel panneauPrincipal = new JPanel();
         panneauPrincipal.setLayout(new BoxLayout(panneauPrincipal, BoxLayout.Y_AXIS));
@@ -48,7 +37,12 @@ public class Automate1D extends JFrame implements ActionListener {
         panneauPrincipal.add(new JLabel("Nombre d'Étapes :"));
         panneauPrincipal.add(champNombreEtapes);
         panneauPrincipal.add(boutonSimuler);
-        panneauPrincipal.add(zoneResultats);
+        panneauPrincipal.add(new JScrollPane(zoneResultats)); // Ajout d'une barre de défilement à la zone de texte
+
+        // Ajout d'une barre de défilement pour l'automatePanel
+        JScrollPane scrollPane = new JScrollPane(automatePanel);
+        scrollPane.setPreferredSize(new Dimension(400, 200));
+        panneauPrincipal.add(scrollPane);
 
         add(panneauPrincipal);
 
@@ -58,17 +52,11 @@ public class Automate1D extends JFrame implements ActionListener {
         setVisible(true);
     }
 
-    /**
-     * Méthode déclenchée lorsqu'une action est effectuée sur les éléments graphiques.
-     * Spécifiquement, elle est appelée quand l'utilisateur appuie sur le bouton "Simuler".
-     * Cette méthode gère la récupération des données entrées par l'utilisateur,
-     * exécute la simulation de l'automate cellulaire et affiche les résultats.
-     * 
-     * @param e L'événement d'action qui a déclenché cette méthode.
-     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("Simuler")) {
+            automatePanel.reinitialiser(); // Réinitialiser le panel avant la simulation
+
             int numeroRegle = Integer.parseInt(champNumeroRegle.getText());
             regles.initialiserAvecRegle(numeroRegle);
 
@@ -80,17 +68,14 @@ public class Automate1D extends JFrame implements ActionListener {
 
             for (int etape = 0; etape < nombreEtapes; etape++) {
                 resultat.append("Étape ").append(etape + 1).append(": ").append(regles).append("\n");
+                automatePanel.ajouterEtat(regles.getConfiguration()); // Ajouter l'état actuel au panel
                 regles.appliquerRegle();
             }
 
             zoneResultats.setText(resultat.toString());
         }
     }
-    /**
-     * Cette méthode lance l'interface graphique de l'automate 1D en utilisant Swing.
-     * 
-     * @param args Arguments de ligne de commande (non utilisés dans cette application).
-     */
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new Automate1D());
     }
