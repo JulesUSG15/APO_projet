@@ -358,7 +358,7 @@ public class Tableau {
             for (int i=dim-1;i>=0;i--) {
                 if (indices[i]>=taille) {
                     indices[i]=0;
-                    System.out.print("\r\n");
+                    System.out.println();
                 }
             }
             if (entier) {
@@ -374,6 +374,7 @@ public class Tableau {
                 }
             }
         }
+        System.out.println();
     }
 
 }
