@@ -1,5 +1,8 @@
 package src.autoAutomate;
 import javax.swing.*;
+
+import src.autoAutomate.Automate1D.Automate1D;
+
 import java.awt.event.*;
 
 /**

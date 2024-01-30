@@ -12,37 +12,66 @@ public class Regles {
     /**
      * dim est la dimension de l'espace de l'automate.
      */
-    private int dim=0;
+    private int dim;
 
     /**
      * valide est un booléen indiquant si les règles sont valides ou non.
      */
-    private boolean valide=false;
+    private boolean valide;
 
     /**
      * voisins est un tableau d'entiers représentant les coordonnées des voisins.
      */
-    private int [][] voisins=null;
+    private int [][] voisins;
 
     /**
      * conditions est un tableau de conditions.
      */
-    private Condition [] conditions=null;
+    private Condition [] conditions;
 
     /**
      * actions est un tableau d'actions.
      */
-    private Action [] actions=null;
+    private Action [] actions;
 
     /**
      * variables est un tableau de variables.
      */
-    private Variable [] variables=null;
+    private Variable [] variables;
 
     /**
      * erreur est une chaîne de caractères contenant les messages d'erreur.
      */
-    private String erreur="";
+    private String erreur;
+
+    /**
+     * Constructeur par défaut de Regles
+     */
+    public Regles () {
+        dim=0;
+        valide=false;
+        voisins=null;
+        conditions=null;
+        actions=null;
+        variables=null;
+        erreur="";
+    }
+
+    /**
+     * Constructeur de Regles qui permet de charger une règle
+     * 
+     * @param fichier Le fichier contenant les règles.
+     */
+    public Regles (String fichier) {
+        dim=0;
+        valide=false;
+        voisins=null;
+        conditions=null;
+        actions=null;
+        variables=null;
+        erreur="";
+        charger(fichier);
+    }
     
     /**
      * Définit une condition pour l'automate à une position donnée.

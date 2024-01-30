@@ -1,4 +1,4 @@
-package src.autoAutomate;
+package src.autoAutomate.Automate1D;
 
 import java.util.Arrays;
 
@@ -70,4 +70,9 @@ public class ReglesAutomate1D {
         }
         return sb.toString();
     }
+
+    public int[] getConfiguration() {
+        return configuration;
+    }
+    
 }
