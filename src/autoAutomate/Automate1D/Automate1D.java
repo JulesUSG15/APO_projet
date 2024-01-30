@@ -14,6 +14,7 @@ public class Automate1D extends JFrame implements ActionListener {
     private JTextField champConfigInitiale;
     private JTextField champNombreEtapes;
     private JTextArea zoneResultats;
+    private JComboBox<String> modeAffichageSelecteur;
 
     public Automate1D() {
         regles = new ReglesAutomate1D();
@@ -25,6 +26,8 @@ public class Automate1D extends JFrame implements ActionListener {
         JButton boutonSimuler = new JButton("Simuler");
         boutonSimuler.addActionListener(this);
 
+        modeAffichageSelecteur = new JComboBox<>(new String[]{"Affichage par étape", "Affichage 2D"});
+
         JPanel panneauPrincipal = new JPanel();
         panneauPrincipal.setLayout(new BoxLayout(panneauPrincipal, BoxLayout.Y_AXIS));
 
@@ -34,6 +37,8 @@ public class Automate1D extends JFrame implements ActionListener {
         panneauPrincipal.add(champConfigInitiale);
         panneauPrincipal.add(new JLabel("Nombre d'Étapes :"));
         panneauPrincipal.add(champNombreEtapes);
+        panneauPrincipal.add(new JLabel("Mode d'affichage :"));
+        panneauPrincipal.add(modeAffichageSelecteur);
         panneauPrincipal.add(boutonSimuler);
         panneauPrincipal.add(new JScrollPane(zoneResultats)); // Ajout d'une barre de défilement à la zone de texte
 
@@ -62,7 +67,8 @@ public class Automate1D extends JFrame implements ActionListener {
                 regles.appliquerRegle();
             }
 
-            AutomateStepWindow stepWindow = new AutomateStepWindow(etatsAutomate);
+            String modeSelectionne = (String) modeAffichageSelecteur.getSelectedItem();
+            AutomateStepWindow stepWindow = new AutomateStepWindow(etatsAutomate, modeSelectionne);
             stepWindow.setVisible(true);
         }
     }
@@ -71,4 +77,3 @@ public class Automate1D extends JFrame implements ActionListener {
         SwingUtilities.invokeLater(() -> new Automate1D());
     }
 }
-

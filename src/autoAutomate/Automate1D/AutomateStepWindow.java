@@ -10,30 +10,39 @@ public class AutomateStepWindow extends JFrame {
     private AutomatePanel automatePanel;
     private List<int[]> etatsAutomate;
 
-    public AutomateStepWindow(List<int[]> etatsAutomate) {
+    public AutomateStepWindow(List<int[]> etatsAutomate, String modeAffichage) {
         this.etatsAutomate = etatsAutomate;
         this.currentStep = 0;
 
-        // Configuration de la fenêtre
         setTitle("Étape de l'Automate1D");
-        setSize(400, 200);
+        setSize(400, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         automatePanel = new AutomatePanel();
+
+        if ("Affichage 2D".equals(modeAffichage)) {
+            for (int[] etat : etatsAutomate) {
+                automatePanel.ajouterEtat(etat);
+            }
+        } else {
+            automatePanel.setAutomate(etatsAutomate.get(0));
+        }
+
         add(automatePanel);
-        updateStep();
 
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_RIGHT:
-                        nextStep();
-                        break;
-                    case KeyEvent.VK_LEFT:
-                        previousStep();
-                        break;
+                if ("Affichage par étape".equals(modeAffichage)) {
+                    switch (e.getKeyCode()) {
+                        case KeyEvent.VK_RIGHT:
+                            nextStep();
+                            break;
+                        case KeyEvent.VK_LEFT:
+                            previousStep();
+                            break;
+                    }
                 }
             }
         });
@@ -55,6 +64,6 @@ public class AutomateStepWindow extends JFrame {
 
     private void updateStep() {
         automatePanel.setAutomate(etatsAutomate.get(currentStep));
-        setTitle("Étape " + (currentStep + 1) + " de l'Automate");
+        setTitle("Étape " + (currentStep + 1) + " de l'Automate1D");
     }
 }
