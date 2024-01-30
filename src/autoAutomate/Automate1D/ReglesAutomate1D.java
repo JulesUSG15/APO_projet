@@ -1,4 +1,4 @@
-package src.autoAutomate;
+package src.autoAutomate.Automate1D;
 
 import java.util.Arrays;
 
