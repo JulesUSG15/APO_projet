@@ -59,6 +59,8 @@ public class Regles {
 
     /**
      * Constructeur de Regles qui permet de charger une règle
+     * 
+     * @param fichier Le fichier contenant les règles.
      */
     public Regles (String fichier) {
         dim=0;
