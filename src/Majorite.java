@@ -458,10 +458,10 @@ public class Majorite extends JFrame implements ActionListener  {
             for (int j = 0; j < tab.getTaille(); j++) {
 
                 if (grilleHexa) {
-                    turtle.fly(((i+j/2)%tab.getTaille()+ 0.5*(j%2)+0.5) * step,(tab.getTaille() - j - 0.5)*step);
+                    turtle.fly(((i+j/2)%tab.getTaille()+ 0.5*(j%2)+0.5) * width / (simulation.get(0).getTaille()+0.5),(tab.getTaille() - j - 0.5)*width / (simulation.get(0).getTaille()+0.5));
                 }
                 else {
-                    turtle.fly((i + 0.5)*step,(tab.getTaille() - j - 0.5)*step);
+                    turtle.fly((i + 0.5)*width / simulation.get(0).getTaille(),(tab.getTaille() - j - 0.5)*width / simulation.get(0).getTaille());
                 }
                 double val=tab.getVal(i,j);
                 Color fond=new Color (255-modulo((int)(97*val),256),255-modulo((int)(11*val),256),255-modulo((int)(163*val),256));

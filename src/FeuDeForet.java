@@ -484,10 +484,10 @@ public class FeuDeForet extends JFrame implements ActionListener  {
             for (int j = 0; j < tab.getTaille(); j++) {
 
                 if (grilleHexa) {
-                    turtle.fly(((i+j/2)%tab.getTaille()+ 0.5*(j%2)+0.5) * step,(tab.getTaille() - j - 0.5)*step);
+                    turtle.fly(((i+j/2)%tab.getTaille()+ 0.5*(j%2)+0.5) * width / (simulation.get(0).getTaille()+0.5),(tab.getTaille() - j - 0.5)*width / (simulation.get(0).getTaille()+0.5));
                 }
                 else {
-                    turtle.fly((i + 0.5)*step,(tab.getTaille() - j - 0.5)*step);
+                    turtle.fly((i + 0.5)*width / simulation.get(0).getTaille(),(tab.getTaille() - j - 0.5)*width / simulation.get(0).getTaille());
                 }
 
                 switch ((int)tab.getVal(i, j)) {

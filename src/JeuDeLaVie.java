@@ -418,7 +418,7 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
 
         for (int i = 0; i< tab.getTaille(); i++) {
             for (int j = 0; j < tab.getTaille(); j++) {
-                    turtle.fly((i + 0.5)*step,(tab.getTaille() - j - 0.5)*step);
+                    turtle.fly((i + 0.5)*width / simulation.get(0).getTaille(),(tab.getTaille() - j - 0.5)*width / simulation.get(0).getTaille());
                 if (tab.getVal(i, j)==1) {
                     turtle.setColor(java.awt.Color.BLACK);
                     turtle.spot(step);
