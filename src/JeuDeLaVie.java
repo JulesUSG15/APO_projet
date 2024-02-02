@@ -238,7 +238,7 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
 
             // On crée une nouvelle fenetre pour afficher la simulation
             turtle = new Turtle();
-            turtle.create(width, width);
+            turtle.create(width, width+50);
             turtle.setLayout(null);
 
             frameDisplayed = 0;
@@ -252,7 +252,7 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
      * Prépare l'interface graphique pour la configuration de la simulation.
      * Permet à l'utilisateur de configurer les paramètres avant de lancer la simulation.
      */
-    public void pagePreparation () {
+    private void pagePreparation () {
         f = new JFrame("Préparation - Feu de forêt");
 
         JLabel labelTaille = new JLabel("Taille du tableau :");
@@ -335,7 +335,7 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
     /**
      * Met à jour le tableau de l'interface graphique en fonction de l'état actuel de la simulation.
      */
-    public void majTableau () {
+    private void majTableau () {
         double step = 0.92*500 / tab.getTaille();
         for (int i=0;i<tab.getTaille();i++) {
             for (int j=0;j<tab.getTaille();j++) {
@@ -356,7 +356,7 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
      * 
      * @param densite La densité à utiliser pour l'initialisation.
      */
-    public void initialiserTableauAleatoire(double densite) {
+    private void initialiserTableauAleatoire(double densite) {
         tab=new Tableau(2,tab.getTaille());
         tab.remplir((int)(Math.pow(tab.getTaille(),tab.getDim())*densite),1);
     }
@@ -367,7 +367,7 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
      * @param tab Le tableau à utiliser pour la simulation.
      * @param n Le nombre d'étapes à simuler.
      */
-    public void simuler(Tableau tab, int n) {
+    private void simuler(Tableau tab, int n) {
         simulation.clear();
         simulation.add(tab);
          for (int i=0; i < n; i++) {
@@ -377,19 +377,9 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
     } 
 
     /**
-     * Affiche la simulation dans la console.
-     */
-    public void afficherConsole() {
-        for (Tableau t : simulation) {
-            t.afficher(true);
-            System.out.println("");
-        }
-    }
-
-    /**
      * Passe à la frame suivante dans la simulation graphique.
      */
-    public void nextFrame() {
+    private void nextFrame() {
         if (frameDisplayed < simulation.size() - 1) {
             frameDisplayed++;
             afficherTableauGraphique(simulation.get(frameDisplayed));
@@ -399,7 +389,7 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
     /**
      * Retourne à la frame précédente dans la simulation graphique.
      */
-    public void previousFrame() {
+    private void previousFrame() {
         if (frameDisplayed > 0) {
             frameDisplayed--;
             afficherTableauGraphique(simulation.get(frameDisplayed));
@@ -407,11 +397,25 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
     }
 
     /**
+     * Affiche les statistiques dans l'interface graphique.
+     * 
+     * @param tab Le tableau dont on affiche les statistiques.
+     */
+    private void afficherStatistiques (Tableau tab) {
+        turtle.setColor(Color.BLACK);
+        int total=tab.getTaille()*tab.getTaille();
+        int vivantes=tab.count(1);
+        int mortes=total-vivantes;
+        turtle.drawText("Cellules vivantes : "+vivantes+" | "+(int)(1000000.0*vivantes/total)/10000.0+"%",10,width+20,20);
+        turtle.drawText("Cellules mortes : "+mortes+" | "+(int)(1000000.0*mortes/total)/10000.0+"%",370,width+20,20);
+    }
+
+    /**
      * Affiche l'état actuel du tableau de l'automate dans une interface graphique.
      * 
      * @param tab Le tableau à afficher.
      */
-    public void afficherTableauGraphique(Tableau tab) {
+    private void afficherTableauGraphique(Tableau tab) {
         turtle.setTitle("Jeu de la vie | Etape : "+frameDisplayed);
         double step=width / simulation.get(0).getTaille();
         turtle.clear();
@@ -425,7 +429,7 @@ public class JeuDeLaVie extends JFrame implements ActionListener  {
                 }
             }
         }
-
+        afficherStatistiques(tab);
         turtle.render();
     }
 }

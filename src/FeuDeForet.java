@@ -278,7 +278,7 @@ public class FeuDeForet extends JFrame implements ActionListener  {
 
             // On crée une nouvelle fenetre pour afficher la simulation
             turtle = new Turtle();
-            turtle.create(width, width);
+            turtle.create(width, width+50);
             turtle.setLayout(null);
 
             frameDisplayed = 0;
@@ -292,7 +292,7 @@ public class FeuDeForet extends JFrame implements ActionListener  {
      * Prépare l'interface graphique pour la configuration de la simulation.
      * Permet à l'utilisateur de configurer les paramètres avant de lancer la simulation.
      */
-    public void pagePreparation () {
+    private void pagePreparation () {
         f = new JFrame("Préparation - Feu de forêt");
 
         JLabel labelTaille = new JLabel("Taille du tableau :");
@@ -375,7 +375,7 @@ public class FeuDeForet extends JFrame implements ActionListener  {
     /**
      * Met à jour le tableau de l'interface graphique en fonction de l'état actuel de la simulation.
      */
-    public void majTableau () {
+    private void majTableau () {
         Color darkGreen=new Color (0,100, 0);
         Color ligthGreen=new Color (0,255, 0);
         double step;
@@ -411,7 +411,7 @@ public class FeuDeForet extends JFrame implements ActionListener  {
      * 
      * @param densite La densité de forêt à utiliser pour l'initialisation.
      */
-    public void initialiserTableauAleatoire(double densite) {
+    private void initialiserTableauAleatoire(double densite) {
         tab=new Tableau(2,tab.getTaille());
         tab.remplir((int)(Math.pow(tab.getTaille(),tab.getDim())*densite),1);
     }
@@ -422,29 +422,19 @@ public class FeuDeForet extends JFrame implements ActionListener  {
      * @param tab Le tableau représentant l'état initial de la simulation.
      * @param n Le nombre d'étapes à simuler.
      */
-    public void simuler(Tableau tab, int n) {
+    private void simuler(Tableau tab, int n) {
         simulation.clear();
         simulation.add(tab);
          for (int i=0; i < n; i++) {
             tab = reg.appliquer(tab);
             simulation.add(tab);
         }
-    } 
-
-    /**
-     * Affiche le résultat de la simulation dans la console.
-     */
-    public void afficherConsole() {
-        for (Tableau t : simulation) {
-            t.afficher(true);
-            System.out.println("");
-        }
     }
 
     /**
      * Passe à la frame suivante dans la simulation graphique.
      */
-    public void nextFrame() {
+    private void nextFrame() {
         if (frameDisplayed < simulation.size() - 1) {
             frameDisplayed++;
             afficherTableauGraphique(simulation.get(frameDisplayed));
@@ -454,11 +444,29 @@ public class FeuDeForet extends JFrame implements ActionListener  {
     /**
      * Retourne à la frame précédente dans la simulation graphique.
      */
-    public void previousFrame() {
+    private void previousFrame() {
         if (frameDisplayed > 0) {
             frameDisplayed--;
             afficherTableauGraphique(simulation.get(frameDisplayed));
         }   
+    }
+
+    /**
+     * Affiche les statistiques dans l'interface graphique.
+     * 
+     * @param tab Le tableau dont on affiche les statistiques.
+     */
+    private void afficherStatistiques (Tableau tab) {
+        turtle.setColor(Color.BLACK);
+        int total=tab.getTaille()*tab.getTaille();
+        int arbre=tab.count(1);
+        int enFeu=tab.count(2);
+        int brulees=tab.count(3);
+        int herbe=total-arbre-enFeu-brulees;
+        turtle.drawText("Cellules d'herbe : "+herbe+" | "+(int)(1000000.0*herbe/total)/10000.0+"%",10,width+30,15);
+        turtle.drawText("Cellules d'arbre : "+arbre+" | "+(int)(1000000.0*arbre/total)/10000.0+"%",370,width+30,15);
+        turtle.drawText("Cellules en feu : "+enFeu+" | "+(int)(1000000.0*enFeu/total)/10000.0+"%",10,width+10,15);
+        turtle.drawText("Cellules brulées : "+brulees+" | "+(int)(1000000.0*brulees/total)/10000.0+"%",370,width+10,15);
     }
 
     /**
@@ -499,7 +507,7 @@ public class FeuDeForet extends JFrame implements ActionListener  {
                 turtle.spot(step);
             }
         }
-
+        afficherStatistiques(tab);
         turtle.render();
     }
 }

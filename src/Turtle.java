@@ -130,6 +130,30 @@ public class Turtle extends JFrame {
     }
 
     /**
+     * Affiche du texte sur la fenêtre.
+     *
+     * @param text le texte à afficher.
+     * @param x La coordonnée x du texte.
+     * @param y La coordonnée y du texte.
+     */
+    public void drawText(String text, double x, double y, int fontSize) {
+        AffineTransform originalTransform = offscreen.getTransform();
+
+        // Réinitialisation des transformations à l'identité (pas de translation ou d'échelle)
+        offscreen.setTransform(new AffineTransform());
+
+         // Configuration de la taille de la police
+        Font font = new Font("SansSerif", Font.PLAIN, fontSize);
+        offscreen.setFont(font);
+
+        // Dessin du texte
+        offscreen.drawString(text, (int) x, height-(int)y);
+
+        // Restauration des transformations précédentes
+        offscreen.setTransform(originalTransform);
+    }
+
+    /**
      * Dessine un point à la position actuelle de la "tortue".
      *
      * @param size La taille du point.

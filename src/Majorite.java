@@ -245,7 +245,7 @@ public class Majorite extends JFrame implements ActionListener  {
 
             // On crée une nouvelle fenetre pour afficher la simulation
             turtle = new Turtle();
-            turtle.create(width, width);
+            turtle.create(width, width+50);
             turtle.setLayout(null);
 
             frameDisplayed = 0;
@@ -259,7 +259,7 @@ public class Majorite extends JFrame implements ActionListener  {
      * Prépare l'interface graphique pour la configuration de la simulation.
      * Permet à l'utilisateur de configurer les paramètres avant de lancer la simulation.
      */
-    public void pagePreparation () {
+    private void pagePreparation () {
         f = new JFrame("Préparation - Personnaliser");
 
         JLabel labelTaille = new JLabel("Taille du tableau :");
@@ -342,7 +342,7 @@ public class Majorite extends JFrame implements ActionListener  {
     /**
      * Met à jour le tableau de l'interface graphique en fonction de l'état actuel de la simulation.
      */
-    public void majTableau () {
+    private void majTableau () {
         double step;
 
         if (grilleHexa) {
@@ -374,7 +374,7 @@ public class Majorite extends JFrame implements ActionListener  {
      * 
      * @param max La valeur maximale des valeurs aléatoires.
      */
-    public void initialiserTableauAleatoire(int max) {
+    private void initialiserTableauAleatoire(int max) {
         tab=new Tableau(2,tab.getTaille());
         tab.intialiserAleatoirement(0,max-1);
     }
@@ -385,29 +385,19 @@ public class Majorite extends JFrame implements ActionListener  {
      * @param tab Le tableau initial de la simulation.
      * @param n Le nombre d'étapes de la simulation.
      */
-    public void simuler(Tableau tab, int n) {
+    private void simuler(Tableau tab, int n) {
         simulation.clear();
         simulation.add(tab);
          for (int i=0; i < n; i++) {
             tab = reg.appliquer(tab);
             simulation.add(tab);
         }
-    } 
-
-    /**
-     * Affiche la simulation dans la console.
-     */
-    public void afficherConsole() {
-        for (Tableau t : simulation) {
-            t.afficher(true);
-            System.out.println("");
-        }
     }
 
     /**
      * Passe à la frame suivante dans la simulation graphique.
      */
-    public void nextFrame() {
+    private void nextFrame() {
         if (frameDisplayed < simulation.size() - 1) {
             frameDisplayed++;
             afficherTableauGraphique(simulation.get(frameDisplayed));
@@ -417,7 +407,7 @@ public class Majorite extends JFrame implements ActionListener  {
     /**
      * Passe à la frame précédente dans la simulation graphique.
      */
-    public void previousFrame() {
+    private void previousFrame() {
         if (frameDisplayed > 0) {
             frameDisplayed--;
             afficherTableauGraphique(simulation.get(frameDisplayed));
@@ -431,7 +421,7 @@ public class Majorite extends JFrame implements ActionListener  {
      * @param val2 Deuxième valeur pour le calcul du modulo.
      * @return Le résultat du modulo.
      */
-    public int modulo (int val1, int val2) {
+    private int modulo (int val1, int val2) {
         if (val1>=0) {
             return val1%val2;
         }
@@ -439,11 +429,23 @@ public class Majorite extends JFrame implements ActionListener  {
     }
 
     /**
+     * Affiche les statistiques dans l'interface graphique.
+     * 
+     * @param tab Le tableau dont on affiche les statistiques.
+     */
+    private void afficherStatistiques (Tableau tab) {
+        turtle.setColor(Color.BLACK);
+        turtle.drawText("Maximum : "+tab.maximum(),10,width+20,15);
+        turtle.drawText("Minimum : "+tab.minimum(),240,width+20,15);
+        turtle.drawText("Moyenne : "+tab.moyenne(),450,width+20,15);
+    }
+
+    /**
      * Affiche l'état actuel du tableau de l'automate dans une interface graphique.
      * 
      * @param tab Le tableau à afficher.
      */
-    public void afficherTableauGraphique(Tableau tab) {
+    private void afficherTableauGraphique(Tableau tab) {
         turtle.setTitle("Majorité | Etape : "+frameDisplayed);
         double step;
         if (grilleHexa) {
@@ -469,7 +471,7 @@ public class Majorite extends JFrame implements ActionListener  {
                 turtle.spot(step);
             }
         }
-
+        afficherStatistiques(tab);
         turtle.render();
     }
 }
