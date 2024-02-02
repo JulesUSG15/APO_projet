@@ -1,46 +1,73 @@
 package src;
+import javax.swing.*;
 
+import src.Automate1D.Automate1D;
+
+import java.awt.event.*;
+
+/**
+ * La classe Main fournit le point d'entrée principal pour une application graphique
+ * permettant à l'utilisateur de choisir et de lancer différentes simulations d'automates cellulaires.
+ */
 public class Main {
 
-    // Un automate que l'on charge depuis des fichiers
-    public static void automateChargement () {
-        Tableau tab=new Tableau ("data/tableaux/tab3.txt"); // Initialisation d'un tableau à partir d'un fichier txt
-        Regles reg=new Regles("data/dac/feu_foret8.dac"); // Initialisation d'une règle à partir d'un fichier dac
+    /**
+     * Le point d'entrée principal de l'application.
+     * Crée une interface graphique avec des boutons pour lancer différentes simulations d'automates cellulaires.
+     * 
+     * @param args Arguments de la ligne de commande (non utilisés dans cette application).
+     */
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Menu - Projet APO");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 200);
 
-        reg.setVar("q",0.01); // Modification des variables de la règle
-        reg.setVar("p",0.2);
-        reg.setVar("fh",0.1);
+        JButton btnAutomate1D = new JButton("Automate 1D");
+        JButton btnRegleMajorite = new JButton("Règle de majorité");
+        JButton btnJeuDeLaVie = new JButton("Jeu de la vie");
+        JButton btnFeuDeForet = new JButton("Feu de forêt");
+        JButton btnPersonnaliser = new JButton("Personnaliser");
 
-        for (int i=0;i<10;i++) {
-            System.out.println("Etape "+i+" :");
-            tab.afficher(true); // Affichage du tableau sous forme d'entiers
-            System.out.println();
-            tab=reg.appliquer(tab); // On applique la règle sur le tableau pour générer le tableau suivant
-        }
-    }
+        btnAutomate1D.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Automate1D.main(args);
+            }
+        });
 
-    // Un automate que l'on définit en entier
-    public static void automateDefinition () {
-        Tableau tab=new Tableau (2,10); // Initialisation d'un tableau de dimension 2 et de taille 10
-        tab.setVal(0,0,1.8); // Modification des valeurs du tableau
-        tab.setVal(1,4,5.7);
-        tab.setVal(9,2,3.1);
-        tab.setVal(3,8,-4.3);
-        tab.setVal(5,5,-16);
+        btnRegleMajorite.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Majorite m = new Majorite();
+                m.main();
+            }
+        });
 
-        Regles reg=new Regles(); // Initialisation d'une règle
-        reg.set("1,0; 1,-1; 0,-1; -1,-1; -1,0; -1,1; 0,1; 1,1; @ 1.0==1.0 {1.0:(maximum-minimum);}"); // Définition de la règle à partir d'un code DAC
+        btnJeuDeLaVie.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JeuDeLaVie j = new JeuDeLaVie();
+                j.main();
+            }
+        });
 
-        for (int i=0;i<10;i++) {
-            System.out.println("Etape "+i+" :");
-            tab.afficher(false); // Affichage du tableau sous forme de réels (Affiche toutes les décimales)
-            System.out.println();
-            tab=reg.appliquer(tab); // On applique la règle sur le tableau pour générer le tableau suivant
-        }
-    }
+        btnFeuDeForet.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                FeuDeForet f = new FeuDeForet();
+                f.main();
+            }
+        });
 
-    public static void main (String[] args) {
-        automateChargement();
-        //automateDefinition();
+        btnPersonnaliser.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Personnaliser p = new Personnaliser();
+                p.main();
+            }
+        });
+
+        frame.setLayout(new java.awt.GridLayout(5, 1));
+        frame.add(btnAutomate1D);
+        frame.add(btnRegleMajorite);
+        frame.add(btnJeuDeLaVie);
+        frame.add(btnFeuDeForet);
+        frame.add(btnPersonnaliser);
+        frame.setVisible(true);
     }
 }
