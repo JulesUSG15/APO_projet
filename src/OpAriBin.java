@@ -1,4 +1,4 @@
-package src.autoAutomate;
+package src;
 
 /**
  * La classe OpAriBin étend la classe Valeur et représente une opération arithmétique binaire

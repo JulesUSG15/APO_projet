@@ -1,4 +1,4 @@
-package src.autoAutomate;
+package src;
 
 /**
  * La classe OpCompar étend la classe Condition et représente une condition de comparaison

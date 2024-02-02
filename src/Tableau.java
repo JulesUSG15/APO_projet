@@ -1,4 +1,4 @@
-package src.autoAutomate;
+package src;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -1,4 +1,4 @@
-package src.autoAutomate.Automate1D;
+package src.Automate1D;
 
 import javax.swing.JPanel;
 import java.awt.Graphics;

@@ -1,4 +1,4 @@
-package src.autoAutomate;
+package src;
 
 /**
  * La classe Action représente une action dans un automate cellulaire.

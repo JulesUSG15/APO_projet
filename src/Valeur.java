@@ -1,4 +1,4 @@
-package src.autoAutomate;
+package src;
 
 /**
  * La classe abstraite Valeur représente une valeur générique dans un automate cellulaire.

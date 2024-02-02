@@ -1,4 +1,4 @@
-package src.autoAutomate;
+package src;
 
 /**
  * La classe BlocConditionnel représente bloc de conditions et d'actions dans un automate cellulaire.

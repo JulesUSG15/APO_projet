@@ -1,4 +1,4 @@
-package src.autoAutomate;
+package src;
 
 /**
  * La classe Immediat étend la classe Valeur et représente une valeur immédiate

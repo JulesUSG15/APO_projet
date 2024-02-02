@@ -1,4 +1,4 @@
-package src.autoAutomate;
+package src;
 
 /**
  * La classe abstraite Condition représente une condition dans un automate cellulaire.

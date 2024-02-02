@@ -1,4 +1,4 @@
-package src.autoAutomate;
+package src;
 
 /**
  * La classe OpLogUni étend la classe Condition et représente une opération logique uniaire

@@ -1,4 +1,4 @@
-package src.autoAutomate;
+package src;
 
 /**
  * La classe Variable représente une variable dans un automate cellulaire.
