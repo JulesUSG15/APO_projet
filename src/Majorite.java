@@ -19,6 +19,21 @@ public class Majorite extends JFrame implements ActionListener  {
     private ArrayList<Tableau> simulation = new ArrayList<Tableau>();
 
     /**
+     * Les statistiques des tableaux.
+     */
+    private double [] maximum, minimum, moyenne;
+
+    /**
+     * Les valeurs des tableaux.
+     */
+    private double [][] valeurs;
+
+    /**
+     * Les occurences des 4 valeurs les plus présentes des tableaux.
+     */
+    private int [][] occurences;
+
+    /**
      * L'objet Regles qui contient la règle de majorité.
      */
     private Regles reg;
@@ -380,17 +395,30 @@ public class Majorite extends JFrame implements ActionListener  {
     }
 
     /**
-     * Lance la simulation de la règle de majorité.
+     * Lance la simulation de l'automate cellulaire.
      * 
      * @param tab Le tableau initial de la simulation.
      * @param n Le nombre d'étapes de la simulation.
      */
     private void simuler(Tableau tab, int n) {
         simulation.clear();
+        maximum=new double [n+1];
+        minimum=new double [n+1];
+        moyenne=new double [n+1];
+        valeurs=new double [n+1][];
+        occurences=new int [n+1][4];
         simulation.add(tab);
-         for (int i=0; i < n; i++) {
+        maximum[0]=tab.maximum();
+        minimum[0]=tab.minimum();
+        moyenne[0]=tab.moyenne();
+        valeurs[0]=tab.countAll(occurences[0]);
+         for (int i=1; i <= n; i++) {
             tab = reg.appliquer(tab);
             simulation.add(tab);
+            maximum[i]=tab.maximum();
+            minimum[i]=tab.minimum();
+            moyenne[i]=tab.moyenne();
+            valeurs[i]=tab.countAll(occurences[i]);
         }
     }
 
@@ -435,24 +463,22 @@ public class Majorite extends JFrame implements ActionListener  {
      */
     private void afficherStatistiques (Tableau tab) {
         turtle.setColor(Color.BLACK);
-        turtle.drawText("Maximum : "+tab.maximum(),10,width+35,15);
-        turtle.drawText("Minimum : "+tab.minimum(),240,width+35,15);
-        turtle.drawText("Moyenne : "+tab.moyenne(),470,width+35,15);
-        int [] occurences=new int [4];
-        double [] valeurs=tab.countAll(occurences);
+        turtle.drawText("Maximum : "+maximum[frameDisplayed],10,width+35,15);
+        turtle.drawText("Minimum : "+minimum[frameDisplayed],240,width+35,15);
+        turtle.drawText("Moyenne : "+moyenne[frameDisplayed],470,width+35,15);
         int total=tab.getTaille()*tab.getTaille();
-        turtle.drawText("Cellules "+valeurs[0]+" : "+occurences[0]+" | "+(int)(1000000.0*occurences[0]/total)/10000.0+"%",10,width+20,15);
-        if (valeurs.length>1) {
-            turtle.drawText("Cellules "+valeurs[1]+" : "+occurences[1]+" | "+(int)(1000000.0*occurences[1]/total)/10000.0+"%",370,width+20,15);
-            if (valeurs.length>2) {
-                turtle.drawText("Cellules "+valeurs[2]+" : "+occurences[2]+" | "+(int)(1000000.0*occurences[2]/total)/10000.0+"%",10,width+5,15);
-                if (valeurs.length>3) {
-                    if (valeurs.length==4) {
-                        turtle.drawText("Cellules "+valeurs[3]+" : "+occurences[3]+" | "+(int)(1000000.0*occurences[3]/total)/10000.0+"%",370,width+5,15);
+        turtle.drawText("Cellules "+valeurs[frameDisplayed][0]+" : "+occurences[frameDisplayed][0]+" | "+(int)(1000000.0*occurences[frameDisplayed][0]/total)/10000.0+"%",10,width+20,15);
+        if (valeurs[frameDisplayed].length>1) {
+            turtle.drawText("Cellules "+valeurs[frameDisplayed][1]+" : "+occurences[frameDisplayed][1]+" | "+(int)(1000000.0*occurences[frameDisplayed][1]/total)/10000.0+"%",370,width+20,15);
+            if (valeurs[frameDisplayed].length>2) {
+                turtle.drawText("Cellules "+valeurs[frameDisplayed][2]+" : "+occurences[frameDisplayed][2]+" | "+(int)(1000000.0*occurences[frameDisplayed][2]/total)/10000.0+"%",10,width+5,15);
+                if (valeurs[frameDisplayed].length>3) {
+                    if (valeurs[frameDisplayed].length==4) {
+                        turtle.drawText("Cellules "+valeurs[frameDisplayed][3]+" : "+occurences[frameDisplayed][3]+" | "+(int)(1000000.0*occurences[frameDisplayed][3]/total)/10000.0+"%",370,width+5,15);
                     }
                     else {
-                        int autres=total-occurences[0]-occurences[1]-occurences[2];
-                        turtle.drawText("Autres : "+autres+" | "+(int)(1000000.0*autres/total)/10000.0+"%",370,width+5,15);
+                        int autres=total-occurences[frameDisplayed][0]-occurences[frameDisplayed][1]-occurences[frameDisplayed][2];
+                        turtle.drawText((valeurs[frameDisplayed].length-3)+" autres : "+autres+" | "+(int)(1000000.0*autres/total)/10000.0+"%",370,width+5,15);
                     }
                 }
             }
