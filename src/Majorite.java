@@ -435,9 +435,28 @@ public class Majorite extends JFrame implements ActionListener  {
      */
     private void afficherStatistiques (Tableau tab) {
         turtle.setColor(Color.BLACK);
-        turtle.drawText("Maximum : "+tab.maximum(),10,width+20,15);
-        turtle.drawText("Minimum : "+tab.minimum(),240,width+20,15);
-        turtle.drawText("Moyenne : "+tab.moyenne(),450,width+20,15);
+        turtle.drawText("Maximum : "+tab.maximum(),10,width+35,15);
+        turtle.drawText("Minimum : "+tab.minimum(),240,width+35,15);
+        turtle.drawText("Moyenne : "+tab.moyenne(),470,width+35,15);
+        int [] occurences=new int [4];
+        double [] valeurs=tab.countAll(occurences);
+        int total=tab.getTaille()*tab.getTaille();
+        turtle.drawText("Cellules "+valeurs[0]+" : "+occurences[0]+" | "+(int)(1000000.0*occurences[0]/total)/10000.0+"%",10,width+20,15);
+        if (valeurs.length>1) {
+            turtle.drawText("Cellules "+valeurs[1]+" : "+occurences[1]+" | "+(int)(1000000.0*occurences[1]/total)/10000.0+"%",370,width+20,15);
+            if (valeurs.length>2) {
+                turtle.drawText("Cellules "+valeurs[2]+" : "+occurences[2]+" | "+(int)(1000000.0*occurences[2]/total)/10000.0+"%",10,width+5,15);
+                if (valeurs.length>3) {
+                    if (valeurs.length==4) {
+                        turtle.drawText("Cellules "+valeurs[3]+" : "+occurences[3]+" | "+(int)(1000000.0*occurences[3]/total)/10000.0+"%",370,width+5,15);
+                    }
+                    else {
+                        int autres=total-occurences[0]-occurences[1]-occurences[2];
+                        turtle.drawText("Autres : "+autres+" | "+(int)(1000000.0*autres/total)/10000.0+"%",370,width+5,15);
+                    }
+                }
+            }
+        }
     }
 
     /**
