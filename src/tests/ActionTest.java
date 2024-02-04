@@ -8,6 +8,9 @@ import src.Variable;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class ActionTest {
 
     private Action action;
@@ -51,8 +54,15 @@ public class ActionTest {
 
         String result = action.getExp(0);
 
-        // Utilisation de String.format pour s'assurer que le formatage est correct
-        String expected = String.format("%.1f:%.1f;%.1f:%.1f;", 0.5, 1.0, 0.5, 2.0);
-        assertEquals(expected, result);
+        // Utiliser une locale spécifique qui utilise la virgule comme séparateur décimal
+        NumberFormat formatter = NumberFormat.getNumberInstance(Locale.ENGLISH);
+        formatter.setMaximumFractionDigits(1); // Limiter le nombre de décimales à 1 pour correspondre au format attendu
+        formatter.setMinimumFractionDigits(1); // S'assurer que le format a toujours une décimale même si c'est zéro
+
+        // Formatage des nombres attendus en utilisant le formatteur, avec chaque paire sur sa propre ligne
+        String expected = formatter.format(0.5) + ":" + formatter.format(1.0) + ";\n" +
+                          formatter.format(0.5) + ":" + formatter.format(2.0) + ";";
+
+        assertEquals(expected, result, "L'expression de la fonction cos doit être retournée correctement.");
     }
 }
