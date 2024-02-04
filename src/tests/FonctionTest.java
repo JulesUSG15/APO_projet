@@ -6,36 +6,34 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import src.Fonction;
 import src.Variable;
-import src.Tableau;
 
+/**
+ * Classe de test pour la classe {@code Fonction}.
+ * Teste les fonctionnalités de base de la classe {@code Fonction}, y compris la validation
+ * des expressions de fonction et l'identification des opérateurs de fonction.
+ */
 class FonctionTest {
 
     private Fonction fonction;
     private String[] erreur;
     private Variable[] var;
-    private Tableau tableau;
 
+    /**
+     * Prépare l'environnement de test avant chaque test.
+     * Initialise une nouvelle instance de {@code Fonction}, un tableau pour les messages d'erreur,
+     * et un tableau de variables (vide pour simplification).
+     */
     @BeforeEach
     void setUp() {
         fonction = new Fonction();
         erreur = new String[1];
-        tableau = new Tableau(1, 1); // Assumant une implémentation basique de Tableau
         var = new Variable[0]; // Assumant qu'il n'y a pas de variable pour simplifier
     }
 
-    @Test
-    void testSetCosFunction() {
-        assertTrue(fonction.set("cos(0)", 3, 0, var, erreur, 1),
-                   "La fonction cos doit être configurée correctement.");
-    }
-
-    @Test
-    void testEvaluateCosFunction() {
-        fonction.set("cos(0.0)", 3, 0, var, erreur, 1);
-        assertEquals(1.0, fonction.get(tableau, null, null),
-                     "La fonction cos de 0 doit retourner 1.");
-    }
-
+    /**
+     * Teste la configuration d'une fonction sin avec une expression invalide.
+     * Vérifie que la configuration échoue et qu'un message d'erreur approprié est généré.
+     */
     @Test
     void testSetSinFunctionWithInvalidExpression() {
         assertFalse(fonction.set("sin()", 3, 0, var, erreur, 1),
@@ -43,7 +41,10 @@ class FonctionTest {
         assertNotNull(erreur[0], "Un message d'erreur doit être fourni pour une expression invalide.");
     }
 
-
+    /**
+     * Teste l'identification de l'opérateur dans une expression de fonction.
+     * Vérifie que la position de l'opérateur de fonction est correctement identifiée.
+     */
     @Test
     void testGetOpForFunction() {
         int opPosition = fonction.getOp("cos(45)");

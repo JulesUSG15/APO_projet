@@ -45,9 +45,8 @@ class OpAriBinTest {
     void setUp() {
         opAriBin = new OpAriBin();
         erreur = new String[1];
-        tableau = new Tableau(1, 10); // Suppose un tableau simplifié pour les tests
-        variables = new Variable[2]; // Initialisez si nécessaire pour les tests
-        // Initialisation hypothétique des variables, si nécessaire
+        tableau = new Tableau(1, 10); 
+        variables = new Variable[2];
     }
 
     /**
