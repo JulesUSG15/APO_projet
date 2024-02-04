@@ -250,6 +250,7 @@ public class Majorite extends JFrame implements ActionListener  {
         }
         // Lancement de la simulation
         if(e.getSource() == btnSimulation){
+            System.out.println("Lancement de la simulation");
 
             //  On lance la simulation
             simuler(tab, etapes);
