@@ -11,7 +11,8 @@ Et les fichiers sources du DAC dans cette autre repository : https://github.com/
 - `./src` : Fichiers source, cela inclut les classes des automates prédéfinis ainsi que les fichiers du DAC.
 - `./doc` : Documentation, cela inclut les différents diagrammes UML que nous avons utilisé, ainsi que la documentation du DAC.
 - `./data` : Code DAC des automates cellulaires prédéfinis (ainsi que le code d'autres automates utilisables en les chargant depuis l'interface "Personaliser"). On y trouve aussi les tableaux enregistrés.
-- `./tests` : Dans ce fichier vous trouverez touts les fichiers des tests unitaires concernant les classes du DAC. Pour réaliser les tests unitaires nous avons utilisé junit.jupiter, nous avons au total 50 tests unitaires fonctionnels.
+- `./tests` : Dans ce dossier vous trouverez touts les fichiers des tests unitaires concernant les classes du DAC. Pour réaliser les tests unitaires nous avons utilisé junit.jupiter, nous avons au total 50 tests unitaires fonctionnels.
+- `./javadoc` : Dans ce dossier vous retrouverez toute la génération de notre javadoc pour le projet.
 
 
 ## Utilisation
