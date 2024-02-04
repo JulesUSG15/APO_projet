@@ -59,7 +59,7 @@ On peut :
 Lorsque l'on prépare la simulation depuis l'interface "Personnaliser" on à accès à quelques fonctionnalités en plus :
 - La visualisation de la valeur des cases
 - La possibilité de choisir le pas entre les valeurs (couleurs) lors de la génération aléatoire.
-- Changer le type de grille (carrée ou haxagonale).
+- Changer le type de grille (carrée ou hexagonale).
 
 ### Lancement de la simulation
 Une fois l'automate configuré et la simulation préparée on peut lancer la simulation.
