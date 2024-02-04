@@ -5,7 +5,7 @@ Ce projet a été réalisé par Nicolas GALLET, Jules GINHAC et Maxime ANTOINE d
 Ce projet porte sur le thème des automates cellulaires. Nous avons implémenté plusieurs automates (Automate 1D, feu de forêt, majorité et jeu de la vie), utilisables et configurables via une interface graphique. Il est aussi posible de coder vos propres automates dans l'onglet "Personnaliser".
 Cela est possible car nous avons créé un langage de programmation permettant de coder plus efficacement nos automates cellulaires : le DAC (Définition d'Automate Cellulaire). La documentation du DAC est disponible dans le dossier `./doc`. Vous pouvez aussi la retrouver en ligne sur le site officiel du DAC que nous avons récemment déployé : https://dac.poly-api.fr/index.php.
 Vous pouvez retrouver tous nos fichiers sources sur notre github : https://github.com/JulesUSG15/APO_projet.
-Et les fichiers sources du DAC dans cette autre repository : https://github.com/NicoutG/DAC
+Et les fichiers sources du DAC dans cet autre repository : https://github.com/NicoutG/DAC
 
 ## Organisation des fichiers
 - `./src` : Fichiers source, cela inclut les classes des automates prédéfinis ainsi que les fichiers du DAC.
