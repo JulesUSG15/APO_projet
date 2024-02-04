@@ -59,7 +59,7 @@ On peut :
 - Charger un tableau enregistré.
 - Sauvegarder un tableau.
 
-Lorsque l'on prépare la simulation depuis l'interface "Personnaliser" on à accès à quelques fonctionnalités en plus :
+Lorsque l'on prépare la simulation depuis l'interface "Personnaliser" on a accès à quelques fonctionnalités en plus :
 - La visualisation de la valeur des cases
 - La possibilité de choisir le pas entre les valeurs (couleurs) lors de la génération aléatoire.
 - Changer le type de grille (carrée ou hexagonale).
