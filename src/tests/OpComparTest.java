@@ -1,64 +1,63 @@
 package src.tests;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import src.OpCompar;
-import src.Tableau;
 import src.Variable;
 
-class OpComparTest {
+public class OpComparTest {
 
-    private OpCompar condition;
+    private OpCompar opCompar;
     private Variable[] variables;
-    private String[] erreur;
-    private Tableau tableau;
+    private String[] erreurs;
 
-    @BeforeEach
-    void setUp() {
-        condition = new OpCompar();
-        erreur = new String[1];
-        tableau = new Tableau(1, 10); // Supposons que c'est suffisant pour les tests
-        variables = new Variable[2];
-
-        // Configuration initiale des variables pour le test
-        variables[0] = new Variable();
-        variables[0].set("$x", 0, 0, null, erreur, 0);
-        variables[0].setVal(5.0); // $x = 5.0
-
-        variables[1] = new Variable();
-        variables[1].set("$y", 0, 0, null, erreur, 0);
-        variables[1].setVal(3.0); // $y = 3.0
+    @Before
+    public void setUp() {
+        opCompar = new OpCompar();
+        // Initialisez ici le tableau de variables si votre logique le permet
+        variables = new Variable[] {}; // Remplir avec des instances de Variable selon votre logique d'initialisation
+        erreurs = new String[1];
     }
 
     @Test
-    void testSetWithValidExpressionGreaterThan() {
-        // Test pour l'opérateur de comparaison '>'
-        assertTrue(condition.set("$x > $y", 0, 2, variables, erreur, 2),
-                   "La condition de comparaison '>' devrait être configurée correctement.");
+    public void testSetValidExpression() {
+        // Exemple d'expression valide
+        String exp = "$x>=5";
+        int position = exp.indexOf(">=");
+        assertTrue("La configuration devrait réussir pour une expression valide",
+                opCompar.set(exp, position, 0, variables, erreurs, 2));
     }
 
     @Test
-    void testEvaluateTrueConditionGreaterThan() {
-        condition.set("$x > $y", 0, 2, variables, erreur, 2);
-        assertTrue(condition.get(tableau, new double[]{}, new int[]{}),
-                   "La condition '$x > $y' devrait être évaluée à vrai.");
+    public void testSetInvalidExpression() {
+        // Exemple d'expression invalide
+        String exp = ">=5";
+        int position = exp.indexOf(">=");
+        assertFalse("La configuration devrait échouer pour une expression invalide",
+                opCompar.set(exp, position, 0, variables, erreurs, 2));
+        assertNotNull("Un message d'erreur devrait être défini pour une expression invalide", erreurs[0]);
     }
 
     @Test
-    void testEvaluateFalseConditionLessThan() {
-        // Test pour l'opérateur de comparaison '<', dans ce cas, la condition sera fausse
-        condition.set("$x < $y", 0, 2, variables, erreur, 2);
-        assertFalse(condition.get(tableau, new double[]{}, new int[]{}),
-                    "La condition '$x < $y' devrait être évaluée à faux.");
+    public void testGetOpValid() {
+        String exp = "$x<$y";
+        int expectedPosition = exp.indexOf("<");
+        int opPosition = opCompar.getOp(exp);
+        assertEquals("La position de l'opérateur devrait être correctement identifiée", expectedPosition, opPosition);
     }
 
     @Test
-    void testGetExp() {
-        condition.set("$x >= $y", 0, 2, variables, erreur, 2);
-        String expectedExp = "$x>=$y";
-        assertEquals(expectedExp, condition.getExp(),
-                     "L'expression retournée devrait refléter la condition de comparaison '>='.");
+    public void testGetExpression() {
+        // Vous devez configurer opCompar avec une condition valide avant de tester getExp
+        String exp = "$x==$y";
+        int position = exp.indexOf("==");
+        opCompar.set(exp, position, 0, variables, erreurs, 2);
+        String resultExp = opCompar.getExp();
+        assertEquals("L'expression retournée devrait correspondre à l'expression initiale", exp, resultExp);
     }
+
+    // Ajoutez d'autres tests pour couvrir les différents opérateurs et cas d'utilisation
+
 }

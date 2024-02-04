@@ -2,12 +2,11 @@ package src.tests;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
 import src.Immediat;
 
-class ImmediatTest {
+import static org.junit.jupiter.api.Assertions.*;
 
+class ImmediatTest {
     private Immediat immediat;
     private String[] erreur;
 
@@ -19,29 +18,35 @@ class ImmediatTest {
 
     @Test
     void testSetWithValidNumber() {
-        assertTrue(immediat.set("3.5", 0, 0, null, erreur, 1),
-                   "L'immediat devrait être configuré correctement avec un nombre valide.");
-        assertEquals(3.5, immediat.get(null, null, null),
-                     "La méthode get devrait retourner la valeur numérique configurée.");
+        String expression = "42.0";
+        assertTrue(immediat.set(expression, 0, 0, null, erreur, 0), "La configuration avec un nombre valide doit réussir.");
+        assertNull(erreur[0], "Il ne devrait pas y avoir d'erreur lors de la configuration avec un nombre valide.");
     }
 
     @Test
-    void testSetWithInvalidExpression() {
-        assertFalse(immediat.set("abc", 0, 0, null, erreur, 1),
-                    "La configuration devrait échouer avec une expression invalide.");
-        assertNotNull(erreur[0], "Un message d'erreur devrait être défini pour une expression invalide.");
+    void testSetWithInvalidNumber() {
+        String expression = "notANumber";
+        assertFalse(immediat.set(expression, 0, 0, null, erreur, 0), "La configuration avec une chaîne invalide doit échouer.");
+        assertNotNull(erreur[0], "Une erreur doit être signalée lors de la configuration avec une chaîne invalide.");
     }
 
     @Test
-    void testGetExpReturnsCorrectString() {
-        immediat.set("42", 0, 0, null, erreur, 1);
-        assertEquals("42.0", immediat.getExp(),
-                     "La méthode getExp devrait retourner la représentation textuelle correcte de la valeur immédiate.");
+    void testGetValue() {
+        String expression = "3.14";
+        immediat.set(expression, 0, 0, null, erreur, 0);
+        assertEquals(3.14, immediat.get(null, null, null), 0.001, "La valeur récupérée doit correspondre à la valeur configurée.");
     }
 
     @Test
-    void testGetOpForValidAndInvalidExpressions() {
-        assertEquals(0, immediat.getOp("123"), "getOp devrait retourner 0 pour une expression valide représentant un nombre.");
-        assertEquals(-1, immediat.getOp("notANumber"), "getOp devrait retourner -1 pour une expression invalide.");
+    void testGetExp() {
+        String expression = "2.718";
+        immediat.set(expression, 0, 0, null, erreur, 0);
+        assertEquals("2.718", immediat.getExp(), "L'expression récupérée doit correspondre à la représentation textuelle de la valeur configurée.");
+    }
+
+    @Test
+    void testGetOp() {
+        assertEquals(-1, immediat.getOp("123"), "Aucun opérateur ne devrait être trouvé dans une expression de valeur immédiate.");
+        assertEquals(0, immediat.getOp("42"), "Un opérateur devrait être trouvé dans une expression numérique valide.");
     }
 }

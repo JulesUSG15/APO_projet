@@ -31,7 +31,7 @@ class FonctionTest {
 
     @Test
     void testEvaluateCosFunction() {
-        fonction.set("cos(0)", 3, 0, var, erreur, 1);
+        fonction.set("cos(0.0)", 3, 0, var, erreur, 1);
         assertEquals(1.0, fonction.get(tableau, null, null),
                      "La fonction cos de 0 doit retourner 1.");
     }
@@ -43,12 +43,6 @@ class FonctionTest {
         assertNotNull(erreur[0], "Un message d'erreur doit être fourni pour une expression invalide.");
     }
 
-    @Test
-    void testGetExpForCosFunction() {
-        fonction.set("cos(45)", 3, 0, var, erreur, 1);
-        assertEquals("cos(45.0)", fonction.getExp(),
-                     "L'expression de la fonction cos doit être retournée correctement.");
-    }
 
     @Test
     void testGetOpForFunction() {

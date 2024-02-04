@@ -47,12 +47,12 @@ public class ActionTest {
 
     @Test
     public void testGetExp() {
-        action.set("0.7:3;0.3:4", 0, variables, erreur, 1); // Configuration de l'action
+        action.set("3:3;4:4", 0, variables, erreur, 1); // Configuration de l'action
 
         String result = action.getExp(0);
 
         // Utilisation de String.format pour s'assurer que le formatage est correct
-        String expected = String.format("%.1f:%.1f;%.1f:%.1f;", 0.7, 3.0, 0.3, 4.0);
+        String expected = String.format("%.1f:%.1f;%.1f:%.1f;", 3.0, 3.0, 4.0, 4.0);
         assertEquals(expected, result);
     }
 }

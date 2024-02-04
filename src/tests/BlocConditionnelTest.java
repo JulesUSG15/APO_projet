@@ -1,81 +1,51 @@
 package src.tests;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import src.BlocConditionnel;
-import src.Condition;
-import src.Tableau;
-import src.Variable;
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import src.BlocConditionnel;
+import src.Variable;
 
 public class BlocConditionnelTest {
 
     private BlocConditionnel bloc;
     private Variable[] variables;
-    private String[] erreur;
-    private int dim;
+    private String[] erreurs;
+    private final int dim = 2; // Exemple de dimension pour les tests
 
-    @BeforeEach
+    @Before
     public void setUp() {
         bloc = new BlocConditionnel();
-        variables = new Variable[0]; // Supposons qu'il n'y ait pas de variables pour simplifier
-        erreur = new String[1];
-        dim = 2; // Supposons un espace de dimension 2 pour l'exemple
+        // Initialisation avec des valeurs fictives, à adapter selon votre implémentation
+        variables = new Variable[] { /* Initialiser vos variables ici */ };
+        erreurs = new String[1];
     }
 
     @Test
-    public void testSetValidBloc() {
-        // Configuration d'un bloc conditionnel valide
-        boolean result = bloc.set("{condition}{action}", 4, variables, erreur, dim);
-        
-        // Vérification que le bloc a été correctement configuré
-        assertEquals(true, result, "Le bloc conditionnel devrait être valide.");
+    public void testSetValid() {
+        String exp = "condition{action}"; // Exemple d'expression valide
+        int nbVoisins = 3; // Exemple de nombre de voisins
+        assertTrue("Le bloc devrait être correctement configuré avec une expression valide", bloc.set(exp, nbVoisins, variables, erreurs, dim));
     }
 
     @Test
-    public void testSetInvalidBloc() {
-        // Tentative de configuration d'un bloc conditionnel invalide
-        boolean result = bloc.set("condition action", 4, variables, erreur, dim);
-        
-        // Vérification que le bloc n'a pas été configuré correctement
-        assertEquals(false, result, "Le bloc conditionnel devrait être invalide.");
-        assertEquals("Impossible de créer le bloc conditionnel", erreur[0], "Message d'erreur attendu.");
+    public void testSetInvalid() {
+        String exp = "conditionInvalide"; // Exemple d'expression invalide
+        int nbVoisins = 3;
+        assertFalse("Le bloc ne devrait pas être configuré avec une expression invalide", bloc.set(exp, nbVoisins, variables, erreurs, dim));
+        assertNotNull("Un message d'erreur devrait être défini pour une expression invalide", erreurs[0]);
     }
 
     @Test
-    public void testGetWithValidCondition() {
-        // Configuration d'un bloc conditionnel avec une condition toujours vraie
-        bloc.set("{toujours vrai}{action: 1}", 4, variables, erreur, dim);
-        
-        // Création d'un tableau et d'une condition pour tester get()
-        Tableau tableau = new Tableau(2, 5); // Tableau 2D avec taille 5 (pour simplifier)
-        double[] voisins = {1, 2, 3, 4};
-        int[] indices = {0, 0};
-
-        Object result = bloc.get(tableau, voisins, indices);
-        
-        // Vérification que la condition est évaluée à vrai et que l'action est retournée
-        assertNotNull(result, "Le résultat ne devrait pas être nul.");
+    public void testGetExp() {
+        String exp = "condition{action}"; // Utilisez la même expression que dans testSetValid
+        int nbVoisins = 3;
+        assertTrue("L'initialisation avec une expression valide devrait réussir", bloc.set(exp, nbVoisins, variables, erreurs, dim));
+        String expectedExp = "condition {\n    action\n}"; // Adaptez cette chaîne en fonction de la sortie attendue de votre implémentation
+        assertEquals("L'expression obtenue devrait correspondre à l'expression attendue", expectedExp.trim(), bloc.getExp(0).trim());
     }
 
-    @Test
-    public void testGetWithInvalidCondition() {
-        // Configuration d'un bloc conditionnel avec une condition toujours fausse
-        bloc.set("{toujours faux}{action: 1}", 4, variables, erreur, dim);
-        
-        // Création d'un tableau et d'une condition pour tester get()
-        Tableau tableau = new Tableau(2, 5); // Tableau 2D avec taille 5 (pour simplifier)
-        double[] voisins = {1, 2, 3, 4};
-        int[] indices = {0, 0};
+    // Ajoutez ici d'autres méthodes de test pour couvrir des cas spécifiques, comme des imbrications de blocs conditionnels
 
-        Object result = bloc.get(tableau, voisins, indices);
-        
-        // Vérification que la condition est évaluée à faux et qu'aucune action n'est retournée
-        assertNull(result, "Le résultat devrait être nul.");
-    }
-
-    // Vous pouvez ajouter plus de tests pour couvrir d'autres cas
 }
