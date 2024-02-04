@@ -54,7 +54,7 @@ Pour écrire en DAC vous pouvez vous référer à la documentation du language :
 Une fois l'automate l'automate configuré on peut préparer la simulation. Cela permet de définir la grille de départ.
 On peut :
 - Choisir la taille du tableau.
-- Choisir le nombre de couleurs à générer puis les placer. aléatoirement sur la grille.
+- Choisir le nombre de couleurs à générer puis les placer aléatoirement sur la grille.
 - Colorer manuellement la grille en cliquant sur les cases.
 - Charger un tableau enregistré.
 - Sauvegarder un tableau.
